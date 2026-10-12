@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+*.pem
+*credentials*.json
+*token*.json
+__pycache__/
+.venv/
+node_modules/
+node_modules
+.DS_Store
+outputs/
+backups/
+data/private/
+*.xlsx
+*.csv
+*.log
