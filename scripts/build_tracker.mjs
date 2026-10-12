@@ -68,6 +68,8 @@ const metrics=[
  ['Deadlines in next 7 days',"=COUNTIFS('TASKS & ROADMAP'!H2:H1001,\">=\"&TODAY(),'TASKS & ROADMAP'!H2:H1001,\"<=\"&TODAY()+7,'TASKS & ROADMAP'!G2:G1001,\"<>Completed\",'TASKS & ROADMAP'!G2:G1001,\"<>Skipped\")",'Filter Tasks by due date to see the actions']
 ];
 metrics.forEach(([label,formula,note],i)=>{dash.getRange(`A${11+i}:C${11+i}`).values=[[label,null,note]];dash.getRange(`B${11+i}`).formulas=[[formula]];});
+dash.getRange('B11:B19').setNumberFormat('0');
+dash.getRange('B11:B19').format.horizontalAlignment='left';
 dash.getRange('A21:C24').values=[['Next Equator meeting','Not scheduled','Enter agreed date and time'],['Planning horizon','October 2026–January 2027','Targets are exploratory, not commitments'],['Capacity','1,000 records per working tab','Extend formulas and validation before exceeding this'],['Source','User project brief, 12 October 2026','Later deadlines are provisional period-end dates']];
 dash.getRange('B21').format.fill='#FFF8E1';
 wb.recalculate();

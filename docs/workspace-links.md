@@ -5,3 +5,5 @@
 - [Drive project folder](https://drive.google.com/drive/folders/1EvqX9z5LWAcp0-ABET78fVP2uBiH1d4U)
 
 The project folder is inside ChatGPT in My Drive. Sharing has not been broadened. Google Sheets is the operational source of truth; local templates do not sync automatically.
+
+Technical backlog: [discovery pilot](https://github.com/TheRadim/equator-scandinavia/issues/1) and [safe Sheets adapter](https://github.com/TheRadim/equator-scandinavia/issues/2).

@@ -12,3 +12,12 @@
 - No automated discovery, live Python Sheets sync, outreach, purchases or commercial commitments. These remain future scoped work.
 
 Next: document initial meeting findings, confirm product details, and evaluate one permitted public business source for a ten-record Copenhagen pilot. See GitHub Issues for technical follow-up.
+
+### Final verification
+
+- Initial commit pushed to main; GitHub readback confirms the repository is private.
+- Created issues #1 (permitted ten-business discovery pilot) and #2 (future dry-run Sheets adapter).
+- Marked the three setup tasks Completed. Native Google Sheets recalculated completed tasks from 0 to 3 and upcoming deadlines from 10 to 7.
+- Browser rendering encountered intermittent connectivity. Exported the native workbook and rendered all six opening views as a fallback; native table options and coverage were separately verified through the API. Exported previews do not prove native dropdown-chip appearance.
+- Explicitly formatted dashboard counts as integers. Live Python synchronization remains unconfigured; no manual authentication is required for day-to-day use of the tracker.
+- Git SSH host-key verification was unavailable. Used authenticated GitHub HTTPS transport without changing SSH security settings.
