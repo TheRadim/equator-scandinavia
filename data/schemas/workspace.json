@@ -94,5 +94,18 @@
     "Owner",
     "Target date",
     "Notes"
+  ],
+  "Events & Partnerships": [
+    "Event ID",
+    "Event name",
+    "Organizer",
+    "Date",
+    "Audience",
+    "Estimated participants",
+    "Sponsorship opportunities",
+    "Product fit",
+    "Existing contacts",
+    "Proposed contribution",
+    "Next action"
   ]
 }

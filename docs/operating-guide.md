@@ -14,6 +14,8 @@ Each research row is one observation/product with a source URL, price currency, 
 
 ## Opportunities and content
 
+Events & Partnerships holds Event ID, event name, organizer, date, audience, estimated participants, sponsorship opportunities, product fit, existing contacts, proposed contribution and next action. Assign permanent EVENT- identifiers and distinguish separate event editions. Keep unknowns blank. Include source URLs and verification dates alongside research notes in the relevant fields; label estimates and proposed contributions explicitly. Existing contacts and private terms belong only in the live tracker or Drive. The initial October 12–25 track is capped at 2–3 hours, with suggested task allocations totaling 2.5 hours.
+
 Create opportunities only when there is a real next action. Link a valid Lead ID. Keep estimates in estimated fields and confirmed values in their separate columns, with confirmation evidence. Leave commission blank until agreed. Draft content only as demand justifies it. No message may be sent without explicit approval.
 
 ## Capacity and validation

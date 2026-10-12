@@ -1,5 +1,15 @@
 # Roadmap
 
+## Events & Partnerships — 12–25 October 2026
+
+Add a lightweight parallel track with a shared initial budget of 2–3 hours. Suggested task timeboxes total 2.5 hours; these are planning estimates, not recorded work. All three tasks are Medium priority, To do, and due October 25.
+
+1. TASK-065: Contact the Dirty Series connection to understand openness to a product partnership for an upcoming event (0.5 hours). Record interest and a next step. Outreach requires explicit authorization before the assistant sends anything.
+2. TASK-066: Research CopenHill Climb's organizers, sponsors and event calendar (0.75 hours). Retain source URLs and distinguish verified upcoming dates from past editions.
+3. TASK-067: Identify another 3–5 relevant Danish gravel, road or fixed-gear events (1.25 hours). Record audience, product fit and next action.
+
+Use the seventh tracker tab, Events & Partnerships. Review the initial findings before investing more time or proposing contributions. No sponsorship, product donation or spending is committed by this track.
+
 
 Project start: October 12, 2026.
 

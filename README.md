@@ -9,6 +9,8 @@ A low-cost Danish market-development pilot for Equator Cycling, starting October
 - Google Drive: product assets, catalogs, meeting notes and sensitive research.
 - Python standard library: local validation and future discovery tools. No paid infrastructure.
 
+The tracker has seven tabs, including Events & Partnerships for a small event-partnership exploration alongside retail outreach.
+
 Start with [operating guide](docs/operating-guide.md), [roadmap](docs/roadmap.md), and [progress log](docs/progress-log.md). Repository data contains schemas and sanitized planning examples only, never the live CRM.
 
 ## Local setup

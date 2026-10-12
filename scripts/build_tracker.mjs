@@ -7,6 +7,7 @@ const statuses=['Backlog','To do','In progress','Blocked','Completed','Skipped']
 const yn=['Yes','No','Unknown'];
 const priorities=['High','Medium','Low'];
 const options={
+ 'Events & Partnerships':{},
  'LEADS & PARTNERS':{'Country':['Denmark','Sweden','Norway','Other'],'Business category':['Independent bike shop','Custom builder','Road specialist','Gravel specialist','Wheel specialist','Distributor','Other','Unknown'],'Custom bike builds (Yes/No/Unknown)':yn,'Titanium experience (Yes/No/Unknown)':yn,'Equator fit (High/Medium/Low)':priorities,'Contact status':['Not contacted','Contacted','Responded','Active conversation','Interested','Not interested','On hold','Closed'],'Response received (Yes/No/Unknown)':yn},
  'MARKET RESEARCH':{'VAT included?':yn,'Currency':['DKK','EUR','SEK','NOK','GBP','USD','Other'],'Evidence status':['Verified','Assumption','Hypothesis','Recommendation']},
  'TASKS & ROADMAP':{'Priority':priorities,'Status':statuses},
@@ -39,6 +40,7 @@ for(const [name,headers] of Object.entries(schema)){
   if(/notes|Description|Task$|Key findings/.test(h))sh.getRangeByIndexes(0,i,Math.max(rows.length+1,12),1).format.columnWidth=50;
   if(options[name]?.[h])col.dataValidation={rule:{type:'list',values:options[name][h]}};
   if(/value|commission$|Price$|hours/i.test(h))col.setNumberFormat('#,##0.00');
+  if(h==='Estimated participants')col.setNumberFormat('#,##0');
  });
  if(name==='TASKS & ROADMAP'){
   sh.getRange(`A2:N${rows.length+1}`).format.rowHeight=64;

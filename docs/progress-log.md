@@ -1,5 +1,12 @@
 # Progress log
 
+## 2026-10-12 — Events & Partnerships track
+
+- Added the seventh live tracker tab with the ten requested fields plus permanent Event ID, unique-ID validation, a date format, participant number format, filter and frozen headers.
+- Added TASK-065 through TASK-067 to the existing roadmap table, due October 25: Dirty Series partnership inquiry, CopenHill Climb organizer/sponsor/calendar research, and a shortlist of 3–5 other Danish cycling events.
+- Set Medium priority and To do; suggested timeboxes are 0.5, 0.75 and 1.25 hours, totaling 2.5 hours within the requested 2–3 hour initial budget.
+- Updated the versioned schema, sanitized roadmap and template builder. No research or outreach is claimed complete, and no partnership contribution is committed.
+
 ## 2026-10-12 — Initial workspace
 
 - Reviewed two identical supplied briefs and established the simplest Sheets / private GitHub / Drive architecture.
