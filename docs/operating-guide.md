@@ -2,6 +2,16 @@
 
 ## Weekly routine
 
+## Working documents and meeting notes
+
+Use native Google Docs in the Equator Scandinavia Drive folder for meeting notes, research narratives and working drafts. Paste the document link into the task's Deliverable cell. Edit the same document over time so its link stays stable; keep meeting recollections, hypotheses and approved decisions distinct.
+
+The connected Google Drive plugin can read and edit these documents on request. In a future chat, provide the Doc URL or identify its task ID and ask the assistant to read the current version. Access is checked in that session; edits are not automatically watched or imported into chat context. Do not make documents public to enable access. File attachments in chat also work as snapshots, but Google Docs provides an editable working copy.
+
+TASK-005's initial meeting notes are linked in the live tracker and in docs/workspace-links.md. Store the full notes and commercial details only in Drive, never in Git. A completed documentation task means the findings were recorded, not independently verified or approved by meeting participants.
+
+## Weekly planning
+
 Open DASHBOARD, set the current phase and three weekly priorities, and enter the next Equator meeting when agreed. Filter TASKS & ROADMAP by status and due date. Update actual hours and last-updated date as work happens. Period-end due dates are provisional; adjust to available time. Backlog is intentionally not a promise to perform everything.
 
 ## Leads and research
