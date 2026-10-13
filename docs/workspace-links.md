@@ -9,3 +9,12 @@
 The project folder is inside ChatGPT in My Drive. Sharing has not been broadened. Google Sheets is the operational source of truth; local templates do not sync automatically.
 
 Technical backlog: [discovery pilot](https://github.com/TheRadim/equator-scandinavia/issues/1) and [safe Sheets adapter](https://github.com/TheRadim/equator-scandinavia/issues/2).
+
+## Scandinavian research — 13 October 2026
+
+- [Private research report](https://drive.google.com/file/d/1Sljil7a0sTNoYr0EhjXB9v_zoWRDaJoU/view)
+- [Qualified CSV snapshot](https://drive.google.com/file/d/1yByTVHQmHuF21uNn5VIdBp1vfPIjnXTf/view)
+- [Full discovery CSV snapshot](https://drive.google.com/file/d/1VCAxkuidvoGdr3xiB3L9UJBCFGkQDGhs/view)
+- [Live scored shortlist](https://docs.google.com/spreadsheets/d/1d2V5XBDy9AMsp2g9p-kn5eX0654C2PzgfgCpCmR3Djk/edit#gid=1746680625&fvid=1748932231)
+
+Reports are private research snapshots; the existing Sheet remains operational truth.
