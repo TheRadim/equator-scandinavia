@@ -222,3 +222,8 @@ Calendar dates and month labels take precedence over inconsistent week labels. P
 ## 2026-10-13 — Scandinavian discovery implementation
 
 The user expanded research scope to Denmark, Sweden and Norway immediately. Broad discovery and the first evidence-reviewed batch are implemented and imported. Copenhagen remains first for operational accessibility. The initial detailed batch is 11 DK / 10 SE / 10 NO, below the aspirational 20–30 DK/SE targets. Next research should close those depth and location gaps, not add undifferentiated volume. Research scores do not change manual fit or outreach status. See docs/dealer-discovery.md and the private Drive report. No outreach was performed.
+
+
+## 2026-10-13 — Second qualification pass
+
+Danish research depth is now 30 enriched records; Sweden has 11 and Norway 12. The targeted pass added ten score-qualified prospects and revised one earlier score, bringing the overall research shortlist to 32. Continue with owner review of the seven newly qualified Danish prospects and the distinction between frame dealers, custom assembly and complementary wheel supply to own-frame makers. Swedish depth, unresolved branch identities and trading-status checks remain open. No outreach has been performed.

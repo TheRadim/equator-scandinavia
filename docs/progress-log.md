@@ -47,3 +47,13 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 - No outreach, paid service, purchase, public publication or access broadening. Technical follow-up is tracked in GitHub; the user retains control of qualification and outreach.
 - Opened technical follow-up issues #4 (location/alias reconciliation) and #5 (reviewed refresh ownership/OAuth integration). GitHub connector access returned 404; the existing authenticated CLI provided the authorized private-repository path.
 - Linked the private report from TASK-008 and TASK-009. Marked initial database construction Completed; qualification remains In progress for owner review and the expanded DK/SE depth targets. Preserved existing notes and left hours blank.
+
+
+## 2026-10-13 — Second dealer qualification pass
+
+- Reviewed and scored 22 more existing records: 19 Denmark, 1 Sweden and 2 Norway. Ten additional prospects reached score 60 (7 / 1 / 2); current totals are 53 enriched and 32 score-qualified, with 16 DK / 9 SE / 7 NO. One earlier over-scored profile moved below 60, so the net shortlist increase is nine.
+- Revisited two existing profiles and recorded five explicit trading/domain/identity holds. Distinguished own-frame competition from possible complementary wheel supply. No uncertain identities were merged and no duplicate rows were added. Source URLs, verification dates, unknown capabilities and commercial hypotheses remain explicit.
+- Backed up the live source, checked freshness, wrote 730 reviewed research-cell changes across 29 stable IDs, and verified all 1,740 cells in touched rows by readback. All manual lead fields were preserved. Local operational cache was refreshed from the verified result; raw research, contacts and change sets remain ignored.
+- Added a ten-prospect filter view and verified the actual Google Sheets interface displayed 10 of 2,000 rows. Existing table coverage and dropdown options remained intact. Dashboard formulas recalculated the new totals. Some browser fonts briefly failed to load; values, native chips and the filter count were visible.
+- Uploaded the private second-pass report and incremental qualified CSV to the existing Drive folder. TASK-009 links the new report, retains prior notes and remains In progress for owner qualification and broader coverage.
+- All 36 existing tests pass; no application code or scoring thresholds changed. No outreach, spending, commercial agreement, public sharing or access broadening.

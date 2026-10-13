@@ -62,3 +62,14 @@ National discovery and targeted enrichment ran on 12 October; import verified on
 Next: resolve high-potential locations, deepen Danish/Swedish qualification, review held identities, verify missing contacts/social links and expand specialist-directory coverage. Later possibilities include field-level research ownership/staleness, branch alias mapping, competitor networks and event/club research. Keep these small and evidence-driven; no large crawler or CRM is justified yet.
 
 Technical follow-up: [location and alias reconciliation #4](https://github.com/TheRadim/equator-scandinavia/issues/4), [reviewed refresh ownership and OAuth integration #5](https://github.com/TheRadim/equator-scandinavia/issues/5). The connected GitHub plugin did not have repository access in this session; the existing authenticated GitHub CLI was used successfully without broadening permissions.
+
+
+## Reviewed second pass — 13 October 2026
+
+The second targeted pass scored 22 previously unscored businesses (19 DK / 1 SE / 2 NO), yielding ten additional prospects scoring at least 60 (7 / 1 / 2). Two existing profiles were revisited and five research/identity holds recorded. Current totals are 53 enriched profiles and 32 score-qualified prospects (16 DK / 9 SE / 7 NO); one earlier score was reduced below the threshold. This is targeted backlog enrichment, not complete coverage of the remaining records.
+
+Evaluate the proposed product separately from craftsmanship: an own-frame maker may compete with Equator frames while remaining a plausible wheel/component partner. Keep that route explicit in Recommended Partnership, Secondary Opportunities and Potential Concerns. Do not automatically exclude own brands or treat them as confirmed dealers. Urban/vintage custom assembly does not establish performance-road/gravel demand, and titanium bolts or a paint colour do not establish titanium-frame capability. Supplier interest always remains unverified until a response.
+
+Use actual product and service evidence, including whether framesets are available, rather than category navigation or a complete bike's frame specification. Configuration offered through a brand is not automatically in-house frame assembly. Where current trading, operating-company identity or branch mapping is uncertain, hold the record and retain its stable ID; do not merge it or count it twice.
+
+This pass used an explicit, locally backed-up field-level review, outside the default fill-empty adapter: reread all touched live rows, compare them to the prepared snapshot, reject any difference, write only reviewed research cells, then verify every cell in the touched rows. Populated automatic stage/confidence/category defaults were deliberately revised. The generic sync remains fill-empty; this does not implement the reusable reviewed-refresh workflow tracked in issue #5.
