@@ -57,3 +57,10 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 - Added a ten-prospect filter view and verified the actual Google Sheets interface displayed 10 of 2,000 rows. Existing table coverage and dropdown options remained intact. Dashboard formulas recalculated the new totals. Some browser fonts briefly failed to load; values, native chips and the filter count were visible.
 - Uploaded the private second-pass report and incremental qualified CSV to the existing Drive folder. TASK-009 links the new report, retains prior notes and remains In progress for owner qualification and broader coverage.
 - All 36 existing tests pass; no application code or scoring thresholds changed. No outreach, spending, commercial agreement, public sharing or access broadening.
+
+## 2026-10-14 — User-nominated local prospect
+
+- Added one previously missed Copenhagen business after checking live names/domains for duplicates. Assigned a permanent ID and provisional Grade B (60/100), MEDIUM research confidence and High local-review priority.
+- Verified the official shop identity/contact details, specialist manufacturer retailer listing and a documented gravel-community connection. Unverified stock, custom assembly and titanium capability remain Unknown; commercial receptiveness is explicitly an inference.
+- Validated the private record, checked the live destination was empty immediately before writing, retained native row formatting and verified all written values by readback. Existing manual fields and rows were untouched. No outreach performed.
+- Discovery coverage is incomplete; absence from the backlog must not be interpreted as rejection. User-nominated and manufacturer-directory leads complement map discovery.
