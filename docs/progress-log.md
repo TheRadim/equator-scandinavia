@@ -82,3 +82,7 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 ## 2026-10-16 — Website milestone 2
 
 - Added responsive homepage, desktop/mobile navigation, footer, reusable cards and authentic temporary photography with provenance. Build/type-check pass. Linked catalog/support routes follow in subsequent milestones; browser QA remains pending.
+
+## 2026-10-16 — Website workspace relocation
+
+- At user request, cloned the pushed history into /Users/radimtheiner/Coding/Webs/Equator and created codex/website-prototype for subsequent website work. Preserved the original operational checkout; no files were overwritten or history rewritten.
