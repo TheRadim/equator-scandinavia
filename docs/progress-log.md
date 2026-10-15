@@ -78,3 +78,7 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 - Added CI build checks and a manual-only Pages workflow; no publication triggered. Type-check and static build pass, with no npm audit findings at installation.
 - Continued existing feature/scandinavian-dealer-discovery branch; no branch reset or existing work overwritten.
 - Foundation push encountered missing OAuth workflow scope. Moved workflow files to documented templates in a follow-up commit, preserving history and avoiding access broadening.
+
+## 2026-10-16 — Website milestone 2
+
+- Added responsive homepage, desktop/mobile navigation, footer, reusable cards and authentic temporary photography with provenance. Build/type-check pass. Linked catalog/support routes follow in subsequent milestones; browser QA remains pending.
