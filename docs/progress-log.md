@@ -64,3 +64,10 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 - Verified the official shop identity/contact details, specialist manufacturer retailer listing and a documented gravel-community connection. Unverified stock, custom assembly and titanium capability remain Unknown; commercial receptiveness is explicitly an inference.
 - Validated the private record, checked the live destination was empty immediately before writing, retained native row formatting and verified all written values by readback. Existing manual fields and rows were untouched. No outreach performed.
 - Discovery coverage is incomplete; absence from the backlog must not be interpreted as rejection. User-nominated and manufacturer-directory leads complement map discovery.
+
+## 2026-10-16 — Website milestone 0
+
+- User requested an Astro storefront and clarified private prototype scope, simulated lead submission and replaceable product photography; image reuse permission confirmed.
+- Inspected official current bike families, factory builds, selectable sizes, reference prices, wheel/accessory availability and policy sources. Documented conflicts, publication holds and missing production decisions.
+- Added architecture, source register, decisions and restart instructions. Raw page research remains ignored; the explicitly requested public-product summary contains no customer contacts or private terms.
+- Verified CLI access and private remote. Pages returned 404; deployment is not configured or claimed. No website runtime exists at this milestone, so build is not yet applicable.

@@ -36,3 +36,7 @@ The validator is a local, read-only preflight. It validates stable IDs, required
 4. Draft the Equator follow-up and partner introductions for explicit approval before sending.
 
 The first Scandinavian run is imported and verified. Start with the scored shortlist filter in Sheets; broad discovery rows remain unverified. Next, deepen Danish/Swedish qualification and resolve missing locations and ambiguous identities. See [dealer discovery](docs/dealer-discovery.md) for repeatable commands, reports, evidence requirements and source limits.
+
+## Website prototype
+
+The premium storefront prototype is a separate workstream. Start with [PROJECT_STATUS.md](PROJECT_STATUS.md), [architecture](ARCHITECTURE.md), [product sources](PRODUCT_DATA.md) and [website decisions](DECISIONS.md). Production inquiry delivery and publication are deferred; the operational Sheets tooling remains independent.
