@@ -7,8 +7,8 @@ Build a premium Astro bicycle storefront prototype with three bicycle families, 
 
 ## Milestones
 0. Research and architecture — complete, with confirmation items recorded in PRODUCT_DATA.md.
-1. Foundation — next.
-2. Homepage/layout — pending.
+1. Foundation — complete; build/type-check passed.
+2. Homepage/layout — next.
 3. Catalog — pending.
 4. Configurator — pending.
 5. Cart — pending.
@@ -25,7 +25,7 @@ Inspected repository and workspace links; authenticated GitHub CLI verified priv
 Production requires approved legal operator/data controller, privacy and commercial terms, pricing, current stock/compatibility confirmation, authorized sender domain, recipient, email API secret and spam-protection configuration. No such credentials are required for the local demo. Image use permission is confirmed.
 
 ## Known limitations
-No website code yet. Manufacturer language variants and older search results disagree; use direct model pages. Product availability is a dated observation. GitHub Pages API returned 404; Pages is not verified configured. Drive/Sheets access was not exercised or assumed.
+Astro foundation builds successfully. Manufacturer language variants and older search results disagree; use direct model pages. Product availability is a dated observation. GitHub Pages API returned 404; Pages is not verified configured. Drive/Sheets access was not exercised or assumed.
 
 ## Continue exactly here
-Read AGENTS.md, README.md, docs/roadmap.md, docs/progress-log.md, ARCHITECTURE.md, PRODUCT_DATA.md and this file. Check git status and remote. Initialize website/ with Astro, TypeScript and Tailwind; preserve all existing files. Commit and push each milestone with this file updated. Keep the prototype unpublished and clearly label simulated submissions. Raw research is in ignored data/private/website-research/ on this machine; source links in PRODUCT_DATA.md allow fresh verification elsewhere.
+Read AGENTS.md, README.md, docs/roadmap.md, docs/progress-log.md, ARCHITECTURE.md, PRODUCT_DATA.md and this file. Check git status and remote. Continue homepage and layout in website/. Run npm ci and npm run build from website/. Commit and push each milestone with this file updated. Keep the prototype unpublished and clearly label simulated submissions. Raw research is in ignored data/private/website-research/ on this machine; source links in PRODUCT_DATA.md allow fresh verification elsewhere.

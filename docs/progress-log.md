@@ -71,3 +71,9 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 - Inspected official current bike families, factory builds, selectable sizes, reference prices, wheel/accessory availability and policy sources. Documented conflicts, publication holds and missing production decisions.
 - Added architecture, source register, decisions and restart instructions. Raw page research remains ignored; the explicitly requested public-product summary contains no customer contacts or private terms.
 - Verified CLI access and private remote. Pages returned 404; deployment is not configured or claimed. No website runtime exists at this milestone, so build is not yet applicable.
+
+## 2026-10-16 — Website milestone 1
+
+- Initialized isolated Astro/TypeScript/Tailwind foundation, imported original logo and added restrained responsive design tokens.
+- Added CI build checks and a manual-only Pages workflow; no publication triggered. Type-check and static build pass, with no npm audit findings at installation.
+- Continued existing feature/scandinavian-dealer-discovery branch; no branch reset or existing work overwritten.
