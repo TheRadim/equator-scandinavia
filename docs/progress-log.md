@@ -77,3 +77,4 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 - Initialized isolated Astro/TypeScript/Tailwind foundation, imported original logo and added restrained responsive design tokens.
 - Added CI build checks and a manual-only Pages workflow; no publication triggered. Type-check and static build pass, with no npm audit findings at installation.
 - Continued existing feature/scandinavian-dealer-discovery branch; no branch reset or existing work overwritten.
+- Foundation push encountered missing OAuth workflow scope. Moved workflow files to documented templates in a follow-up commit, preserving history and avoiding access broadening.

@@ -29,3 +29,5 @@ Astro foundation builds successfully. Manufacturer language variants and older s
 
 ## Continue exactly here
 Read AGENTS.md, README.md, docs/roadmap.md, docs/progress-log.md, ARCHITECTURE.md, PRODUCT_DATA.md and this file. Check git status and remote. Continue homepage and layout in website/. Run npm ci and npm run build from website/. Commit and push each milestone with this file updated. Keep the prototype unpublished and clearly label simulated submissions. Raw research is in ignored data/private/website-research/ on this machine; source links in PRODUCT_DATA.md allow fresh verification elsewhere.
+
+GitHub workflow permission limitation: foundation push was initially rejected because OAuth lacks workflow scope. Workflow files are now templates in docs/website-workflows/; install them under .github/workflows/ only with authorized credentials. No CI run or Pages setup is claimed.
