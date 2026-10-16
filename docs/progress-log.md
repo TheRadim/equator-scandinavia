@@ -107,3 +107,7 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 ## 2026-10-16 — Website milestone 7
 
 - Added explicit inventory metadata, publication filters, discontinued/held exclusion and catalog maintenance guide. All regional availability remains unconfirmed; manufacturer observations stay dated. Seven tests and build/type-check pass. No synchronization configured.
+
+## 2026-10-16 — Website milestone 8
+
+- Added About, privacy/terms/support notices, FAQ, storage information and 404. All policies explicitly remain prototype guidance, with no invented warranty or delivery terms. Added canonical/OG metadata, sitemap and noindex/robots exclusion. Twenty-one pages build with no type errors.

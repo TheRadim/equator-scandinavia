@@ -14,8 +14,8 @@ Build a premium Astro bicycle storefront prototype with three bicycle families, 
 5. Cart — complete; persistent line identities, quantity/removal, unknown-price totals.
 6. Demo inquiry — complete; no network submission or saved customer details; live integration deferred.
 7. Inventory/publication controls — complete; explicit statuses, holds and manual review guide.
-8. Support pages — next.
-9. QA — pending.
+8. Support pages — complete as prototype notices; no final legal promises.
+9. QA — in progress.
 10. Production deployment — deferred by prototype scope.
 
 ## Completed
