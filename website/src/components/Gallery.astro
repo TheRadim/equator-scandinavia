@@ -45,7 +45,12 @@ const { images, alt, label, sublabel, caption } = Astro.props;
     const main = g.querySelector<HTMLImageElement>("img.gallery-main");
     g.querySelectorAll<HTMLButtonElement>("[data-src]").forEach((b) =>
       b.addEventListener("click", () => {
-        if (main) main.src = b.dataset.src!;
+        if (main) {
+          main.src = b.dataset.src!;
+          const source = main.parentElement?.querySelector("source");
+          const base = b.dataset.src!.replace(/\.(jpe?g|png)$/i, "");
+          if (source) source.srcset = `${base}-640.webp 640w, ${base}-1024.webp 1024w`;
+        }
         g.querySelectorAll("[data-src]").forEach((x) =>
           x.setAttribute("aria-pressed", String(x === b)),
         );

@@ -1,0 +1,44 @@
+---
+/**
+ * Responsive photograph: WebP 640/1024 variants (from `npm run images`) with
+ * the original JPG/PNG as fallback.
+ */
+import { url } from "../lib/urls";
+interface Props {
+  src: string;
+  alt: string;
+  sizes?: string;
+  eager?: boolean;
+  class?: string;
+  width?: number;
+  height?: number;
+}
+const {
+  src,
+  alt,
+  sizes = "(max-width: 900px) 100vw, 50vw",
+  eager = false,
+  class: cls,
+  width = 1024,
+  height = 768,
+} = Astro.props;
+const base = src.replace(/\.(jpe?g|png)$/i, "");
+---
+
+<picture>
+  <source
+    type="image/webp"
+    srcset={`${url(base + "-640.webp")} 640w, ${url(base + "-1024.webp")} 1024w`}
+    sizes={sizes}
+  />
+  <img
+    class={cls}
+    src={url(src)}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={eager ? "eager" : "lazy"}
+    fetchpriority={eager ? "high" : "auto"}
+    decoding="async"
+  />
+</picture>

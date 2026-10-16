@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { url } from "../lib/urls";
+import Photo from "../components/Photo.astro";
 ---
 
 <Layout
@@ -21,12 +22,10 @@ import { url } from "../lib/urls";
   </section>
 
   <figure class="wrap about-photo">
-    <img
-      src={url("images/yasei-0.jpg")}
+    <Photo
+      src="images/yasei-0.jpg"
       alt="Equator Yasei titanium gravel bicycle on a gravel road"
-      width="1024"
-      height="768"
-      loading="lazy"
+      sizes="100vw"
     />
   </figure>
 
@@ -134,7 +133,7 @@ import { url } from "../lib/urls";
   .about-photo {
     margin: 0 auto 40px;
   }
-  .about-photo img {
+  .about-photo :global(img) {
     width: 100%;
     height: auto;
     max-height: 760px;

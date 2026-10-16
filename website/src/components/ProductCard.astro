@@ -1,5 +1,6 @@
 ---
 import { url } from "../lib/urls";
+import Photo from "./Photo.astro";
 import { money } from "../lib/catalog";
 import type { Product } from "../data/bikes/catalog";
 const { product } = Astro.props as { product: Product };
@@ -12,14 +13,11 @@ const href = url(`bikes/${product.slug}/`);
 
 <article class="card">
   <a href={href}>
-    <img
+    <Photo
       class="product-image"
-      src={url(product.image)}
+      src={product.image}
       alt={`Equator ${product.name} titanium bicycle; illustrative complete build`}
-      width="1024"
-      height="768"
-      loading="lazy"
-      decoding="async"
+      sizes="(max-width: 767px) 100vw, 33vw"
     />
     <h3>
       {product.name}

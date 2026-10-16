@@ -3,7 +3,7 @@
  * Product photograph, or — when no approved photograph exists yet — a quiet
  * typographic tile. Never substitutes another product's image.
  */
-import { url } from "../lib/urls";
+import Photo from "./Photo.astro";
 interface Props {
   image?: string | null;
   alt: string;
@@ -18,15 +18,7 @@ const { image, alt, label, sublabel, eager = false, class: cls = "" } =
 
 {
   image ? (
-    <img
-      class:list={["product-image", cls]}
-      src={url(image)}
-      alt={alt}
-      width="1024"
-      height="768"
-      loading={eager ? "eager" : "lazy"}
-      decoding="async"
-    />
+    <Photo class={`product-image ${cls}`} src={image} alt={alt} eager={eager} />
   ) : (
     <div class:list={["product-image visual-tile", cls]} role="img" aria-label={`${alt} — photograph coming soon`}>
       <span class="visual-tile-number">{label}</span>

@@ -91,3 +91,16 @@ test("no published product claims a zero price", () => {
   for (const b of allBikes) for (const x of b.builds) assert.notEqual(x.price, 0);
   for (const w of allWheels) assert.notEqual(w.price, 0);
 });
+
+import { existsSync } from "node:fs";
+test("every catalog photograph exists with responsive WebP variants", () => {
+  const paths = [
+    ...allBikes.flatMap((b) => b.images),
+    ...allWheels.flatMap((w) => w.images),
+  ];
+  for (const p of paths) {
+    assert.ok(existsSync(`public/${p}`), p);
+    const base = p.replace(/\.(jpe?g|png)$/i, "");
+    for (const w of [640, 1024]) assert.ok(existsSync(`public/${base}-${w}.webp`), `${base}-${w}.webp (run npm run images)`);
+  }
+});

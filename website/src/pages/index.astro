@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import ProductCard from "../components/ProductCard.astro";
 import { bikes as families } from "../data/bikes/catalog";
 import WheelCard from "../components/WheelCard.astro";
+import Photo from "../components/Photo.astro";
 import { wheels } from "../data/wheels/catalog";
 import { url } from "../lib/urls";
 const featuredWheels = ["wavy-35", "wavy-50", "gravel-ultimate-40"]
@@ -32,12 +33,10 @@ const featuredWheels = ["wavy-35", "wavy-50", "gravel-ultimate-40"]
       </div>
     </div>
     <div class="hero-photo">
-      <img
-        src={url("images/sensei-0.jpg")}
+      <Photo
+        src="images/sensei-0.jpg"
         alt="Equator Sensei Gen 4 titanium gravel bicycle beside an open field"
-        width="1024"
-        height="768"
-        fetchpriority="high"
+        eager
       />
       <div class="photo-caption">
         <span>01 / SENSEI GEN 4</span>
@@ -169,7 +168,7 @@ const featuredWheels = ["wavy-35", "wavy-50", "gravel-ultimate-40"]
   .hero-photo {
     min-width: 0;
   }
-  .hero-photo img {
+  .hero-photo :global(img) {
     width: 100%;
     height: auto;
     display: block;
