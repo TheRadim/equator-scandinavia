@@ -1,7 +1,28 @@
 {
-  "_note": "Official Equator gallery photographs (image reuse permission confirmed 2026-10-16). Not yet downloaded: the cloud build environment cannot reach cdn.myshoptet.com. Run `npm run fetch-images` on a machine with access, then add the saved paths to the product's `images` array and run `npm run images`.",
+  "_note": "Official Equator product photographs (reuse permission confirmed by the owner 2026-10-16). Downloaded by the GitHub Actions workflow 'Fetch product images' into website/public/images/<id>-<n>.<ext>; existing files are skipped.",
   "retrieved": "2026-10-16",
   "products": {
+    "sensei": {
+      "source": "https://www.equator-cycling.com/en/equator-sensei-titanium-gen-4-shimano-grx-di2/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/332-14_pbd-7212opt1.jpg?ff=1&x=1024&y=768&q=85&ts=6a9c30f6&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/332_equator-sensei-gen-4-1.jpg?ff=1&x=1024&y=768&q=85&ts=6a9c30f1&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/332-8_pbd-7156opt1.jpg?ff=1&x=1024&y=768&q=85&ts=6a9c30f4&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/332-2_equator-sensei-gen-4-3.jpg?ff=1&x=1024&y=768&q=85&ts=6a9c30f2&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/332-4_pbd-6520opt1.jpg?ff=1&x=1024&y=768&q=85&ts=6a9c30f3&sg=161563f2"
+      ]
+    },
+    "raiden": {
+      "source": "https://www.equator-cycling.com/en/equator-raiden-titanium-ramova-sada/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/284_equator-raiden-titanium-sram-red-axs.png?ff=1&x=1024&y=768&q=85&ts=69a6a885&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/284-1_galerka-kolo-5.jpg?ff=1&x=1024&y=768&q=85&ts=69a6a885&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/284-2_galerka-kolo-3.jpg?ff=1&x=1024&y=768&q=85&ts=69a6a885&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/284-3_detail-riditka.jpg?ff=1&x=1024&y=768&q=85&ts=69a6a885&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/284-4_detail-ovalna-horni-trubka.jpg?ff=1&x=1024&y=768&q=85&ts=69a6a885&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/284-10_detail-t47.jpg?ff=1&x=1024&y=768&q=85&ts=69a6a886&sg=161563f2"
+      ]
+    },
     "yasei": {
       "source": "https://www.equator-cycling.com/en/equator-yasei-titanium/",
       "urls": [
@@ -11,19 +32,21 @@
         "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/144-5_5vai3916.jpg?ff=1&x=1024&y=768&q=85&ts=69947c9d&sg=161563f2"
       ]
     },
+    "wavy-35": {
+      "source": "https://www.equator-cycling.com/en/set-karbonovych-kol-equator-wavy-35c-disk/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/243-2_set-karbonovych-kol-equator-wavy-35c-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1ec11&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/243-1_set-karbonovych-kol-equator-wavy-35c-disk--2.png?ff=1&x=1024&y=768&q=85&ts=69e1ec10&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/243-6_rafek-equator-wavy.jpg?ff=1&x=1024&y=768&q=85&ts=69c53199&sg=161563f2"
+      ]
+    },
     "wavy-50": {
       "source": "https://www.equator-cycling.com/en/equator-wavy-50c-disk/",
       "urls": [
         "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/141_set-karbonovych-kol-equator-wavy-50c-disk--1.png?ff=1&x=1024&y=768&q=85&ts=69e1ec42&sg=161563f2",
         "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/141-2_set-karbonovych-kol-equator-wavy-50c-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1ec44&sg=161563f2",
-        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/141-1_set-karbonovych-kol-equator-wavy-50c-disk--2.png?ff=1&x=1024&y=768&q=85&ts=69e1ec43&sg=161563f2"
-      ]
-    },
-    "wavy-35": {
-      "source": "https://www.equator-cycling.com/en/set-karbonovych-kol-equator-wavy-35c-disk/",
-      "urls": [
-        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/243-2_set-karbonovych-kol-equator-wavy-35c-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1ec11&sg=161563f2",
-        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/243-1_set-karbonovych-kol-equator-wavy-35c-disk--2.png?ff=1&x=1024&y=768&q=85&ts=69e1ec10&sg=161563f2"
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/141-1_set-karbonovych-kol-equator-wavy-50c-disk--2.png?ff=1&x=1024&y=768&q=85&ts=69e1ec43&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/141-6_rafek-equator-wavy.jpg?ff=1&x=1024&y=768&q=85&ts=69c531b1&sg=161563f2"
       ]
     },
     "gravel-ultimate-40": {
@@ -38,7 +61,64 @@
       "source": "https://www.equator-cycling.com/en/set-karbonovych-kol-equator-88c-disk/",
       "urls": [
         "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/237_set-karbonovych-kol-equator-88c-disk--1.png?ff=1&x=1024&y=768&q=85&ts=69e1ebe5&sg=161563f2",
-        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/237-2_set-karbonovych-kol-equator-88c-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1ebea&sg=161563f2"
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/237-2_set-karbonovych-kol-equator-88c-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1ebea&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/237-1_set-karbonovych-kol-equator-88c-disk--2.png?ff=1&x=1024&y=768&q=85&ts=69e1ebe8&sg=161563f2"
+      ]
+    },
+    "fork-adventure": {
+      "source": "https://www.equator-cycling.com/en/vidlice-equator-adventure-carbon-fork/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/269_frame-106.jpg?ff=1&x=1024&y=768&q=85&ts=69971ba8&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/269-1_frame-108.jpg?ff=1&x=1024&y=768&q=85&ts=69971ba9&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/269-2_frame-110.jpg?ff=1&x=1024&y=768&q=85&ts=69971ba9&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/269-3_frame-112.jpg?ff=1&x=1024&y=768&q=85&ts=69971baa&sg=161563f2"
+      ]
+    },
+    "fork-gravel": {
+      "source": "https://www.equator-cycling.com/en/gravel-fork-equator/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/165_frame-105-1408x.jpg?ff=1&x=1024&y=768&q=85&ts=69b14050&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/165-1_frame-107-1408x.jpg?ff=1&x=1024&y=768&q=85&ts=69b14064&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/165-2_frame-109-1408x.jpg?ff=1&x=1024&y=768&q=85&ts=69b14070&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/165-3_frame-111-1408x.jpg?ff=1&x=1024&y=768&q=85&ts=69b14079&sg=161563f2"
+      ]
+    },
+    "bottle-cage": {
+      "source": "https://www.equator-cycling.com/en/kosik-na-lahve-equator-titanim/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/171_titanium-bottle-cage.jpg?ff=1&x=1024&y=768&q=85&ts=6970c5fd&sg=161563f2"
+      ]
+    },
+    "seat-clamp": {
+      "source": "https://www.equator-cycling.com/en/objimka-equator-titanium-31-6-mm/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/174_clamp-equator-titanium-31-6-mm.jpg?ff=1&x=1024&y=768&q=85&ts=6970c5fd&sg=161563f2"
+      ]
+    },
+    "seatpost-straight": {
+      "source": "https://www.equator-cycling.com/sedlovka-rovna-equator-titanium/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/228-1_equator-titanium-seatpost.jpg?ff=1&x=1024&y=768&q=85&ts=69a33b54&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/228_sedlovka-rovna-equator-titanium.jpg?ff=1&x=1024&y=768&q=85&ts=6970c5ff&sg=161563f2"
+      ]
+    },
+    "seatpost-offset": {
+      "source": "https://www.equator-cycling.com/sedlovka-offsetova-equator-titanium/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/225_equator-titanium-seatpost-offset.jpg?ff=1&x=1024&y=768&q=85&ts=69a33aec&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/225-1_equator-titanium-seatpost-front.jpg?ff=1&x=1024&y=768&q=85&ts=69a33b33&sg=161563f2"
+      ]
+    },
+    "stem": {
+      "source": "https://www.equator-cycling.com/predstavec-equator-titanium/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/219_predstavec-equator-titanium.jpg?ff=1&x=1024&y=768&q=85&ts=6970c5ff&sg=161563f2"
+      ]
+    },
+    "spacer": {
+      "source": "https://www.equator-cycling.com/spacer-equator-titanium/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/222_podlozka-equator-titanium.jpg?ff=1&x=1024&y=768&q=85&ts=6970c5ff&sg=161563f2"
       ]
     }
   }
