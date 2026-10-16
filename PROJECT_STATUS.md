@@ -16,13 +16,14 @@ Premium Astro storefront for Equator titanium bicycles and carbon wheels in Scan
 7. Inventory/publication — complete: statuses, dated observations, holds, manual process.
 8. Supporting pages — complete; dedicated About page; policies remain clearly marked prototype notices pending approval.
 9. QA — complete for this stage: 11 site tests + 8 worker tests, astro check 0 errors, Playwright sweep 375/768/1024/1440/1920 (no overflow, no console errors), axe-core 0 violations on 13 routes, end-to-end live inquiry tested locally against the Worker handler.
-10. Production deployment — blocked: needs (a) GitHub token with `workflow` scope to install workflows, (b) Pages enabled, (c) explicit publication approval.
+10. Deployment — done: GitHub Pages live from `gh-pages`, auto-deployed by Actions. Remaining for a real launch: live inquiries, approved policies, indexing, custom domain.
 
-## Git / push status
-Branch `codex/website-prototype` is pushed to origin (github.com/TheRadim/equator-scandinavia, private) and tracks `origin/codex/website-prototype`; pushed 2026-10-16 up to `91ad00c` plus this status update. GitHub workflows are still templates in docs/website-workflows/ (installing them needs a token with Workflows: write). No CI run or Pages deployment exists yet.
-
-## Preview hosting
-A private preview is published as a claude.ai artifact (owner-only link; share from its Share menu): https://claude.ai/artifact/EXrN2kGK448MCkWCTEBLpG. It is built with `npm run build:preview -- <outDir>` (relative links, demo inquiries) and republished from a Claude session. GitHub Pages is not used yet: the repo is private (Pages needs a public repo or a paid plan) and the token would need Pages/Workflows permissions.
+## Git, hosting and deployment
+- Repository is **public** (owner decision, 2026-10-16): github.com/TheRadim/equator-scandinavia. Website work is on `codex/website-prototype`.
+- **Live site:** https://theradim.github.io/equator-scandinavia/ — GitHub Pages serving the `gh-pages` branch. Search indexing stays off (noindex) until `PUBLIC_ALLOW_INDEXING=true`. Inquiries are in demo mode.
+- CI: `.github/workflows/website-check.yml` (tests + build on push/PR) and `website-deploy.yml` (on push to `codex/website-prototype` touching `website/`: test, build, force-push `website/dist` to `gh-pages`). Website changes pushed to that branch go live automatically.
+- Private claude.ai preview (optional, built with `npm run build:preview`): https://claude.ai/artifact/EXrN2kGK448MCkWCTEBLpG
+- Pushing from Claude sessions: the owner asked to keep a GitHub fine-grained token for that. It lives only in the untracked file `.git/claude-github-token` in the Mac checkout (never commit it; it has Contents + Workflows write on this repo, no Pages/Administration).
 
 ## Required credentials / decisions before live inquiries
 Resend API key + verified sending domain; representative inbox (`INQUIRY_RECIPIENT`); Turnstile site key + secret; Cloudflare account + KV namespace; legal operator / data controller; final privacy policy, terms, cookie text; approved Scandinavian pricing policy (currently EUR manufacturer references). Details: worker/README.md.
@@ -37,5 +38,5 @@ Resend API key + verified sending domain; representative inbox (`INQUIRY_RECIPIE
 ## Continue exactly here
 1. Read this file, ARCHITECTURE.md, PRODUCT_DATA.md, DECISIONS.md, docs/website-inquiries.md, worker/README.md.
 2. `cd website && npm ci && npm test && npm run build`; `cd ../worker && npm test`.
-3. With a token that has Workflows: write, copy docs/website-workflows/*.yml to .github/workflows/ (CI runs tests + build on push; Pages deploy stays manual).
-4. Next work, in order: download gallery photos and add them; owner review of copy/prices; when approved, deploy the Worker and set `PUBLIC_INQUIRY_ENDPOINT`; replace policy pages with approved text; enable Pages and run the manual deploy (type PUBLISH); set `PUBLIC_ALLOW_INDEXING=true` only at public launch; custom domain (add `public/CNAME`, update `site`/`base` in astro.config.mjs).
+3. Push website changes to `codex/website-prototype`; check the Actions run and the live site.
+4. Next work, in order: download gallery photos and add them; owner review of copy/prices; when approved, deploy the Worker and set `PUBLIC_INQUIRY_ENDPOINT`; replace policy pages with approved text; set `PUBLIC_ALLOW_INDEXING=true` only at public launch; custom domain (add `public/CNAME`, update `site`/`base` in astro.config.mjs).
