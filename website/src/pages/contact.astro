@@ -1,7 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import InquiryForm from "../components/InquiryForm.astro";
-import { representativeEmail } from "../lib/config";
 import { site } from "../data/site";
 ---
 
@@ -20,12 +19,8 @@ import { site } from "../data/site";
       <div class="contact-info">
         <p>
           Questions about a bike, wheels, a custom build or becoming an Equator
-          dealer — send a message and we'll get back to you personally.
+          dealer? Send a message and we'll get back to you personally.
         </p>
-        <div>
-          <h2 class="h3">Email</h2>
-          <p class="contact-email">{representativeEmail}</p>
-        </div>
         <div>
           <h2 class="h3">Region</h2>
           <p>{site.region}</p>

@@ -112,10 +112,10 @@ export const allWheels: Wheel[] = [
     tubelessPrice: 3200,
     brakes: [disc(141100, "https://www.equator-cycling.com/en/set-karbonovych-kol-equator-wavy-35c-disk/")],
     specs: {
-      "Rim depth": "35 mm per model name (Equator's dimension line reads 50 mm — to confirm)",
+      "Rim depth": "35 mm per model name (Equator's dimension line reads 50 mm, to be confirmed)",
       "Rim width": "21 mm internal / 28 mm external",
       "Rim profile": "Hooked, tubeless ready",
-      Weight: "1,380 g set (Equator's spec table also lists 1,480 g — to confirm)",
+      Weight: "1,380 g set (Equator's spec table also lists 1,480 g, to be confirmed)",
       ...discHub,
       Spokes: "Sapim CX-Ray straight pull, 24 front / 24 rear",
       Tyres: "Tubed or tubeless, minimum 25 mm",
@@ -259,7 +259,7 @@ export const allWheels: Wheel[] = [
       ...discHub,
       Spokes: "Sapim CX-Ray straight pull, 24 front / 24 rear",
       Tyres: "Tubular, minimum 25 mm",
-      "Rider weight limit": "Equator lists both 150 kg and 105 kg — to confirm",
+      "Rider weight limit": "Equator lists both 150 kg and 105 kg, to be confirmed",
     },
   }),
   wheel({

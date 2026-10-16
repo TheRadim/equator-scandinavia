@@ -46,7 +46,7 @@ import { url } from "../lib/urls";
     for (const line of lines) {
       const p = document.createElement("p");
       const product = resolve(line);
-      p.textContent = `${line.quantity} × ${product.name} — ${product.description} — ${money(product.price)}`;
+      p.textContent = `${line.quantity} × ${product.name} · ${product.description} · ${money(product.price)}`;
       host.append(p);
     }
     const t = totals(lines);

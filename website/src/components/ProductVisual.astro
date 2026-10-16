@@ -20,7 +20,7 @@ const { image, alt, label, sublabel, eager = false, class: cls = "" } =
   image ? (
     <Photo class={`product-image ${cls}`} src={image} alt={alt} eager={eager} />
   ) : (
-    <div class:list={["product-image visual-tile", cls]} role="img" aria-label={`${alt} — photograph coming soon`}>
+    <div class:list={["product-image visual-tile", cls]} role="img" aria-label={`${alt}, photograph coming soon`}>
       <span class="visual-tile-number">{label}</span>
       {sublabel && <span class="visual-tile-sub">{sublabel}</span>}
       <span class="visual-tile-note">Photograph coming soon</span>

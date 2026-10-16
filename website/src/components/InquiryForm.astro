@@ -53,7 +53,7 @@ const endpoint =
       required={kind === "contact"}
       placeholder={kind === "order"
         ? "Your height and inseam, delivery country, questions about components…"
-        : "Bikes, wheels, a custom build or a dealer partnership — how can we help?"}
+        : "Bikes, wheels, a custom build or a dealer partnership. How can we help?"}
     ></textarea>
   </label>
   <div class="hp" aria-hidden="true">
@@ -80,11 +80,11 @@ const endpoint =
   <p class="caption form-foot">
     {kind === "order"
       ? "No payment now. We confirm price, availability and delivery with you before you order."
-      : `Or email us directly: ${representativeEmail}`}
+      : "We reply personally by email."}
   </p>
   <p class="status" role="status" aria-live="polite" data-status></p>
   <noscript>
-    <p>Please email us at {representativeEmail}.</p>
+    <p>Please enable JavaScript to send this form.</p>
   </noscript>
 </form>
 
@@ -159,7 +159,7 @@ const endpoint =
         ? [
             ...summary.map(
               (l) =>
-                `${l.quantity} × ${l.name} — ${l.description} — ${money(l.price)} [${l.ids.productId}/${l.ids.buildId}${l.ids.size ? "/" + l.ids.size : ""}]`,
+                `${l.quantity} × ${l.name} · ${l.description} · ${money(l.price)} [${l.ids.productId}/${l.ids.buildId}${l.ids.size ? "/" + l.ids.size : ""}]`,
             ),
             `Estimated total: ${totalLabel(total)}`,
             ...(activeCurrency() !== "EUR"
@@ -189,7 +189,7 @@ const endpoint =
           ...(orderText ? ["", "Order:", orderText] : []),
         ].join("\n");
         window.location.href = `mailto:${inbox}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        status.textContent = `Your email app should open with the message ready to send. If it doesn't, write to ${inbox}.`;
+        status.textContent = "Your email app should open with the message ready to send.";
         button.disabled = false;
         label.textContent = idleLabel;
         return;
@@ -244,7 +244,7 @@ const endpoint =
               ? body.error
               : Array.isArray(body.errors) && body.errors[0]?.message
                 ? String(body.errors[0].message)
-                : `We couldn't send your message. Please try again or email ${inbox}.`;
+                : "We couldn't send your message. Please try again in a moment.";
           throw new Error(message);
         }
         saveReceipt(
@@ -257,7 +257,7 @@ const endpoint =
       } catch (e) {
         fail(
           e instanceof TypeError
-            ? `Network problem — nothing was sent. Please try again or email ${inbox}.`
+            ? `Network problem: nothing was sent. Please try again.`
             : e instanceof Error
               ? e.message
               : "Something went wrong. Please try again.",

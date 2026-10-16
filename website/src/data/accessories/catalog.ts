@@ -52,11 +52,11 @@ export const allAccessories: Accessory[] = [
       Material: "Carbon",
       Steerer: 'Tapered 1 1/8" – 1 1/2"',
       "Steerer length":
-        "300 mm from crown (product text also mentions 350 mm — to confirm); cut to length on request",
+        "300 mm from crown (product text also mentions 350 mm, to be confirmed); cut to length on request",
       Axle: "12 × 100 mm thru-axle",
       Brake: "Flat mount",
       "Tyre clearance":
-        '29" × 55 mm (product text also states 28" × 50 mm — to confirm)',
+        '29" × 55 mm (product text also states 28" × 50 mm, to be confirmed)',
       Rake: "47 or 52 mm via flip chip",
       "Axle to crown": "398 mm",
       Mounts: "Fender and rack",

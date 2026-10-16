@@ -66,10 +66,12 @@ h2 {
 h1 {
   font-size: clamp(2.4rem, 6vw, 6rem);
   text-wrap: balance;
+  margin-bottom: max(16px, 0.28em);
 }
 h2 {
   font-size: clamp(1.9rem, 4vw, 4rem);
   text-wrap: balance;
+  margin-bottom: max(14px, 0.3em);
 }
 h3 {
   font-size: 1.4rem;
@@ -739,4 +741,10 @@ dl + .text-link {
   .header-actions > .currency-switch {
     display: none;
   }
+}
+.product-info .lead {
+  margin-bottom: 14px;
+}
+.gallery > .caption {
+  margin-top: 10px;
 }

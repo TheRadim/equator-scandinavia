@@ -34,7 +34,7 @@ export type BikeDetails = {
 
 const titanium: Feature = {
   title: "Titanium, built to last",
-  text: "Seamless 3Al-2.5V aerospace-grade titanium tubing. It doesn't rust, needs no paint and shrugs off scratches — a frame you keep for decades, not seasons.",
+  text: "Seamless 3Al-2.5V aerospace-grade titanium tubing. It doesn't rust, needs no paint and shrugs off scratches. A frame you keep for decades, not seasons.",
 };
 const t47: Feature = {
   title: "Threaded T47 bottom bracket",
@@ -138,7 +138,7 @@ export const bikeDetails: Record<string, BikeDetails> = {
       },
       {
         title: "Room for 38 mm tyres",
-        text: "Modern road clearance for tyres up to 38 mm — more comfort and grip on rough roads and long days.",
+        text: "Modern road clearance for tyres up to 38 mm, for more comfort and grip on rough roads and long days.",
       },
       { ...t47, image: "images/raiden-6.jpg" },
       { ...udh },
@@ -198,7 +198,7 @@ export const bikeDetails: Record<string, BikeDetails> = {
     features: [
       {
         title: "Big tyres, 28\" or 29\"",
-        text: "Room for tyres up to 57 mm (2.2\") on 28\" or 29\" wheels — comfort and grip when the gravel turns to rubble.",
+        text: "Room for tyres up to 57 mm (2.2\") on 28\" or 29\" wheels, for comfort and grip when the gravel turns to rubble.",
         image: "images/yasei-1.jpg",
       },
       {
