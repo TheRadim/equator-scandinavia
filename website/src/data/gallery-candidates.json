@@ -120,6 +120,46 @@
       "urls": [
         "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/222_podlozka-equator-titanium.jpg?ff=1&x=1024&y=768&q=85&ts=6970c5ff&sg=161563f2"
       ]
+    },
+    "carbon-50": {
+      "source": "https://www.equator-cycling.com/en/equator-50c-disc/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/105_set-karbonovych-kol-equator-50c-disk--1.png?ff=1&x=1024&y=768&q=85&ts=69e1eaf6&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/105-2_set-karbonovych-kol-equator-50c-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1eaf8&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/105-1_set-karbonovych-kol-equator-50c-disk--2.png?ff=1&x=1024&y=768&q=85&ts=69e1eaf7&sg=161563f2"
+      ]
+    },
+    "wide-50": {
+      "source": "https://www.equator-cycling.com/en/equator-50c-wide-disk/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/102_set-karbonovych-kol-equator-wide-50c-disk--1.png?ff=1&x=1024&y=768&q=85&ts=69e1ec69&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/102-2_set-karbonovych-kol-equator-wide-50c-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1ec6b&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/102-1_set-karbonovych-kol-equator-wide-50c-disk--2.png?ff=1&x=1024&y=768&q=85&ts=69e1ec6a&sg=161563f2"
+      ]
+    },
+    "carbon-35": {
+      "source": "https://www.equator-cycling.com/equator-35c-disc/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/87_set-karbonovych-kol-equator-35c-disk--1.png?ff=1&x=1024&y=768&q=85&ts=69e1ea27&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/87-2_set-karbonovych-kol-equator-35c-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1ea29&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/87-1_set-karbonovych-kol-equator-35c-disk--2.png?ff=1&x=1024&y=768&q=85&ts=69e1ea28&sg=161563f2"
+      ]
+    },
+    "tubular-45": {
+      "source": "https://www.equator-cycling.com/en/equator-45t-disk/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/96_set-karbonovych-kol-equator-45t-disk--1.png?ff=1&x=1024&y=768&q=85&ts=69e1ea90&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/96-2_set-karbonovych-kol-equator-45t-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1ea92&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/96-1_set-karbonovych-kol-equator-45t-disk--2.png?ff=1&x=1024&y=768&q=85&ts=69e1ea91&sg=161563f2"
+      ]
+    },
+    "carbon-50-rim": {
+      "source": "https://www.equator-cycling.com/en/equator-50c/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/99_set-karbonovych-kol-equator-50c--1.png?ff=1&x=1024&y=768&q=85&ts=69e1eac5&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/99-2_set-karbonovych-kol-equator-50c--3.png?ff=1&x=1024&y=768&q=85&ts=69e1eac7&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/99-1_set-karbonovych-kol-equator-50c--2.png?ff=1&x=1024&y=768&q=85&ts=69e1eac6&sg=161563f2"
+      ]
     }
   }
 }
