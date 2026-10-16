@@ -3,7 +3,22 @@ import { wheels } from "../data/wheels/catalog.ts";
 import { accessories } from "../data/accessories/catalog.ts";
 export type Selection = { productId: string; buildId: string; size: string };
 export type Line = Selection & { quantity: number };
+import { site } from "../data/site.ts";
 export const displayCurrency = "EUR";
+export type CurrencyCode = keyof typeof site.currencies;
+export const currencyCodes = Object.keys(site.currencies) as CurrencyCode[];
+export const currencyKey = "equator-currency";
+/** Visitor's chosen display currency (browser only; build output is EUR). */
+export function activeCurrency(): CurrencyCode {
+  if (typeof window === "undefined") return "EUR";
+  try {
+    const c = localStorage.getItem(currencyKey);
+    if (c && c in site.currencies) return c as CurrencyCode;
+  } catch {
+    /* storage unavailable */
+  }
+  return "EUR";
+}
 /**
  * PUBLIC_SHOW_PRICES=false hides every price on the site (e.g. once a dealer
  * network sets local prices). Outside Astro (tests, the inquiry Worker) prices
@@ -11,14 +26,16 @@ export const displayCurrency = "EUR";
  */
 const env = (import.meta as { env?: Record<string, string | undefined> }).env;
 export const pricesVisible = env?.PUBLIC_SHOW_PRICES !== "false";
-export function money(amount: number | null) {
-  return amount === null || !pricesVisible
-    ? "Price on request"
-    : new Intl.NumberFormat("en-IE", {
-        style: "currency",
-        currency: displayCurrency,
-        maximumFractionDigits: 0,
-      }).format(amount / 100);
+export function money(amount: number | null, currency: CurrencyCode = activeCurrency()) {
+  if (amount === null || !pricesVisible) return "Price on request";
+  if (currency === "EUR")
+    return new Intl.NumberFormat("en-IE", {
+      style: "currency",
+      currency: "EUR",
+      maximumFractionDigits: 0,
+    }).format(amount / 100);
+  const converted = Math.round((amount / 100) * site.currencies[currency] / 10) * 10;
+  return `${currency} ${converted.toLocaleString("en-GB")}`;
 }
 /** "From €2,415" — or "Price on request" when unknown or prices are hidden. */
 export function fromPrice(amount: number | null, prefix = "From") {
@@ -61,21 +78,32 @@ export function resolve(selection: Selection) {
     (w) => w.id === selection.productId && w.publication === "prototype",
   );
   if (wheel && selection.size === "") {
-    // "inquiry" is the legacy (pre-freehub) cart value: freehub to be confirmed.
+    // buildId "brake:freehub:tl|std". Older carts stored only the freehub id
+    // (disc, no tubeless) or "inquiry" (freehub to confirm) — still accepted.
+    const parts = selection.buildId.split(":");
+    const [brakeId, freehubId, tl] =
+      parts.length === 3 ? parts : [wheel.brakes[0].id, parts[0], "std"];
+    const brake = wheel.brakes.find((b) => b.id === brakeId);
     const freehub =
-      selection.buildId === "inquiry"
+      freehubId === "inquiry"
         ? { id: "inquiry", label: "Freehub to confirm" }
-        : wheel.freehubs.find((f) => f.id === selection.buildId);
-    if (!freehub)
-      throw new Error(
-        "This freehub option is no longer listed. Please choose it again.",
-      );
+        : wheel.freehubs.find((f) => f.id === freehubId);
+    const tubeless = tl === "tl";
+    if (!brake || !freehub || !["tl", "std"].includes(tl) || (tubeless && wheel.tubelessPrice === null))
+      throw new Error("This wheel option is no longer listed. Please choose it again.");
     return {
       name: wheel.name,
       image: wheel.images[0] ?? null,
-      price: wheel.price,
-      description: `Wheelset · ${freehub.label} freehub`,
-      availability: wheel.availability,
+      price:
+        brake.price === null ? null : brake.price + (tubeless ? (wheel.tubelessPrice ?? 0) : 0),
+      description: [
+        brake.label,
+        `${freehub.label} freehub`,
+        tubeless ? "Tubeless setup" : null,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+      availability: brake.availability,
     };
   }
   const accessory = accessories.find(

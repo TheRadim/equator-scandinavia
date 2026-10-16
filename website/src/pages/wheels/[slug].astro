@@ -1,8 +1,10 @@
 ---
+import PriceNote from "../../components/PriceNote.astro";
+import Price from "../../components/Price.astro";
 import Layout from "../../layouts/Layout.astro";
 import Gallery from "../../components/Gallery.astro";
 import StatusBadge from "../../components/StatusBadge.astro";
-import { wheels, wheelCategories, type Wheel } from "../../data/wheels/catalog";
+import { wheels, wheelCategories, wheelFromPrice, type Wheel } from "../../data/wheels/catalog";
 import { money, fromPrice } from "../../lib/catalog";
 import { productJsonLd } from "../../lib/seo";
 import { url } from "../../lib/urls";
@@ -16,11 +18,6 @@ const { product } = Astro.props as { product: Wheel };
 const categoryLabel =
   wheelCategories.find((c) => c.id === product.category)?.label ??
   product.category;
-const verified = new Date(product.verified).toLocaleDateString("en-GB", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
 ---
 
 <Layout
@@ -37,10 +34,11 @@ const verified = new Date(product.verified).toLocaleDateString("en-GB", {
 >
   <div class="wrap">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href={url("wheels/")}>Wheels</a> /
-      <a href={url(`wheels/?category=${product.category.toLowerCase()}`)}
-        >{categoryLabel}</a
-      > / {product.name}
+      <a href={url("wheels/")}>Wheels</a>
+      <span aria-hidden="true">/</span>
+      <a href={url(`wheels/?category=${product.category.toLowerCase()}`)}>{categoryLabel}</a>
+      <span aria-hidden="true">/</span>
+      {product.name}
     </nav>
     <div class="product-layout">
       <div class="product-media">
@@ -55,58 +53,81 @@ const verified = new Date(product.verified).toLocaleDateString("en-GB", {
         <p class="eyebrow">{categoryLabel} / Carbon wheelset</p>
         <h1>{product.name}</h1>
         <p class="lead">{product.description}</p>
-        <p class="price">
-          {product.price !== null ? money(product.price) : fromPrice(product.referenceFrom)}
-        </p>
-        <p class="caption">Price in EUR, confirmed with your order.</p>
+        <p class="made-note">Hand-built in Zlín, Czech Republic</p>
+        <p class="price" data-wheel-price>{fromPrice(wheelFromPrice(product))}</p>
+        <PriceNote />
         <hr />
-        <form class="wheel-form" data-wheel-form={product.id}>
+        <form class="wheel-form" data-wheel-form={product.id} data-wheel={JSON.stringify({ brakes: product.brakes.map((b) => ({ id: b.id, price: b.price })), tubelessPrice: product.tubelessPrice })}>
+          {
+            product.brakes.length > 1 && (
+              <fieldset>
+                <legend>Brake type</legend>
+                <div class="option-grid">
+                  {product.brakes.map((b, i) => (
+                    <label class="option">
+                      <input type="radio" name="brake" value={b.id} checked={i === 0} />
+                      <span class="option-title">{b.label}</span>
+                      <span class="option-meta"><Price amount={b.price} /></span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            )
+          }
+          {product.brakes.length === 1 && <input type="hidden" name="brake" value={product.brakes[0].id} />}
           <fieldset>
             <legend>Freehub body</legend>
-            <div class="option-grid">
+            <div class="option-grid two">
               {product.freehubs.map((f, i) => (
                 <label class="option">
-                  <input
-                    type="radio"
-                    name="freehub"
-                    value={f.id}
-                    checked={i === 0}
-                  />
+                  <input type="radio" name="freehub" value={f.id} checked={i === 0} />
                   <span class="option-title">{f.label}</span>
                 </label>
               ))}
             </div>
-            <p class="caption">
-              Variant price differences and stock are confirmed with your
-              inquiry.
-            </p>
           </fieldset>
-          <div class="availability">
-            <StatusBadge status={product.inventoryStatus} />
-            <p class="caption">{product.availability}</p>
-          </div>
-          <button class="button full" type="submit">
-            Add to bag <span aria-hidden="true">↗</span>
-          </button>
+          {
+            product.tubelessPrice !== null && (
+              <fieldset>
+                <legend>Tyre setup</legend>
+                <div class="option-grid">
+                  <label class="option">
+                    <input type="radio" name="tubeless" value="std" checked />
+                    <span class="option-title">Standard</span>
+                    <span class="option-meta">For tubes</span>
+                  </label>
+                  <label class="option">
+                    <input type="radio" name="tubeless" value="tl" />
+                    <span class="option-title">Tubeless setup</span>
+                    <span class="option-meta">Tape and valves fitted · +<Price amount={product.tubelessPrice} /></span>
+                  </label>
+                </div>
+              </fieldset>
+            )
+          }
+          {product.brakes.map((b, i) => (
+            <div class="availability" data-brake-panel={b.id} hidden={i > 0}>
+              <StatusBadge status={b.inventoryStatus} />
+              <p class="caption">{b.availability}</p>
+            </div>
+          ))}
+          <button class="button full" type="submit">Add to bag</button>
           <p class="status" role="status" data-status></p>
-          <a class="text-link view-bag" href={url("cart/")} hidden data-view-bag
-            >Review your bag</a
-          >
+          <a class="text-link view-bag" href={url("cart/")} hidden data-view-bag>Review your bag</a>
         </form>
         <hr />
         <h2 class="spec-title">Specifications</h2>
-        <dl class="specs">
-          <div><dt>Intended use</dt><dd>{product.intendedUse}</dd></div>
-          {Object.entries(product.specs).map(([key, value]) => (
-            <div>
-              <dt>{key}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-        <a class="text-link" href={product.source} rel="noopener">
-          Manufacturer specification ↗
-        </a>
+        {product.brakes.map((b, i) => (
+          <dl class="specs" data-brake-panel={b.id} hidden={i > 0}>
+            <div><dt>Intended use</dt><dd>{product.intendedUse}</dd></div>
+            {Object.entries({ ...product.specs, ...b.specs }).map(([key, value]) => (
+              <div>
+                <dt>{key}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        ))}
       </div>
     </div>
   </div>
@@ -114,25 +135,57 @@ const verified = new Date(product.verified).toLocaleDateString("en-GB", {
 
 <script>
   import { addToCart } from "../../lib/storage";
+  import { money } from "../../lib/catalog";
+  import { encodeWheelBuild } from "../../data/wheels/catalog";
   const form = document.querySelector<HTMLFormElement>("[data-wheel-form]");
-  form?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const status = form.querySelector<HTMLElement>("[data-status]")!;
-    const freehub = new FormData(form).get("freehub");
-    try {
-      addToCart({
-        productId: form.dataset.wheelForm!,
-        buildId: String(freehub),
-        size: "",
-      });
-      status.textContent =
-        "Added to your bag. Price and availability are confirmed with your inquiry.";
-      status.classList.remove("error");
-      form.querySelector<HTMLElement>("[data-view-bag]")!.hidden = false;
-    } catch (e) {
-      status.textContent =
-        e instanceof Error ? e.message : "Unable to save your bag.";
-      status.classList.add("error");
-    }
-  });
+  if (form) {
+    const cfg = JSON.parse(form.dataset.wheel!) as {
+      brakes: { id: string; price: number | null }[];
+      tubelessPrice: number | null;
+    };
+    const priceEl = document.querySelector<HTMLElement>("[data-wheel-price]")!;
+    const value = (n: string) => String(new FormData(form).get(n) ?? "");
+    const render = () => {
+      const brake = cfg.brakes.find((b) => b.id === value("brake")) ?? cfg.brakes[0];
+      const tl = value("tubeless") === "tl";
+      priceEl.textContent = money(
+        brake.price === null ? null : brake.price + (tl ? (cfg.tubelessPrice ?? 0) : 0),
+      );
+      document
+        .querySelectorAll<HTMLElement>("[data-brake-panel]")
+        .forEach((el) => (el.hidden = el.dataset.brakePanel !== brake.id));
+    };
+    render();
+    form.addEventListener("change", render);
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const status = form.querySelector<HTMLElement>("[data-status]")!;
+      try {
+        addToCart({
+          productId: form.dataset.wheelForm!,
+          buildId: encodeWheelBuild(value("brake"), value("freehub"), value("tubeless") === "tl"),
+          size: "",
+        });
+        status.textContent = "Added to your bag.";
+        status.classList.remove("error");
+        form.querySelector<HTMLElement>("[data-view-bag]")!.hidden = false;
+      } catch (e) {
+        status.textContent = e instanceof Error ? e.message : "Unable to save your bag.";
+        status.classList.add("error");
+      }
+    });
+  }
 </script>
+
+<style>
+  .made-note {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #171717;
+    border: 1px solid #ddd;
+    padding: 6px 10px;
+    margin-bottom: 16px;
+  }
+</style>

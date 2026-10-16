@@ -12,4 +12,17 @@ export const site = {
    * Empty = forms open the visitor's email app instead.
    */
   formspreeId: "",
+  /**
+   * Display currencies. Catalogue prices are EUR (Equator's list prices);
+   * other currencies are converted at the rates below and rounded to 10.
+   * Update the rates (ECB euro reference rates) when needed.
+   */
+  currencies: {
+    EUR: 1,
+    DKK: 7.475,
+    SEK: 11.1765,
+    NOK: 10.652,
+  },
+  ratesDate: "15 October 2026",
+  ratesSource: "European Central Bank reference rates",
 };

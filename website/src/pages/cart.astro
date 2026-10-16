@@ -1,4 +1,5 @@
 ---
+import PriceNote from "../components/PriceNote.astro";
 import Layout from "../layouts/Layout.astro";
 import { url } from "../lib/urls";
 ---
@@ -22,7 +23,7 @@ import { url } from "../lib/urls";
         Explore a bicycle, choose your factory build and add it to your bag.
       </p>
       <a class="button" href={url("bikes/")}>
-        Explore bikes ↗
+        Explore bikes
       </a>
     </div>
     <div id="cart-summary" hidden>
@@ -34,13 +35,10 @@ import { url } from "../lib/urls";
           <p class="muted" id="cart-unknown"></p>
         </div>
         <a class="button" href={url("inquiry/")}>
-          Request your order ↗
+          Request your order
         </a>
       </div>
-      <p style="font-size:12px">
-        Prices in EUR. Delivery, final price and availability are confirmed
-        with you in writing before you order.
-      </p>
+      <PriceNote />
     </div>
     <a class="text-link" href={url("bikes/")} style="margin-top:30px">
       Continue exploring

@@ -1,0 +1,10 @@
+---
+/**
+ * A price rendered in EUR at build time and re-rendered in the visitor's
+ * chosen currency by the script in Layout.astro (data-eur = EUR minor units).
+ */
+import { fromPrice, money } from "../lib/catalog";
+const { amount, prefix } = Astro.props as { amount: number | null; prefix?: string };
+---
+
+<span data-eur={amount ?? ""} data-prefix={prefix}>{prefix ? fromPrice(amount, prefix) : money(amount, "EUR")}</span>

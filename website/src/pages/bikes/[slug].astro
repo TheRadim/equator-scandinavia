@@ -1,4 +1,5 @@
 ---
+import Price from "../../components/Price.astro";
 import Layout from "../../layouts/Layout.astro";
 import Configurator from "../../components/Configurator.astro";
 import Gallery from "../../components/Gallery.astro";
@@ -59,7 +60,7 @@ const geometrySource = product.builds[0].source;
         <p class="eyebrow">{product.category} / Titanium</p>
         <h1>{product.name}</h1>
         <p class="lead">{product.description}</p>
-        <p class="price">{fromPrice(from)}</p>
+        <p class="price"><Price amount={from} prefix="From" /></p>
         <div class="availability">
           <StatusBadge status={product.inventoryStatus} />
           <p class="caption">
@@ -167,7 +168,7 @@ const geometrySource = product.builds[0].source;
                   {(b.components ?? "").split("·").map((c) => c.trim()).filter(Boolean).map((c) => (
                     <div><dt>Component</dt><dd>{c}</dd></div>
                   ))}
-                  <div><dt>Price</dt><dd>{money(b.price)}</dd></div>
+                  <div><dt>Price</dt><dd><Price amount={b.price} /></dd></div>
                 </dl>
               </div>
             ))}
@@ -241,14 +242,15 @@ const geometrySource = product.builds[0].source;
     order: 2;
   }
   .feature :global(.feature-img) {
+    display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 4/3;
-    object-fit: cover;
-    background: #f7f7f7;
   }
   .feature :global(.feature-img.portrait) {
-    object-fit: cover;
+    width: auto;
+    max-width: 100%;
+    max-height: 720px;
+    margin-inline: auto;
   }
   .feature-copy h3,
   .feature-card h3 {

@@ -1,9 +1,10 @@
 ---
+import Price from "./Price.astro";
 import ProductVisual from "./ProductVisual.astro";
 import StatusBadge from "./StatusBadge.astro";
 import { url } from "../lib/urls";
 import { money, fromPrice } from "../lib/catalog";
-import type { Wheel } from "../data/wheels/catalog";
+import { wheelFromPrice, type Wheel } from "../data/wheels/catalog";
 const { wheel } = Astro.props as { wheel: Wheel };
 const href = url(`wheels/${wheel.slug}/`);
 ---
@@ -16,12 +17,12 @@ const href = url(`wheels/${wheel.slug}/`);
       label={wheel.depthLabel}
       sublabel="mm rim depth"
     />
-    <h3>{wheel.name} <span aria-hidden="true" style="float:right">↗</span></h3>
+    <h3>{wheel.name}</h3>
   </a>
   <span class="meta muted">{wheel.intendedUse}</span>
   <p style="margin:14px 0 8px">{wheel.description}</p>
   <p class="card-price">
-    {wheel.price !== null ? money(wheel.price) : fromPrice(wheel.referenceFrom)}
+    {wheel.brakes.length > 1 ? <Price amount={wheelFromPrice(wheel)} prefix="From" /> : <Price amount={wheel.price} />}
   </p>
   <StatusBadge status={wheel.inventoryStatus} />
   <div><a class="text-link" href={href}>View wheelset</a></div>

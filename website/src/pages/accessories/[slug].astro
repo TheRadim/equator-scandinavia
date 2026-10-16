@@ -1,4 +1,5 @@
 ---
+import Price from "../../components/Price.astro";
 import Layout from "../../layouts/Layout.astro";
 import Gallery from "../../components/Gallery.astro";
 import StatusBadge from "../../components/StatusBadge.astro";
@@ -36,7 +37,7 @@ const hasChoice = product.options.length > 1;
         <p class="eyebrow">{product.category}</p>
         <h1>{product.name}</h1>
         <p class="lead">{product.description}</p>
-        <p class="price">{money(product.price)}</p>
+        <p class="price"><Price amount={product.price} /></p>
         <hr />
         <form data-option-form={product.id}>
           {
@@ -61,7 +62,7 @@ const hasChoice = product.options.length > 1;
             <p class="caption">{product.availability}</p>
           </div>
           <button class="button full" type="submit">
-            Add to bag <span aria-hidden="true">↗</span>
+            Add to bag
           </button>
           <p class="status" role="status" data-status></p>
           <a class="text-link" href={url("cart/")} hidden data-view-bag>Review your bag</a>

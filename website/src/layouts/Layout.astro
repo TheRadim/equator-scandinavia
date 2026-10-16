@@ -2,6 +2,7 @@
 import "@fontsource-variable/inter";
 import "../styles/global.css";
 import { url } from "../lib/urls";
+import CurrencySwitch from "../components/CurrencySwitch.astro";
 import { allowIndexing, representativeEmail } from "../lib/config";
 const {
   title = "Titanium bicycles for the road ahead",
@@ -54,7 +55,8 @@ const links = [
     <a class="skip" href="#main">
       Skip to content
     </a>
-    <header class="wrap site-header">
+    <header class="site-header-shell">
+    <div class="wrap site-header">
       <a href={url()} aria-label="Equator home">
         <img src={url("logo.svg")} width="143" height="28" alt="Equator" />
       </a>
@@ -65,6 +67,7 @@ const links = [
       </nav>
       <div class="header-actions">
         <a href={url("contact/")}>Contact</a>
+        <CurrencySwitch id="currency-desktop" />
         <a href={url("cart/")} class="bag-link">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
           <span class="visually-hidden">Bag, items:</span>
@@ -78,9 +81,14 @@ const links = [
             {[...links, ["Contact", "contact/"]].map(([label, path]) => (
               <a href={url(path)}>{label}</a>
             ))}
+            <div class="drawer-currency">
+              <span>Currency</span>
+              <CurrencySwitch id="currency-mobile" />
+            </div>
           </div>
         </details>
       </div>
+    </div>
     </header>
     <main id="main">
       <slot />
@@ -97,7 +105,7 @@ const links = [
                 alt="Equator"
               />
             </a>
-            <p style="max-width:260px;font-size:14px;margin-top:25px">
+            <p style="max-width:260px;font-size:14px;margin-top:12px">
               Titanium bicycles.
               <br />A different way forward.
             </p>
@@ -144,6 +152,27 @@ const links = [
 
 <script>
   import { updateCount } from "../lib/storage";
+  import { activeCurrency, currencyKey, fromPrice, money } from "../lib/catalog";
+  // Show build-time EUR prices in the visitor's chosen currency.
+  const currency = activeCurrency();
+  if (currency !== "EUR")
+    document.querySelectorAll<HTMLElement>("[data-fx-note]").forEach((el) => (el.hidden = false));
+  if (currency !== "EUR")
+    document.querySelectorAll<HTMLElement>("[data-eur]").forEach((el) => {
+      const amount = el.dataset.eur === "" ? null : Number(el.dataset.eur);
+      el.textContent = el.dataset.prefix ? fromPrice(amount, el.dataset.prefix) : money(amount);
+    });
+  document.querySelectorAll<HTMLSelectElement>("[data-currency-switch]").forEach((select) => {
+    select.value = currency;
+    select.addEventListener("change", () => {
+      try {
+        localStorage.setItem(currencyKey, select.value);
+      } catch {
+        /* storage unavailable: keep EUR */
+      }
+      location.reload();
+    });
+  });
   updateCount();
   window.addEventListener("cartchange", updateCount);
   window.addEventListener("storage", updateCount);

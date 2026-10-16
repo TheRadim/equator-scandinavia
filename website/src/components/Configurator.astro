@@ -1,4 +1,6 @@
 ---
+import PriceNote from "./PriceNote.astro";
+import Price from "./Price.astro";
 /**
  * Step-by-step bicycle configurator. Only the manufacturer's factory builds
  * are selectable, so every combination offered is a verified one. Wheels and
@@ -29,7 +31,7 @@ const wheelLinks = Object.fromEntries(
             <input type="radio" name="type" value="complete" checked />
             <span class="option-title">Complete bicycle</span>
             <span class="option-meta">
-              {fromPrice(Number.isFinite(fromComplete) ? fromComplete : null)}
+              <Price amount={Number.isFinite(fromComplete) ? fromComplete : null} prefix="From" />
             </span>
           </label>
         )
@@ -44,7 +46,7 @@ const wheelLinks = Object.fromEntries(
               checked={completes.length === 0}
             />
             <span class="option-title">Frameset only</span>
-            <span class="option-meta">{money(frame.price)}</span>
+            <span class="option-meta"><Price amount={frame.price} /></span>
           </label>
         )
       }
@@ -75,7 +77,7 @@ const wheelLinks = Object.fromEntries(
             <input type="radio" name="build" value={b.id} checked={i === 0} />
             <span class="option-row">
               <span class="option-title">{b.groupset ?? b.label}</span>
-              <span class="option-meta">{money(b.price)}</span>
+              <span class="option-meta"><Price amount={b.price} /></span>
             </span>
           </label>
         ))
@@ -124,14 +126,11 @@ const wheelLinks = Object.fromEntries(
       <span>Estimated total</span>
       <span class="price" data-price></span>
     </div>
-    <p class="caption">
-      Price in EUR. We confirm your build —
-      price, availability and delivery — before any payment.
-    </p>
+    <PriceNote text="We confirm your build — price, availability and delivery — before any payment." />
   </section>
 
   <button class="button full" type="submit">
-    Add to bag <span aria-hidden="true">↗</span>
+    Add to bag
   </button>
   <p class="status" data-status role="status"></p>
   <a class="text-link small" href={url("cart/")} data-view-bag hidden>Review your bag</a>

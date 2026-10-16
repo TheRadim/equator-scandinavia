@@ -1,4 +1,5 @@
 ---
+import Price from "./Price.astro";
 import { url } from "../lib/urls";
 import Photo from "./Photo.astro";
 import { fromPrice } from "../lib/catalog";
@@ -21,13 +22,13 @@ const href = url(`bikes/${product.slug}/`);
     />
     <h3>
       {product.name}
-      <span aria-hidden="true" style="float:right">↗</span>
+     
     </h3>
   </a>
   <span class="meta muted">{product.category}</span>
   <p style="margin:14px 0 8px">{product.description}</p>
   <p class="card-price">
-    {fromPrice(from, "Frameset from")}
+    <Price amount={from} prefix="Frameset from" />
   </p>
   <a class="text-link" href={href}>View bike</a>
 </article>

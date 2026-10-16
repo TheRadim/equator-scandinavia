@@ -15,6 +15,8 @@ These texts replaced the old "prototype / approval pending" notes. They make no 
 - [ ] **Footer**: "© 2026 Equator Scandinavia · Representing Equator Cycling, Czech Republic". → OK to say "representing"? Is there a written agreement with Equator?
 
 ## Answer / set up
+- [ ] **Currency rates**: DKK/SEK/NOK are converted from Equator's EUR prices at ECB rates of 15 Oct 2026 (DKK 7.475, SEK 11.1765, NOK 10.652), rounded to 10. Decide your own price policy (fixed kroner prices? margin? VAT?) and update `website/src/data/site.ts`.
+- [ ] **Wheel range**: added 50C Carbon (disc €988 / rim €867), Wide 50C (€1,069), 35C (restocking, CZK price only) and 45T tubular (€847). Confirm with Equator these are current models, and the 45T rider weight limit (150 vs 105 kg).
 - [ ] **Formspree**: create a free account at formspree.io with hi@radim-theiner.com, create a form, send the form ID (e.g. `xyzabcde`). Until then forms open the visitor's email app.
 - [ ] **Prices**: Equator's EUR prices are shown. Are they incl. Czech VAT? Should Scandinavian customers see these, DKK/SEK/NOK, or no prices (dealer model)? Prices can be switched off site-wide with `PUBLIC_SHOW_PRICES=false`.
 - [ ] **Prices for parts listed only in CZK** (seatposts, stem, spacers) — ask Equator for EUR prices; currently "Price on request".

@@ -76,7 +76,6 @@ const endpoint =
   }
   <button class="button full" type="submit" disabled>
     <span data-label>{submitLabel}</span>
-    <span aria-hidden="true">↗</span>
   </button>
   <p class="caption form-foot">
     {kind === "order"
@@ -91,7 +90,7 @@ const endpoint =
 
 <script>
   import { readCart, writeCart } from "../lib/storage";
-  import { money, resolve, totalLabel, totals } from "../lib/catalog";
+  import { activeCurrency, money, resolve, totalLabel, totals } from "../lib/catalog";
   import { url } from "../lib/urls";
 
   const form = document.querySelector<HTMLFormElement>("[data-inquiry]");
@@ -163,6 +162,9 @@ const endpoint =
                 `${l.quantity} × ${l.name} — ${l.description} — ${money(l.price)} [${l.ids.productId}/${l.ids.buildId}${l.ids.size ? "/" + l.ids.size : ""}]`,
             ),
             `Estimated total: ${totalLabel(total)}`,
+            ...(activeCurrency() !== "EUR"
+              ? [`Shown to the customer in ${activeCurrency()}; EUR subtotal of priced items: ${money(total.subtotal, "EUR")}`]
+              : []),
           ].join("\n")
         : "";
       const reference = makeReference();

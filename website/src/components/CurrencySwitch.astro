@@ -1,0 +1,17 @@
+---
+import { currencyCodes, pricesVisible } from "../lib/catalog";
+const { id } = Astro.props as { id: string };
+---
+
+{
+  pricesVisible && (
+    <label class="currency-switch" for={id}>
+      <span class="visually-hidden">Currency</span>
+      <select id={id} data-currency-switch>
+        {currencyCodes.map((c) => (
+          <option value={c}>{c}</option>
+        ))}
+      </select>
+    </label>
+  )
+}

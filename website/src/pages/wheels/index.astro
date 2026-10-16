@@ -9,8 +9,9 @@ import { url } from "../../lib/urls";
   <div class="wrap section">
     <p class="eyebrow">Carbon collection</p>
     <h1>Keep moving.</h1>
-    <p>
-      A considered selection for road, gravel and the race against the clock.
+    <p class="intro">
+      Carbon wheels for road, gravel and the race against the clock — built by
+      hand in Zlín, Czech Republic.
     </p>
     <div class="filters" role="group" aria-label="Wheel category">
       {[{ id: "All", label: "All" }, ...wheelCategories].map((c, i) => (
@@ -28,6 +29,23 @@ import { url } from "../../lib/urls";
     <div class="grid3">
       {wheels.map((w) => <WheelCard wheel={w} />)}
     </div>
+    <section class="made-in" aria-labelledby="made-in-title">
+      <div>
+        <p class="eyebrow">Built in the EU</p>
+        <h2 id="made-in-title">Hand-built in Zlín.</h2>
+      </div>
+      <div>
+        <p>
+          Equator sources rims, hubs and spokes from specialist suppliers
+          worldwide. Every wheel is then assembled, tested and finished by hand
+          in Equator's workshop in Zlín, Czech Republic.
+        </p>
+        <p>
+          The details are chosen to last: Sapim CX-Ray spokes, brass nipples,
+          Enduro sealed bearings and Toray T700/T800 carbon rims.
+        </p>
+      </div>
+    </section>
     <div class="empty" id="no-wheels" hidden>
       <h2 class="h3">Let’s find the right wheelset.</h2>
       <p>
@@ -35,7 +53,7 @@ import { url } from "../../lib/urls";
         assumed.
       </p>
       <a class="text-link" href={url("contact/")}>
-        Discuss your riding ↗
+        Discuss your riding
       </a>
     </div>
   </div>
@@ -71,6 +89,31 @@ import { url } from "../../lib/urls";
       ?.click();
 </script>
 <style>
+  .intro {
+    max-width: 560px;
+  }
+  .made-in {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: 64px;
+    margin-top: 88px;
+    padding: 56px;
+    background: #f7f7f7;
+  }
+  .made-in h2 {
+    font-size: clamp(1.9rem, 3.4vw, 3rem);
+  }
+  .made-in p {
+    max-width: 560px;
+  }
+  @media (max-width: 767px) {
+    .made-in {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 28px 22px;
+      margin-top: 56px;
+    }
+  }
   .filters {
     display: flex;
     gap: 0;

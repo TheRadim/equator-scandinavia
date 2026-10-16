@@ -28,3 +28,9 @@
 - Accessories published although all are restocking at Equator, labelled "Restocking"; CZK-only prices shown as "Price on request" (no FX).
 - Geometry published as Equator lists it, including sizes not currently offered (greyed); suspicious values flagged with * pending Equator confirmation.
 - Size finder uses Equator's rider-height ranges; inseam ≥ 47% of height picks the larger of two overlapping sizes. Always followed by "we'll confirm your size".
+
+2026-10-16 (owner direction, cont.):
+- Currency switch EUR/DKK/SEK/NOK (owner asked for EUR, DKK, NOK; SEK added for Sweden). Conversion from EUR list prices at ECB reference rates stored in website/src/data/site.ts, rounded to 10, with a visible note; final price confirmed in the order confirmation. The representative's email includes the EUR subtotal.
+- Wheel variants are specs, not products: brake type (disc/rim), freehub and tubeless setup (+€32). Equator's second listed price per wheel equals the tubeless option (stated on the 50C Disc page; 50C rim €867/€899 matches).
+- Added current road wheels 50C (disc/rim), Wide 50C, 35C, 45T tubular. Equator states wheels are assembled and tested by hand in Zlín (Wavy 50C, 50C Disc, TT 88C pages); shown site-wide.
+- Removed arrow glyphs from links/buttons; full-width sticky header; compact footer.

@@ -1,4 +1,5 @@
 ---
+import PriceNote from "../components/PriceNote.astro";
 import Layout from "../layouts/Layout.astro";
 import InquiryForm from "../components/InquiryForm.astro";
 import { url } from "../lib/urls";
@@ -25,12 +26,9 @@ import { url } from "../lib/urls";
         <h2>Your selection</h2>
         <div id="inquiry-lines"></div>
         <p id="inquiry-total" class="price"></p>
-        <p class="caption">
-          Prices in EUR. Delivery and final price are confirmed with you in
-          writing before you order.
-        </p>
+        <PriceNote />
         <a class="text-link" href={url("cart/")}>
-          Edit your bag ↗
+          Edit your bag
         </a>
       </aside>
     </div>

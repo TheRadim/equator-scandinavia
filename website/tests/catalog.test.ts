@@ -30,8 +30,8 @@ test("cart identity preserves different configurations and aggregates same selec
 });
 test("unknown price is not a free item", () => {
   const lines = addLine(addLine([], choice), {
-    productId: "wavy-35",
-    buildId: "inquiry",
+    productId: "carbon-35",
+    buildId: "disc:shimano-hg:std",
     size: "",
   });
   assert.deepEqual(totals(lines), { subtotal: 604400, unknown: true });
@@ -72,7 +72,7 @@ test("catalog metadata validates and holds never become visible", () => {
 test("wheel freehub must be a listed option; legacy inquiry lines still resolve", () => {
   const ok = resolve({ productId: "wavy-50", buildId: "sram-xdr", size: "" });
   assert.match(ok.description, /SRAM XDR/);
-  assert.equal(ok.price, null);
+  assert.equal(ok.price, 141100);
   assert.throws(() =>
     resolve({ productId: "wavy-50", buildId: "made-up", size: "" }),
   );
@@ -117,4 +117,22 @@ test("accessory lines need a listed option; CZK-only parts are price on request"
 });
 test("every bike has a photo gallery", () => {
   for (const b of allBikes) assert.ok(b.images.length >= 4, b.id);
+});
+
+test("wheel brake type and tubeless are specs of one product", () => {
+  const rim = resolve({ productId: "carbon-50", buildId: "rim:campagnolo:std", size: "" });
+  assert.equal(rim.price, 86700);
+  assert.match(rim.description, /Rim brake/);
+  const discTl = resolve({ productId: "carbon-50", buildId: "disc:sram-xdr:tl", size: "" });
+  assert.equal(discTl.price, 98800 + 3200);
+  assert.throws(() => resolve({ productId: "wavy-50", buildId: "rim:sram-xdr:std", size: "" }));
+  assert.throws(() => resolve({ productId: "tubular-45", buildId: "disc:sram-xdr:tl", size: "" }));
+});
+
+import { money } from "../src/lib/catalog.ts";
+test("currency conversion uses the configured rates and rounds to 10", () => {
+  assert.equal(money(241500, "EUR"), "€2,415");
+  assert.equal(money(241500, "DKK"), "DKK 18,050");
+  assert.equal(money(241500, "NOK"), "NOK 25,720");
+  assert.equal(money(null, "SEK"), "Price on request");
 });

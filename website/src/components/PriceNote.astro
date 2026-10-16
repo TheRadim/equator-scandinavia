@@ -1,0 +1,12 @@
+---
+/** Standard price note; mentions conversion when a non-EUR currency is chosen. */
+import { site } from "../data/site";
+const { text = "We confirm price, availability and delivery with you in writing before you order." } = Astro.props as { text?: string };
+---
+
+<p class="caption price-note">
+  <span data-fx-note hidden>
+    Converted from Equator's EUR prices at {site.ratesSource} of {site.ratesDate}, rounded.
+  </span>
+  {text}
+</p>
