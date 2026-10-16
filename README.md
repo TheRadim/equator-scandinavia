@@ -37,6 +37,17 @@ The validator is a local, read-only preflight. It validates stable IDs, required
 
 The first Scandinavian run is imported and verified. Start with the scored shortlist filter in Sheets; broad discovery rows remain unverified. Next, deepen Danish/Swedish qualification and resolve missing locations and ambiguous identities. See [dealer discovery](docs/dealer-discovery.md) for repeatable commands, reports, evidence requirements and source limits.
 
-## Website prototype
+## Website
 
-The premium storefront prototype is a separate workstream. Start with [PROJECT_STATUS.md](PROJECT_STATUS.md), [architecture](ARCHITECTURE.md), [product sources](PRODUCT_DATA.md) and [website decisions](DECISIONS.md). Production inquiry delivery and publication are deferred; the operational Sheets tooling remains independent.
+The storefront is a separate workstream in `website/` (Astro, static) with an inquiry endpoint in `worker/` (Cloudflare Worker). Start with [PROJECT_STATUS.md](PROJECT_STATUS.md), [architecture](ARCHITECTURE.md), [product sources](PRODUCT_DATA.md) and [website decisions](DECISIONS.md).
+
+```sh
+cd website && npm ci
+npm run dev        # http://127.0.0.1:4321/equator-scandinavia/
+npm test           # catalog, cart and image checks
+npm run build      # astro check + static build into website/dist
+npm run images     # regenerate WebP variants after adding photos
+cd ../worker && npm test   # inquiry endpoint tests (no install needed)
+```
+
+Inquiries run in demo mode until `PUBLIC_INQUIRY_ENDPOINT` is set at build time (see `website/.env.example` and `worker/README.md`). Publication to GitHub Pages and live inquiry delivery each require an explicit go-ahead; the operational Sheets tooling remains independent.

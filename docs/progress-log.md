@@ -111,3 +111,12 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 ## 2026-10-16 — Website milestone 8
 
 - Added About, privacy/terms/support notices, FAQ, storage information and 404. All policies explicitly remain prototype guidance, with no invented warranty or delivery terms. Added canonical/OG metadata, sitemap and noindex/robots exclusion. Twenty-one pages build with no type errors.
+
+## 2026-10-16 — Continuation session (Claude, Cowork)
+
+- Committed Codex's uncommitted QA work after verifying build and tests.
+- Wheels: four current wheelsets across Road/Gravel/TT with freehub selection; detail pages with full specs and dated availability.
+- Configurator rebuilt as six-step option tiles with review panel; gallery component; sticky header with icon bag/menu; Inter typeface; product card prices; homepage featured wheels + brand story; dedicated About page.
+- Inquiry Worker (Cloudflare + Resend + Turnstile) implemented with 8 tests; client live/demo modes; end-to-end tested locally against the Worker handler (success clears bag, provider failure keeps bag).
+- Responsive WebP pipeline; axe-core 0 violations on 13 routes; no overflow at 375–1920 px.
+- GitHub push not possible from this session (no credentials in either shell); commits are local on codex/website-prototype.

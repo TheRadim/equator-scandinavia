@@ -16,7 +16,16 @@ Verified factory pairings: Sensei GRX 2x12 with DT Swiss G540/Equator hubs; Sens
 
 ## Wheels and accessories
 
-[Wheel catalog](https://www.equator-cycling.com/en/zapletena-kola-equator/): Wavy 35C and 50C are listed in stock, from EUR 1,411. Gravel Ultimate 40C is custom order, from EUR 1,310. TT 88C lists expected November 2026 stock, from EUR 988: hold for review. No claim that all freehub variants are available. Do not use listing presence alone as current-generation confirmation.
+[Wheel catalog](https://www.equator-cycling.com/en/zapletena-kola-equator/) re-checked 2026-10-16. Published (all disc, Centre Lock, Sapim CX-Ray 24/24, 12×100/12×142, freehubs Shimano 11–12 / Microspline / SRAM XDR / Campagnolo 9–12):
+
+| Wheelset | Category | Status observed | From (EUR) | Key specs | Source |
+| --- | --- | --- | --- | --- | --- |
+| Wavy 35C | Road | In stock | 1,411 | 21/28 mm, hooked TLR; depth 35 (name) vs 50 mm (dimension line) and 1,380 vs 1,480 g conflict | [page](https://www.equator-cycling.com/en/set-karbonovych-kol-equator-wavy-35c-disk/) |
+| Wavy 50C | Road | In stock | 1,411 | 50 mm, 21/28 mm, 1,480 g, 125 kg, min 25 mm tyre | [page](https://www.equator-cycling.com/en/equator-wavy-50c-disk/) |
+| Gravel Ultimate 40C | Gravel | Custom production | 1,310 | 40 mm, 25/28 mm hookless TLR, 1,310 g, 110 kg, min 36 mm tyre | [page](https://www.equator-cycling.com/en/set-karbonovych-kol-equator-gravel-40c-disk-ultimate/) |
+| TT 88C | TT | Out of stock, expected Nov 2026 | 988 | 88 mm, 19/27 mm, 1,980 g, 115 kg, 100 mm valves, assembled in Zlín | [page](https://www.equator-cycling.com/en/set-karbonovych-kol-equator-88c-disk/) |
+
+Variant prices (€1,411 / €1,443 on Wavy pages) do not map clearly to freehubs, so the site shows "From" references and "Price on request" in the cart. Tubeless setup is a CZK-priced add-on (+790 CZK) — not offered on the site. Held: Equator 40C Disc (older gravel, restock Nov 2026), Wide 50C Disc, 50C Disc, 50C rim brake, 45T Disc (earlier generation), TT rear disc (custom), MTB wheels (out of scope). The Yasei Force XPLR spec says "Equator Gravel 40C" without naming which 40C model.
 
 [Accessories](https://www.equator-cycling.com/en/equator-titanium/): Adventure and Gravel forks EUR 363, bottle cage EUR 77; English pages say unavailable while Czech pages say expected soon. Hold these products from the active catalog. Adventure fork copy conflicts on clearance and steerer length: do not publish those disputed values.
 

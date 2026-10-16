@@ -1,37 +1,38 @@
 # Equator Scandinavia website status
 
-Updated: 2026-10-16.
+Updated: 2026-10-16 (continuation session, Claude in Cowork).
 
 ## Objective and scope
-Build a premium Astro bicycle storefront prototype with three bicycle families, verified factory configuration, persistent cart and explicitly simulated inquiry checkout. User clarified that this is not a final commercial product. No real customer data delivery, payments or public deployment in the current prototype stage.
+Premium Astro storefront for Equator titanium bicycles and carbon wheels in Scandinavia: three bicycle families with a verified factory-build configurator, curated wheels, persistent cart and inquiry-based checkout (no payments). Earlier user clarification: prototype stage — no real customer-data delivery or public deployment without explicit approval. The inquiry endpoint is now implemented but **not deployed**; the site defaults to demo mode.
 
 ## Milestones
-0. Research and architecture — complete, with confirmation items recorded in PRODUCT_DATA.md.
-1. Foundation — complete; build/type-check passed.
-2. Homepage/layout — complete; static build passes.
-3. Catalog — complete for prototype: three bikes, one wheel reference, unavailable accessories held.
-4. Configurator — complete; factory bundles, dynamic reference pricing and saved selections.
-5. Cart — complete; persistent line identities, quantity/removal, unknown-price totals.
-6. Demo inquiry — complete; no network submission or saved customer details; live integration deferred.
-7. Inventory/publication controls — complete; explicit statuses, holds and manual review guide.
-8. Support pages — complete as prototype notices; no final legal promises.
-9. QA — in progress.
-10. Production deployment — deferred by prototype scope.
+0. Research and architecture — complete (PRODUCT_DATA.md, ARCHITECTURE.md).
+1. Foundation — complete.
+2. Homepage/layout — complete; sticky header, icon bag/menu, Inter typeface, featured bikes + wheels, titanium and brand story.
+3. Catalog — complete: 3 bikes, 4 wheelsets (Road/Gravel/TT), accessories held (honest empty state).
+4. Configurator — complete: 6 steps (build type, size, groupset, included wheelset, included components, review), option tiles, size validation, saved selection.
+5. Cart — complete: id-based lines, quantities, removal, wheel freehub lines, unknown-price totals.
+6. Inquiry system — complete in code: `worker/` (Cloudflare Worker + Resend + Turnstile, KV idempotency/rate limit, server pricing) + live/demo client. Not deployed; needs credentials and approvals.
+7. Inventory/publication — complete: statuses, dated observations, holds, manual process.
+8. Supporting pages — complete; dedicated About page; policies remain clearly marked prototype notices pending approval.
+9. QA — complete for this stage: 11 site tests + 8 worker tests, astro check 0 errors, Playwright sweep 375/768/1024/1440/1920 (no overflow, no console errors), axe-core 0 violations on 13 routes, end-to-end live inquiry tested locally against the Worker handler.
+10. Production deployment — blocked: needs (a) GitHub token with `workflow` scope to install workflows, (b) Pages enabled, (c) explicit publication approval.
 
-## Completed
-Inspected repository and workspace links; authenticated GitHub CLI verified private remote. Reviewed official product selectors, factory bundles, prices, image sources, policies and robots rules. Architecture and product source register documented. Logo exists at /Users/radimtheiner/Desktop/logo-equator-black.svg.
+## Git / push status
+Branch `codex/website-prototype` (remote `origin` = github.com/TheRadim/equator-scandinavia, private). This branch has **never been pushed**: Codex's push was blocked by missing `workflow` scope, and the Claude session had no GitHub credentials in either shell. All commits are local in `/Users/radimtheiner/Coding/Webs/Equator`. To push: `git push -u origin codex/website-prototype` from a terminal where GitHub is authenticated.
 
-## Open decisions and credentials
-Production requires approved legal operator/data controller, privacy and commercial terms, pricing, current stock/compatibility confirmation, authorized sender domain, recipient, email API secret and spam-protection configuration. No such credentials are required for the local demo. Image use permission is confirmed.
+## Required credentials / decisions before live inquiries
+Resend API key + verified sending domain; representative inbox (`INQUIRY_RECIPIENT`); Turnstile site key + secret; Cloudflare account + KV namespace; legal operator / data controller; final privacy policy, terms, cookie text; approved Scandinavian pricing policy (currently EUR manufacturer references). Details: worker/README.md.
 
 ## Known limitations
-Astro foundation builds successfully. Manufacturer language variants and older search results disagree; use direct model pages. Product availability is a dated observation. GitHub Pages API returned 404; Pages is not verified configured. Drive/Sheets access was not exercised or assumed.
+- Photography: one photo per bike and only Wavy 35C has a wheel photo; other wheels show a typographic tile. Gallery URLs are in website/src/data/gallery-candidates.json; this session's network could not reach cdn.myshoptet.com. Run `npm run fetch-images` on the Mac, add paths to `images`, run `npm run images`.
+- Yasei photo has white side bars from the source image.
+- Manufacturer data conflicts (Wavy 35C depth/weight) shown as "to confirm".
+- Regional availability is unconfirmed for everything; manufacturer stock text is dated.
+- robots.txt only takes effect on a custom domain root.
 
 ## Continue exactly here
-Read AGENTS.md, README.md, docs/roadmap.md, docs/progress-log.md, ARCHITECTURE.md, PRODUCT_DATA.md and this file. Check git status and remote. Continue homepage and layout in website/. Run npm ci and npm run build from website/. Commit and push each milestone with this file updated. Keep the prototype unpublished and clearly label simulated submissions. Raw research is in ignored data/private/website-research/ on this machine; source links in PRODUCT_DATA.md allow fresh verification elsewhere.
-
-GitHub workflow permission limitation: foundation push was initially rejected because OAuth lacks workflow scope. Workflow files are now templates in docs/website-workflows/; install them under .github/workflows/ only with authorized credentials. No CI run or Pages setup is claimed.
-
-## Active website workspace
-
-User requested /Users/radimtheiner/Coding/Webs/Equator on 2026-10-16. Continue website development in this checkout, branch codex/website-prototype; Astro source is website/. The original Coding/Projects/Equator checkout is preserved for operational work. Both point to the existing private repository. Ignored research remains in the original checkout; use PRODUCT_DATA.md for portable source links.
+1. Read this file, ARCHITECTURE.md, PRODUCT_DATA.md, DECISIONS.md, docs/website-inquiries.md, worker/README.md.
+2. `cd website && npm ci && npm test && npm run build`; `cd ../worker && npm test`.
+3. Push the branch (see Git status). With a `workflow`-scoped token, copy docs/website-workflows/*.yml to .github/workflows/.
+4. Next work, in order: download gallery photos and add them; owner review of copy/prices; when approved, deploy the Worker and set `PUBLIC_INQUIRY_ENDPOINT`; replace policy pages with approved text; enable Pages and run the manual deploy (type PUBLISH); set `PUBLIC_ALLOW_INDEXING=true` only at public launch; custom domain (add `public/CNAME`, update `site`/`base` in astro.config.mjs).
