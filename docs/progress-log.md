@@ -86,3 +86,7 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 ## 2026-10-16 — Website workspace relocation
 
 - At user request, cloned the pushed history into /Users/radimtheiner/Coding/Webs/Equator and created codex/website-prototype for subsequent website work. Preserved the original operational checkout; no files were overwritten or history rewritten.
+
+## 2026-10-16 — Website milestone 3
+
+- Added typed product data, three family pages, wheel filters/detail and an honest accessory empty state. Reference prices and inventory observations retain source dates; uncertain merchandise is held. Eight routes build with zero type errors.

@@ -9,8 +9,8 @@ Build a premium Astro bicycle storefront prototype with three bicycle families, 
 0. Research and architecture — complete, with confirmation items recorded in PRODUCT_DATA.md.
 1. Foundation — complete; build/type-check passed.
 2. Homepage/layout — complete; static build passes.
-3. Catalog — next.
-4. Configurator — pending.
+3. Catalog — complete for prototype: three bikes, one wheel reference, unavailable accessories held.
+4. Configurator — next.
 5. Cart — pending.
 6. Demo inquiry — pending; live integration deferred.
 7. Inventory/publication controls — pending.
