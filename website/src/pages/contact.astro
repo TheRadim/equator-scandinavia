@@ -1,5 +1,48 @@
 ---
-import Layout from '../layouts/Layout.astro';import InquiryForm from '../components/InquiryForm.astro';
+import Layout from "../layouts/Layout.astro";
+import InquiryForm from "../components/InquiryForm.astro";
 ---
-<Layout title="Contact"><section class="wrap section"><p class="eyebrow">A personal conversation</p><h1>What’s your<br/>next ride?</h1><div class="contact"><div><p>Bicycles, wheels, a custom build or a possible partnership. A good place to start is a conversation.</p><h3>Scandinavian inquiries</h3><p>Denmark · Sweden · Norway</p><p>Representative contact details will be added before launch. This prototype form lets you explore the experience without sending a message.</p></div><InquiryForm kind="contact"/></div></section></Layout>
-<style>.contact{display:grid;grid-template-columns:.8fr 1.2fr;gap:100px;padding-top:40px}.contact h3{margin-top:40px}@media(max-width:767px){.contact{grid-template-columns:1fr;gap:30px}}</style>
+
+<Layout title="Contact">
+  <section class="wrap section">
+    <p class="eyebrow">A personal conversation</p>
+    <h1>
+      What’s your
+      <br />
+      next ride?
+    </h1>
+    <div class="contact">
+      <div>
+        <p>
+          Bicycles, wheels, a custom build or a possible partnership. A good
+          place to start is a conversation.
+        </p>
+        <h3>Scandinavian inquiries</h3>
+        <p>Denmark · Sweden · Norway</p>
+        <p>
+          Representative contact details will be added before launch. This
+          prototype form lets you explore the experience without sending a
+          message.
+        </p>
+      </div>
+      <InquiryForm kind="contact" />
+    </div>
+  </section>
+</Layout>
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 100px;
+    padding-top: 40px;
+  }
+  .contact h3 {
+    margin-top: 40px;
+  }
+  @media (max-width: 767px) {
+    .contact {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+  }
+</style>

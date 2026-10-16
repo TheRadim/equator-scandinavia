@@ -1,10 +1,157 @@
 ---
-import {url} from '../lib/urls';
-const {kind='order'}=Astro.props;
+import { url } from "../lib/urls";
+const { kind = "order" } = Astro.props;
 ---
-<form data-demo-inquiry={kind} autocomplete="off"><p class="demo-note">Demo only. Use fictional contact details. Nothing is sent to Equator or stored as a lead.</p><div class="form-pair"><label>Full name<input name="name" required maxlength="100" placeholder="Demo Rider"/></label><label>Email<input name="email" type="email" required maxlength="200" placeholder="rider@example.com"/></label></div><label>Phone <span class="muted">(optional)</span><input name="phone" type="tel" maxlength="40"/></label><div class="form-pair"><label>Country<select name="country" required><option value="">Select country</option><option>Denmark</option><option>Sweden</option><option>Norway</option><option>Other</option></select></label><label>City or postal code<input name="city" required maxlength="100"/></label></div>{kind==='contact'&&<label>What would you like to discuss?<select name="topic"><option>Bicycle inquiry</option><option>Wheelset inquiry</option><option>Custom build</option><option>Dealer partnership</option><option>Warranty support</option><option>General question</option></select></label>}<label>Additional comments <span class="muted">(optional)</span><textarea name="comments" maxlength="2000"></textarea></label><label class="consent"><input name="consent" type="checkbox" required/>I understand this is a demo and have read the <a href={url('privacy/')} class="text-link">prototype privacy notice</a>.</label><button class="button" type="submit" disabled>Preview {kind==='order'?'order inquiry':'message'} ↗</button><p class="status" role="status"></p><noscript><p>Enable JavaScript to use this local demo. This form cannot send a message.</p></noscript></form>
+
+<form data-demo-inquiry={kind} autocomplete="off">
+  <p class="demo-note">
+    Demo only. Use fictional contact details. Nothing is sent to Equator or
+    stored as a lead.
+  </p>
+  <div class="form-pair">
+    <label>
+      Full name
+      <input name="name" required maxlength="100" placeholder="Demo Rider" />
+    </label>
+    <label>
+      Email
+      <input
+        name="email"
+        type="email"
+        required
+        maxlength="200"
+        placeholder="rider@example.com"
+      />
+    </label>
+  </div>
+  <label>
+    Phone <span class="muted">(optional)</span>
+    <input name="phone" type="tel" maxlength="40" />
+  </label>
+  <div class="form-pair">
+    <label>
+      Country
+      <select name="country" required>
+        <option value="">Select country</option>
+        <option>Denmark</option>
+        <option>Sweden</option>
+        <option>Norway</option>
+        <option>Other</option>
+      </select>
+    </label>
+    <label>
+      City or postal code
+      <input name="city" required maxlength="100" />
+    </label>
+  </div>
+  {kind === "contact" && (
+    <label>
+      What would you like to discuss?
+      <select name="topic">
+        <option>Bicycle inquiry</option>
+        <option>Wheelset inquiry</option>
+        <option>Custom build</option>
+        <option>Dealer partnership</option>
+        <option>Warranty support</option>
+        <option>General question</option>
+      </select>
+    </label>
+  )}
+  <label>
+    Additional comments <span class="muted">(optional)</span>
+    <textarea name="comments" maxlength="2000"></textarea>
+  </label>
+  <label class="consent">
+    <input name="consent" type="checkbox" required />I understand this is a demo
+    and have read the{" "}
+    <a href={url("privacy/")} class="text-link">
+      prototype privacy notice
+    </a>
+    .
+  </label>
+  <button class="button" type="submit" disabled>
+    Preview {kind === "order" ? "order inquiry" : "message"} ↗
+  </button>
+  <p class="status" role="status"></p>
+  <noscript>
+    <p>
+      Enable JavaScript to use this local demo. This form cannot send a message.
+    </p>
+  </noscript>
+</form>
 <script>
-import {readCart} from '../lib/storage';import {resolve,totals} from '../lib/catalog';import {url} from '../lib/urls';
-const form=document.querySelector<HTMLFormElement>('[data-demo-inquiry]');if(form){const button=form.querySelector<HTMLButtonElement>('button[type=submit]')!,status=form.querySelector<HTMLElement>('[role=status]')!;form.addEventListener('submit',event=>{event.preventDefault();if(!form.reportValidity())return;button.disabled=true;status.textContent='Preparing your local demo…';try{const items=form.dataset.demoInquiry==='order'?readCart():[];if(form.dataset.demoInquiry==='order'&&!items.length)throw new Error('Your bag is empty. Add a product before reviewing an inquiry.');const name=(form.elements.namedItem('name') as HTMLInputElement).value.trim();const city=(form.elements.namedItem('city') as HTMLInputElement).value.trim();if(!name||!city)throw new Error('Please enter a name and city for the demo.');const receipt={reference:`DEMO-${crypto.randomUUID().slice(0,8).toUpperCase()}`,timestamp:new Date().toISOString(),kind:form.dataset.demoInquiry,items:items.map(line=>({...line,...resolve(line)})),totals:totals(items)};sessionStorage.setItem('equator-demo-receipt',JSON.stringify(receipt));form.reset();window.location.assign(url('confirmation/'));}catch(error){status.textContent=error instanceof Error?error.message:'Unable to create a local preview. Check browser storage.';status.classList.add('error');button.disabled=false;}});button.disabled=false;}
+  import { readCart } from "../lib/storage";
+  import { resolve, totals } from "../lib/catalog";
+  import { url } from "../lib/urls";
+  const form = document.querySelector<HTMLFormElement>("[data-demo-inquiry]");
+  if (form) {
+    const button = form.querySelector<HTMLButtonElement>(
+        "button[type=submit]",
+      )!,
+      status = form.querySelector<HTMLElement>("[role=status]")!;
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      button.disabled = true;
+      status.textContent = "Preparing your local demo…";
+      try {
+        const items = form.dataset.demoInquiry === "order" ? readCart() : [];
+        if (form.dataset.demoInquiry === "order" && !items.length)
+          throw new Error(
+            "Your bag is empty. Add a product before reviewing an inquiry.",
+          );
+        const name = (
+          form.elements.namedItem("name") as HTMLInputElement
+        ).value.trim();
+        const city = (
+          form.elements.namedItem("city") as HTMLInputElement
+        ).value.trim();
+        if (!name || !city)
+          throw new Error("Please enter a name and city for the demo.");
+        const receipt = {
+          reference: `DEMO-${crypto.randomUUID().slice(0, 8).toUpperCase()}`,
+          timestamp: new Date().toISOString(),
+          kind: form.dataset.demoInquiry,
+          items: items.map((line) => ({ ...line, ...resolve(line) })),
+          totals: totals(items),
+        };
+        sessionStorage.setItem("equator-demo-receipt", JSON.stringify(receipt));
+        form.reset();
+        window.location.assign(url("confirmation/"));
+      } catch (error) {
+        status.textContent =
+          error instanceof Error
+            ? error.message
+            : "Unable to create a local preview. Check browser storage.";
+        status.classList.add("error");
+        button.disabled = false;
+      }
+    });
+    button.disabled = false;
+  }
 </script>
-<style>.form-pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}.demo-note{background:#f5f5f2;padding:20px;font-size:13px}.consent{line-height:1.7}.consent .text-link{padding:0;font-size:inherit}@media(max-width:767px){.form-pair{grid-template-columns:1fr;gap:0}}</style>
+<style>
+  .form-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .demo-note {
+    background: #f5f5f2;
+    padding: 20px;
+    font-size: 13px;
+  }
+  .consent {
+    line-height: 1.7;
+  }
+  .consent .text-link {
+    padding: 0;
+    font-size: inherit;
+  }
+  @media (max-width: 767px) {
+    .form-pair {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+</style>

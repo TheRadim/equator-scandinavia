@@ -1,5 +1,50 @@
 ---
-import Layout from '../layouts/Layout.astro';import {url} from '../lib/urls';
+import Layout from "../layouts/Layout.astro";
+import { url } from "../lib/urls";
 ---
-<Layout title="Demo inquiry preview"><section class="wrap section"><p class="eyebrow">Prototype / Nothing has been sent</p><h1>Your inquiry,<br/>previewed.</h1><div class="prose"><p>This is a local demonstration. No order was placed, no email was sent, and your bag has been kept.</p><p id="demo-reference"></p><div id="demo-summary"></div><a class="button" href={url('bikes/')}>Continue exploring ↗</a></div></section></Layout>
-<script>import {money} from '../lib/catalog';const reference=document.querySelector('#demo-reference')!,summary=document.querySelector('#demo-summary')!;try{const data=JSON.parse(sessionStorage.getItem('equator-demo-receipt')||'null');if(!data)reference.textContent='No demo inquiry has been previewed in this browser session.';else{reference.textContent=`${String(data.reference)} · ${new Date(data.timestamp).toLocaleString('en-GB')}`;for(const item of data.items){const p=document.createElement('p');p.textContent=`${item.quantity} × ${item.name} — ${item.description} — ${money(item.price)}`;summary.append(p);}}}catch{reference.textContent='No readable demo preview is available. Your bag is unchanged.';}</script>
+
+<Layout title="Demo inquiry preview">
+  <section class="wrap section">
+    <p class="eyebrow">Prototype / Nothing has been sent</p>
+    <h1>
+      Your inquiry,
+      <br />
+      previewed.
+    </h1>
+    <div class="prose">
+      <p>
+        This is a local demonstration. No order was placed, no email was sent,
+        and your bag has been kept.
+      </p>
+      <p id="demo-reference"></p>
+      <div id="demo-summary"></div>
+      <a class="button" href={url("bikes/")}>
+        Continue exploring ↗
+      </a>
+    </div>
+  </section>
+</Layout>
+<script>
+  import { money } from "../lib/catalog";
+  const reference = document.querySelector("#demo-reference")!,
+    summary = document.querySelector("#demo-summary")!;
+  try {
+    const data = JSON.parse(
+      sessionStorage.getItem("equator-demo-receipt") || "null",
+    );
+    if (!data)
+      reference.textContent =
+        "No demo inquiry has been previewed in this browser session.";
+    else {
+      reference.textContent = `${String(data.reference)} · ${new Date(data.timestamp).toLocaleString("en-GB")}`;
+      for (const item of data.items) {
+        const p = document.createElement("p");
+        p.textContent = `${item.quantity} × ${item.name} — ${item.description} — ${money(item.price)}`;
+        summary.append(p);
+      }
+    }
+  } catch {
+    reference.textContent =
+      "No readable demo preview is available. Your bag is unchanged.";
+  }
+</script>

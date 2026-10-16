@@ -1,6 +1,23 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import ProductCard from '../../components/ProductCard.astro';
-import {bikes} from '../../data/bikes/catalog';
+import Layout from "../../layouts/Layout.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import { bikes } from "../../data/bikes/catalog";
 ---
-<Layout title="Titanium bicycles"><div class="wrap"><div class="page-heading"><p class="eyebrow">The collection / Titanium</p><h1>Find your way.</h1><p>Three distinct characters. One material at heart. Explore the family, then choose the factory build that suits your riding.</p></div><div class="grid3 section" style="padding-top:10px">{bikes.map(product=><ProductCard product={product}/>)}</div></div></Layout>
+
+<Layout title="Titanium bicycles">
+  <div class="wrap">
+    <div class="page-heading">
+      <p class="eyebrow">The collection / Titanium</p>
+      <h1>Find your way.</h1>
+      <p>
+        Three distinct characters. One material at heart. Explore the family,
+        then choose the factory build that suits your riding.
+      </p>
+    </div>
+    <div class="grid3 section" style="padding-top:10px">
+      {bikes.map((product) => (
+        <ProductCard product={product} />
+      ))}
+    </div>
+  </div>
+</Layout>

@@ -1,4 +1,19 @@
 ---
-import Layout from '../layouts/Layout.astro';import {url} from '../lib/urls';
+import Layout from "../layouts/Layout.astro";
+import { url } from "../lib/urls";
 ---
-<Layout title="Page not found"><section class="wrap section"><p class="eyebrow">404 / A small detour</p><h1>Let’s get you<br/>back on track.</h1><p>That page could not be found.</p><a class="button" href={url()}>Back to Equator ↗</a></section></Layout>
+
+<Layout title="Page not found">
+  <section class="wrap section">
+    <p class="eyebrow">404 / A small detour</p>
+    <h1>
+      Let’s get you
+      <br />
+      back on track.
+    </h1>
+    <p>That page could not be found.</p>
+    <a class="button" href={url()}>
+      Back to Equator ↗
+    </a>
+  </section>
+</Layout>
