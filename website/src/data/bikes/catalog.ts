@@ -7,6 +7,8 @@ export type Build = {
   price: number | null;
   groupset?: string;
   wheels?: string;
+  /** Wheel catalog id when the included wheelset has its own product page. */
+  wheelId?: string;
   components?: string;
   source: string;
 };
@@ -17,6 +19,7 @@ export type Product = {
   category: string;
   description: string;
   image: string;
+  images: string[];
   sizes: string[];
   availability: string;
   verified: string;
@@ -40,13 +43,14 @@ const frame = (id: string, price: number, path: string): Build => ({
 });
 export const allBikes: Product[] = families.map((f) => ({
   ...f,
+  images: [f.image],
   verified: "2026-10-16",
   publication: "prototype",
   inventoryStatus: "Availability unconfirmed",
   sizes: f.id === "sensei" ? ["M", "L", "XL"] : ["M", "L"],
   availability:
     f.id === "raiden"
-      ? "Availability unconfirmed — manufacturer expects stock soon"
+      ? "Manufacturer expected new stock soon when checked on 16 October 2026"
       : "Manufacturer listed in stock on 16 October 2026; confirm your size and delivery",
   specs: {
     "Frame material": "Titanium 3Al-2.5V",
@@ -79,6 +83,7 @@ export const allBikes: Product[] = families.map((f) => ({
             price: 604400,
             groupset: "Shimano GRX Di2 2×12",
             wheels: "Equator Wavy 35C",
+            wheelId: "wavy-35",
             components:
               "Equator Titanium seatpost · Zipp Service Course SL 70 XPLR · Brooks Cambium C15 Carved",
             source: root + "equator-sensei-titanium-gen-4-shimano-grx-di2/",
@@ -94,6 +99,7 @@ export const allBikes: Product[] = families.map((f) => ({
               price: 806000,
               groupset: "SRAM Red AXS E1 2×12",
               wheels: "Equator Wavy 50C disc",
+              wheelId: "wavy-50",
               components:
                 "Equator Titanium seatpost · Zipp Service Course SL 80 · Fizik Arione R3",
               source: root + "equator-raiden-titanium-ramova-sada/",
@@ -118,6 +124,7 @@ export const allBikes: Product[] = families.map((f) => ({
               label: "SRAM Force XPLR AXS",
               price: 604400,
               groupset: "SRAM Force XPLR AXS 1×13",
+              // Manufacturer copy says "Equator Gravel 40C" without saying which 40C model: not linked.
               wheels: "Equator Gravel 40C",
               components:
                 "Equator Titanium seatpost · Zipp Service Course SL 70 XPLR · Brooks Cambium (model to confirm)",

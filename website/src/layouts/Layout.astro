@@ -1,9 +1,12 @@
 ---
+import "@fontsource-variable/inter";
 import "../styles/global.css";
 import { url } from "../lib/urls";
 const {
   title = "Titanium bicycles for the road ahead",
   description = "Explore Equator titanium bicycles and carbon wheels. A Scandinavian storefront prototype.",
+  image = "images/sensei-0.jpg",
+  jsonLd,
 } = Astro.props;
 const links = [
   ["Bikes", "bikes/"],
@@ -28,8 +31,18 @@ const links = [
     <meta property="og:type" content="website" />
     <meta
       property="og:image"
-      content={new URL(url("images/sensei-0.jpg"), Astro.site)}
+      content={new URL(url(image || "images/sensei-0.jpg"), Astro.site)}
     />
+    <meta property="og:site_name" content="Equator Scandinavia" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {
+      jsonLd && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(jsonLd)}
+        />
+      )
+    }
   </head>
   <body>
     <a class="skip" href="#main">
@@ -49,11 +62,15 @@ const links = [
       </nav>
       <div class="header-actions">
         <a href={url("contact/")}>Contact</a>
-        <a href={url("cart/")} aria-label="View cart">
-          Bag (<span data-cart-count>0</span>)
+        <a href={url("cart/")} class="bag-link">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span class="visually-hidden">Bag, items:</span>
+          <span class="bag-count" data-cart-count>0</span>
         </a>
         <details class="mobile-menu">
-          <summary>Menu</summary>
+          <summary aria-label="Menu">
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+          </summary>
           <div class="drawer">
             {[...links, ["Contact", "contact/"]].map(([label, path]) => (
               <a href={url(path)}>{label}</a>

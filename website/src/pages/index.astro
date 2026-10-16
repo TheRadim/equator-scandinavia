@@ -2,7 +2,12 @@
 import Layout from "../layouts/Layout.astro";
 import ProductCard from "../components/ProductCard.astro";
 import { bikes as families } from "../data/bikes/catalog";
+import WheelCard from "../components/WheelCard.astro";
+import { wheels } from "../data/wheels/catalog";
 import { url } from "../lib/urls";
+const featuredWheels = ["wavy-35", "wavy-50", "gravel-ultimate-40"]
+  .map((id) => wheels.find((w) => w.id === id))
+  .filter((w) => w !== undefined);
 ---
 
 <Layout>
@@ -19,9 +24,12 @@ import { url } from "../lib/urls";
         <br />
         For wherever the road takes you.
       </p>
-      <a class="button" href={url("bikes/")}>
-        Explore our bikes <span>↗</span>
-      </a>
+      <div class="hero-actions">
+        <a class="button" href={url("bikes/")}>
+          Explore our bikes <span aria-hidden="true">↗</span>
+        </a>
+        <a class="text-link" href={url("about/")}>Discover Equator</a>
+      </div>
     </div>
     <div class="hero-photo">
       <img
@@ -81,34 +89,54 @@ import { url } from "../lib/urls";
           feels on the road.
         </p>
         <p>For us, the appeal is simple: a bicycle you want to keep riding.</p>
-        <a class="text-link" href={url("about/")}>
-          Discover Equator ↗
+        <a class="text-link" href={url("about/#titanium")}>
+          Why titanium ↗
         </a>
       </div>
     </div>
   </section>
-  <section class="wrap section story-grid wheels-feature">
-    <img
-      src={url("images/wavy-35-0.jpg")}
-      alt="Equator Wavy 35C carbon wheelset"
-      width="1024"
-      height="768"
-      loading="lazy"
-    />
-    <div>
-      <p class="eyebrow">Equator carbon wheels</p>
-      <h2>
-        A fresh
-        <br />
-        perspective.
-      </h2>
+  <section class="wrap section">
+    <div class="bar collection-heading">
+      <div>
+        <p class="eyebrow">Equator carbon wheels</p>
+        <h2>
+          Carbon, considered.
+        </h2>
+      </div>
       <p>
-        Explore carbon wheelsets for the road ahead. A carefully considered
-        collection, with availability confirmed personally.
+        A short list of current Equator wheelsets for road, gravel and the race
+        against the clock.
       </p>
-      <a class="button light" href={url("wheels/")}>
-        Explore wheels ↗
-      </a>
+    </div>
+    <div class="grid3">
+      {featuredWheels.map((w) => <WheelCard wheel={w} />)}
+    </div>
+    <a class="text-link" href={url("wheels/")} style="margin-top:32px">
+      All wheels ↗
+    </a>
+  </section>
+  <section class="brand section">
+    <div class="wrap story-grid">
+      <div>
+        <p class="eyebrow">The people behind Equator</p>
+        <h2>
+          A small company.
+          <br />
+          A personal approach.
+        </h2>
+      </div>
+      <div>
+        <p>
+          Equator is a Czech cycling company working with titanium frames and
+          carbon wheels. Its bicycles are designed, tested and assembled in
+          Czechia, with parts sourced from specialist suppliers worldwide.
+        </p>
+        <p>
+          Equator Scandinavia brings these bikes to riders in Denmark, Sweden
+          and Norway — with a personal conversation about every build.
+        </p>
+        <a class="text-link" href={url("about/")}>Our story ↗</a>
+      </div>
     </div>
   </section>
   <section class="closing">
@@ -181,9 +209,14 @@ import { url } from "../lib/urls";
   .story-grid p {
     max-width: 460px;
   }
-  .wheels-feature img {
-    width: 100%;
-    height: auto;
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .brand {
+    border-top: 1px solid #e5e5e5;
   }
   .closing {
     text-align: center;

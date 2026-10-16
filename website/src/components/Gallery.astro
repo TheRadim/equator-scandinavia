@@ -1,0 +1,55 @@
+---
+/** Product gallery: main photo + thumbnail buttons. No hover dependence. */
+import ProductVisual from "./ProductVisual.astro";
+import { url } from "../lib/urls";
+interface Props {
+  images: string[];
+  alt: string;
+  label: string;
+  sublabel?: string;
+  caption?: string;
+}
+const { images, alt, label, sublabel, caption } = Astro.props;
+---
+
+<div class="gallery" data-gallery>
+  <ProductVisual
+    image={images[0]}
+    alt={alt}
+    label={label}
+    sublabel={sublabel}
+    eager
+    class="gallery-main"
+  />
+  {
+    images.length > 1 && (
+      <div class="gallery-thumbs" role="group" aria-label="Product photographs">
+        {images.map((src, i) => (
+          <button
+            type="button"
+            data-src={url(src)}
+            aria-label={`Show photograph ${i + 1} of ${images.length}`}
+            aria-pressed={i === 0}
+          >
+            <img src={url(src)} alt="" width="160" height="120" loading="lazy" />
+          </button>
+        ))}
+      </div>
+    )
+  }
+  {caption && <p class="caption">{caption}</p>}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-gallery]").forEach((g) => {
+    const main = g.querySelector<HTMLImageElement>("img.gallery-main");
+    g.querySelectorAll<HTMLButtonElement>("[data-src]").forEach((b) =>
+      b.addEventListener("click", () => {
+        if (main) main.src = b.dataset.src!;
+        g.querySelectorAll("[data-src]").forEach((x) =>
+          x.setAttribute("aria-pressed", String(x === b)),
+        );
+      }),
+    );
+  });
+</script>

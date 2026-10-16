@@ -24,7 +24,7 @@ export function resolve(selection: Selection) {
       );
     return {
       name: bike.name,
-      image: bike.image,
+      image: bike.image as string | null,
       price: build.price,
       description: [
         build.label,
@@ -41,14 +41,24 @@ export function resolve(selection: Selection) {
   const wheel = wheels.find(
     (w) => w.id === selection.productId && w.publication === "prototype",
   );
-  if (wheel && selection.buildId === "inquiry" && selection.size === "")
+  if (wheel && selection.size === "") {
+    // "inquiry" is the legacy (pre-freehub) cart value: freehub to be confirmed.
+    const freehub =
+      selection.buildId === "inquiry"
+        ? { id: "inquiry", label: "Freehub to confirm" }
+        : wheel.freehubs.find((f) => f.id === selection.buildId);
+    if (!freehub)
+      throw new Error(
+        "This freehub option is no longer listed. Please choose it again.",
+      );
     return {
       name: wheel.name,
-      image: wheel.image,
+      image: wheel.images[0] ?? null,
       price: wheel.price,
-      description: "Wheelset inquiry · freehub and specification to confirm",
+      description: `Wheelset · ${freehub.label} freehub`,
       availability: wheel.availability,
     };
+  }
   throw new Error("This product is not in the current prototype catalog.");
 }
 export function identity(s: Selection) {

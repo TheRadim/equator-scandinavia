@@ -1,0 +1,37 @@
+---
+/**
+ * Product photograph, or — when no approved photograph exists yet — a quiet
+ * typographic tile. Never substitutes another product's image.
+ */
+import { url } from "../lib/urls";
+interface Props {
+  image?: string | null;
+  alt: string;
+  label: string;
+  sublabel?: string;
+  eager?: boolean;
+  class?: string;
+}
+const { image, alt, label, sublabel, eager = false, class: cls = "" } =
+  Astro.props;
+---
+
+{
+  image ? (
+    <img
+      class:list={["product-image", cls]}
+      src={url(image)}
+      alt={alt}
+      width="1024"
+      height="768"
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+    />
+  ) : (
+    <div class:list={["product-image visual-tile", cls]} role="img" aria-label={`${alt} — photograph coming soon`}>
+      <span class="visual-tile-number">{label}</span>
+      {sublabel && <span class="visual-tile-sub">{sublabel}</span>}
+      <span class="visual-tile-note">Photograph coming soon</span>
+    </div>
+  )
+}

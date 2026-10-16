@@ -1,0 +1,186 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { url } from "../lib/urls";
+---
+
+<Layout
+  title="About Equator"
+  description="Equator is a small Czech family company making titanium bicycles and carbon wheels. Equator Scandinavia brings them to riders in the Nordics."
+>
+  <section class="wrap about-hero">
+    <p class="eyebrow">About Equator</p>
+    <h1>
+      Czech roots.
+      <br />
+      Northern horizons.
+    </h1>
+    <p class="lead">
+      A small family company from Zlín, building titanium bicycles and carbon
+      wheels for riders who plan to keep them for a long time.
+    </p>
+  </section>
+
+  <figure class="wrap about-photo">
+    <img
+      src={url("images/yasei-0.jpg")}
+      alt="Equator Yasei titanium gravel bicycle on a gravel road"
+      width="1024"
+      height="768"
+      loading="lazy"
+    />
+  </figure>
+
+  <section class="wrap about-grid">
+    <h2>Who we are</h2>
+    <div>
+      <p>
+        Equator Cycling is a Czech cycling company based in Zlín. It describes
+        itself as a small family business — one that believes cycling, like
+        business, is about relationships.
+      </p>
+      <p>
+        Equator started with carbon wheels. Titanium frames followed as what
+        the company calls a logical next step. Today the range covers titanium
+        road and gravel bicycles, framesets and carbon wheelsets.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap about-grid">
+    <h2>How Equator designs</h2>
+    <div>
+      <p>
+        Every frame is designed and tested across several prototypes, with a
+        clear goal for how it should ride. Equator describes its bicycles as
+        designed, tested and assembled in Czechia, using parts sourced from
+        specialist suppliers around the world.
+      </p>
+      <p>
+        The aim is a balance of performance, ride feel and durability — and the
+        company says it learns from every frame it sells and every rider who
+        gives feedback.
+      </p>
+    </div>
+  </section>
+
+  <section class="titanium-band" id="titanium">
+    <div class="wrap about-grid">
+      <h2>Why titanium</h2>
+      <div>
+        <p>
+          Titanium is chosen for riders who value durability and long-term
+          ownership. It resists corrosion, so the frames can be left with a
+          brushed, unpainted finish that wears its miles quietly.
+        </p>
+        <p>
+          How a bicycle actually rides depends on its geometry, tubing, tyres
+          and build — not on material alone. That's why each Equator family has
+          its own purpose: Sensei for road and gravel, Raiden for the road, and
+          Yasei for longer adventures.
+        </p>
+        <a class="text-link" href={url("bikes/")}>Compare the bikes ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap about-grid">
+    <h2>A different scale</h2>
+    <div>
+      <p>
+        Equator is not a mass-market manufacturer. The range is deliberately
+        small, and the conversation is direct: you speak with people who know
+        the bikes, not a call centre.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap about-grid">
+    <h2>Equator Scandinavia</h2>
+    <div>
+      <p>
+        Equator Scandinavia is the regional representation for Denmark, Sweden
+        and Norway, starting in Copenhagen. We help riders and shops discover
+        Equator, configure the right bicycle and connect with the manufacturer.
+      </p>
+      <p>
+        Every build request is reviewed personally. We confirm price,
+        availability and delivery with Equator before anything is paid.
+      </p>
+      <p class="caption">
+        Representation arrangements are being finalised. Company details will
+        be published here once confirmed.
+      </p>
+      <div class="about-actions">
+        <a class="button" href={url("bikes/")}>Explore the bikes ↗</a>
+        <a class="text-link" href={url("contact/")}>Get in touch</a>
+      </div>
+    </div>
+  </section>
+  <p class="wrap caption about-source">
+    Company information from
+    <a href="https://www.equator-cycling.com/o-nas/" rel="noopener">equator-cycling.com</a>, reviewed 16 October 2026.
+  </p>
+</Layout>
+
+<style>
+  .about-hero {
+    padding: 72px 0 48px;
+  }
+  .about-hero .lead {
+    max-width: 560px;
+    font-size: 18px;
+    margin-top: 24px;
+  }
+  .about-photo {
+    margin: 0 auto 40px;
+  }
+  .about-photo img {
+    width: 100%;
+    height: auto;
+    max-height: 760px;
+    object-fit: cover;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: 64px;
+    padding: 64px 0;
+    border-top: 1px solid #e5e5e5;
+  }
+  .about-grid h2 {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+  }
+  .about-grid p {
+    max-width: 620px;
+    font-size: 16px;
+  }
+  .titanium-band {
+    background: #f7f7f7;
+  }
+  .titanium-band .about-grid {
+    border-top: 0;
+  }
+  .about-actions {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .about-source {
+    padding: 0 0 64px;
+  }
+  .about-source a {
+    text-decoration: underline;
+  }
+  @media (max-width: 767px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 44px 0;
+    }
+    .about-hero {
+      padding: 44px 0 32px;
+    }
+  }
+</style>

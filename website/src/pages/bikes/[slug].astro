@@ -1,7 +1,11 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Configurator from "../../components/Configurator.astro";
-import { bikes } from "../../data/bikes/catalog";
+import Gallery from "../../components/Gallery.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
+import { bikes, type Product } from "../../data/bikes/catalog";
+import { money } from "../../lib/catalog";
+import { productJsonLd } from "../../lib/seo";
 import { url } from "../../lib/urls";
 export function getStaticPaths() {
   return bikes.map((product) => ({
@@ -9,137 +13,102 @@ export function getStaticPaths() {
     props: { product },
   }));
 }
-const { product } = Astro.props;
+const { product } = Astro.props as { product: Product };
+const prices = product.builds
+  .map((b) => b.price)
+  .filter((p): p is number => p !== null);
+const from = prices.length ? Math.min(...prices) : null;
+const verified = new Date(product.verified).toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+const geometrySource = product.builds[0].source;
 ---
 
-<Layout title={product.name} description={product.description}>
+<Layout
+  title={`${product.name} titanium ${product.category.split("·")[0].trim().toLowerCase()} bike`}
+  description={`Equator ${product.name}: ${product.description} Configure a frameset or complete build and request it.`}
+  image={product.images[0]}
+  jsonLd={productJsonLd({
+    name: `Equator ${product.name}`,
+    description: product.description,
+    image: product.images[0],
+    path: `bikes/${product.slug}/`,
+  })}
+>
   <div class="wrap">
-    <div class="breadcrumbs">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
       <a href={url("bikes/")}>Bikes</a> / {product.name}
-    </div>
+    </nav>
     <div class="product-layout">
-      <div>
-        <img
-          class="main-photo"
-          src={url(product.image)}
-          alt={`${product.name}, illustrative complete bicycle`}
-          width="1024"
-          height="768"
+      <div class="product-media">
+        <Gallery
+          images={product.images}
+          alt={`Equator ${product.name} titanium bicycle, illustrative complete build`}
+          label={product.name}
+          caption="Illustrative complete build. A frameset does not include the pictured components."
         />
-        <p class="caption">
-          Illustrative complete build. A frameset does not include all pictured
-          components.
-        </p>
-        <details>
-          <summary>Frame & build details</summary>
-          <dl>
-            {Object.entries(product.specs).map(([key, value]) => (
-              <div>
-                <dt>{key}</dt>
-                <dd>{value}</dd>
-              </div>
-            ))}
-          </dl>
-        </details>
-        <details id="size-guide">
-          <summary>Size guide</summary>
-          <p>
-            Currently listed selectable sizes: {product.sizes.join(", ")}. Fit
-            depends on your measurements and riding position.
-          </p>
-          <a class="text-link" href={`${product.builds[0].source}#description`}>
-            View manufacturer geometry ↗
-          </a>
-          <p class="caption">
-            A geometry-table entry does not establish that size is currently
-            available.
-          </p>
-        </details>
       </div>
-      <div>
+      <div class="product-info">
         <p class="eyebrow">{product.category} / Titanium</p>
         <h1>{product.name}</h1>
-        <p>{product.description}</p>
-        <p class="price">
-          From{" "}
-          {new Intl.NumberFormat("en-IE", {
-            style: "currency",
-            currency: "EUR",
-            maximumFractionDigits: 0,
-          }).format((product.builds[0].price ?? 0) / 100)}
-        </p>
-        <p class="caption">
-          Manufacturer reference price, checked 16 October 2026.
-          <br />
-          Scandinavian pricing and delivery to be confirmed.
-        </p>
+        <p class="lead">{product.description}</p>
+        <p class="price">{from === null ? "Price on request" : `From ${money(from)}`}</p>
+        <div class="availability">
+          <StatusBadge status={product.inventoryStatus} />
+          <p class="caption">
+            {product.availability}. Reference prices checked {verified}.
+          </p>
+        </div>
         <hr />
         <Configurator product={product} />
-        <hr />
-        <p class="caption">{product.availability}</p>
+        <div class="product-details">
+          <details class="disclosure">
+            <summary>Frame details</summary>
+            <dl class="specs">
+              {
+                Object.entries(product.specs).map(([key, value]) => (
+                  <div>
+                    <dt>{key}</dt>
+                    <dd>{value}</dd>
+                  </div>
+                ))
+              }
+              <div><dt>Listed sizes</dt><dd>{product.sizes.join(", ")}</dd></div>
+            </dl>
+          </details>
+          <details class="disclosure" id="size-guide">
+            <summary>Size guide</summary>
+            <p>
+              Currently selectable sizes: {product.sizes.join(", ")}. The right
+              size depends on your measurements and riding position — tell us
+              your height and inseam in your inquiry and we'll help you choose.
+            </p>
+            <p class="caption">
+              Equator's geometry table may list sizes that are not currently
+              offered. We don't republish geometry until it is confirmed.
+            </p>
+            <a class="text-link" href={geometrySource} rel="noopener">
+              Manufacturer geometry ↗
+            </a>
+          </details>
+          <details class="disclosure">
+            <summary>How ordering works</summary>
+            <p>
+              Adding to your bag isn't a purchase. Send your build as an
+              inquiry and we'll confirm price, availability and delivery with
+              Equator before anything is paid.
+            </p>
+          </details>
+        </div>
       </div>
     </div>
   </div>
 </Layout>
+
 <style>
-  .breadcrumbs {
-    font-size: 12px;
-    color: #666;
-    padding: 30px 0;
-  }
-  .product-layout {
-    display: grid;
-    grid-template-columns: 1.35fr 1fr;
-    gap: 70px;
-    padding: 20px 0 90px;
-  }
-  .main-photo {
-    width: 100%;
-    height: auto;
-    background: #f7f7f7;
-  }
-  .caption {
-    font-size: 12px;
-    line-height: 1.6;
-  }
-  .product-layout h1 {
-    font-size: clamp(3rem, 4.5vw, 5rem);
-  }
-  details {
-    border-top: 1px solid #ddd;
-    padding: 22px 0;
-  }
-  summary {
-    cursor: pointer;
-    font-size: 14px;
-    min-height: 24px;
-  }
-  details p {
-    margin-top: 20px;
-  }
-  dl > div {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    font-size: 13px;
-    border-bottom: 1px solid #eee;
-    padding: 15px 0;
-  }
-  dd {
-    text-align: right;
-    margin: 0;
-    color: #666;
-  }
-  @media (max-width: 767px) {
-    .product-layout {
-      grid-template-columns: 1fr;
-      gap: 35px;
-    }
-    .breadcrumbs {
-      padding: 24px 0;
-    }
-    .product-layout {
-      padding-top: 0;
-    }
+  .product-details {
+    margin-top: 36px;
   }
 </style>

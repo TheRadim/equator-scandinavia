@@ -2,16 +2,6 @@
 import Layout from "../layouts/Layout.astro";
 import { url } from "../lib/urls";
 const pages = {
-  about: {
-    title: "Czech roots. Northern horizons.",
-    eyebrow: "About Equator",
-    paragraphs: [
-      "Equator is a Czech cycling brand focused on titanium bicycles and carbon wheels. The company describes its bicycles as designed, tested and assembled in Czechia, using globally sourced parts.",
-      "The three bicycle families explore different ways to ride: Sensei for road and gravel, Raiden for the road, and Yasei for longer adventures. Factory builds offer a starting point for a personal conversation.",
-      "Equator Scandinavia is an exploratory regional representation project, starting in Copenhagen. The intended role is to help riders and potential partners connect with Equator. This website is a prototype, and commercial arrangements are not presented as finalized.",
-    ],
-    source: "https://www.equator-cycling.com/o-nas/",
-  },
   privacy: {
     title: "Privacy, clearly.",
     eyebrow: "Prototype notice / Final policy pending",
@@ -81,7 +71,6 @@ const pages = {
 };
 export function getStaticPaths() {
   return [
-    "about",
     "privacy",
     "terms",
     "warranty",

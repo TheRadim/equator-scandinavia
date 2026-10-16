@@ -67,3 +67,27 @@ test("catalog metadata validates and holds never become visible", () => {
     false,
   );
 });
+
+test("wheel freehub must be a listed option; legacy inquiry lines still resolve", () => {
+  const ok = resolve({ productId: "wavy-50", buildId: "sram-xdr", size: "" });
+  assert.match(ok.description, /SRAM XDR/);
+  assert.equal(ok.price, null);
+  assert.throws(() =>
+    resolve({ productId: "wavy-50", buildId: "made-up", size: "" }),
+  );
+  assert.throws(() =>
+    resolve({ productId: "wavy-50", buildId: "sram-xdr", size: "M" }),
+  );
+  assert.match(
+    resolve({ productId: "wavy-35", buildId: "inquiry", size: "" }).description,
+    /to confirm/,
+  );
+});
+test("every wheel category has at least one published wheelset", () => {
+  for (const c of ["Road", "Gravel", "TT"])
+    assert.ok(allWheels.some((w) => w.category === c && isVisible(w)), c);
+});
+test("no published product claims a zero price", () => {
+  for (const b of allBikes) for (const x of b.builds) assert.notEqual(x.price, 0);
+  for (const w of allWheels) assert.notEqual(w.price, 0);
+});

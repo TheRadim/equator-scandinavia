@@ -1,184 +1,373 @@
 ---
-const { product } = Astro.props;
+/**
+ * Step-by-step bicycle configurator. Only the manufacturer's factory builds
+ * are selectable, so every combination offered is a verified one. Wheels and
+ * components follow the chosen build; bespoke changes go in the inquiry.
+ */
+import type { Product } from "../data/bikes/catalog";
+import { wheels } from "../data/wheels/catalog";
+import { money } from "../lib/catalog";
+import { url } from "../lib/urls";
+const { product } = Astro.props as { product: Product };
+const frame = product.builds.find((b) => b.type === "frameset");
+const completes = product.builds.filter((b) => b.type === "complete");
+const fromComplete = Math.min(
+  ...completes.map((b) => b.price ?? Number.POSITIVE_INFINITY),
+);
+const wheelLinks = Object.fromEntries(
+  wheels.map((w) => [w.id, url(`wheels/${w.slug}/`)]),
+);
 ---
 
-<form data-configurator={product.id}>
+<form data-configurator={product.id} data-wheel-links={JSON.stringify(wheelLinks)} novalidate>
   <fieldset>
-    <legend>01 / Choose your build</legend>
-    <label>
-      Build type
-      <select name="type">
-        <option value="complete">Complete bicycle</option>
-        <option value="frameset">Frameset only</option>
-      </select>
-    </label>
+    <legend><span class="step">01</span> Build type</legend>
+    <div class="option-grid">
+      {
+        completes.length > 0 && (
+          <label class="option">
+            <input type="radio" name="type" value="complete" checked />
+            <span class="option-title">Complete bicycle</span>
+            <span class="option-meta">
+              {Number.isFinite(fromComplete)
+                ? `From ${money(fromComplete)}`
+                : "Price on request"}
+            </span>
+          </label>
+        )
+      }
+      {
+        frame && (
+          <label class="option">
+            <input
+              type="radio"
+              name="type"
+              value="frameset"
+              checked={completes.length === 0}
+            />
+            <span class="option-title">Frameset only</span>
+            <span class="option-meta">{money(frame.price)}</span>
+          </label>
+        )
+      }
+    </div>
   </fieldset>
+
   <fieldset>
-    <legend>02 / Find your fit</legend>
-    <label>
-      Frame size
-      <select name="size" required>
-        <option value="">Select your size</option>
-        {product.sizes.map((s: string) => (
-          <option value={s}>{s}</option>
-        ))}
-      </select>
-    </label>
-    <a class="text-link" href="#size-guide">
-      View size guidance ↑
-    </a>
+    <legend><span class="step">02</span> Frame size</legend>
+    <div class="option-grid sizes">
+      {
+        product.sizes.map((s) => (
+          <label class="option">
+            <input type="radio" name="size" value={s} />
+            <span class="option-title">{s}</span>
+          </label>
+        ))
+      }
+    </div>
+    <a class="text-link small" href="#size-guide" data-open-size>Size guidance</a>
   </fieldset>
+
   <fieldset data-complete>
-    <legend>03 / Factory build</legend>
-    <label>
-      Groupset & matched wheels<select name="build"></select>
-    </label>
-    <p class="config-detail" data-wheels></p>
-    <p class="config-detail" data-components></p>
-    <p class="config-detail">
-      Wheels and components follow the selected factory build. Bespoke changes
-      can be discussed separately.
+    <legend><span class="step">03</span> Groupset</legend>
+    <div class="option-grid stacked">
+      {
+        completes.map((b, i) => (
+          <label class="option">
+            <input type="radio" name="build" value={b.id} checked={i === 0} />
+            <span class="option-row">
+              <span class="option-title">{b.groupset ?? b.label}</span>
+              <span class="option-meta">{money(b.price)}</span>
+            </span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <fieldset data-complete>
+    <legend><span class="step">04</span> Wheelset</legend>
+    <div class="included">
+      <span class="option-title" data-wheels></span>
+      <span class="option-meta">Included with this build</span>
+      <a class="text-link small" data-wheel-link hidden>View wheelset</a>
+    </div>
+  </fieldset>
+
+  <fieldset data-complete>
+    <legend><span class="step">05</span> Components</legend>
+    <ul class="included-list" data-components></ul>
+    <p class="caption">
+      Wheels and components follow Equator's factory build. Want something
+      different? Mention it in your inquiry and we'll check compatibility and
+      price with Equator.
     </p>
   </fieldset>
-  <div class="config-review" aria-live="polite">
-    <span class="eyebrow">Your build / Reference estimate</span>
-    <p class="price" data-price></p>
-    <p data-summary class="config-detail"></p>
-    <p class="config-detail">
-      No payment. Pricing and availability require personal confirmation.
+
+  <fieldset data-frameset hidden>
+    <legend><span class="step">03</span> Frameset</legend>
+    <p class="caption">
+      Titanium frameset as listed by Equator. Exact frameset contents (fork,
+      headset, seatpost) are confirmed with your inquiry. Pictured components
+      are not included.
     </p>
-  </div>
-  <button class="button" type="submit" style="width:100%">
-    Add to bag <span>↗</span>
+  </fieldset>
+
+  <section class="config-review" aria-live="polite" aria-labelledby={`review-${product.id}`}>
+    <h2 class="eyebrow" id={`review-${product.id}`}><span data-review-step>06</span> / Your build</h2>
+    <dl class="review-list">
+      <div><dt>Model</dt><dd>{product.name}</dd></div>
+      <div><dt>Build</dt><dd data-r-build></dd></div>
+      <div><dt>Size</dt><dd data-r-size></dd></div>
+      <div data-complete><dt>Groupset</dt><dd data-r-groupset></dd></div>
+      <div data-complete><dt>Wheelset</dt><dd data-r-wheels></dd></div>
+    </dl>
+    <div class="review-total">
+      <span>Estimated total</span>
+      <span class="price" data-price></span>
+    </div>
+    <p class="caption">
+      Manufacturer reference price. Your build is reviewed and confirmed —
+      price, availability and delivery — before any payment.
+    </p>
+  </section>
+
+  <button class="button full" type="submit">
+    Add to bag <span aria-hidden="true">↗</span>
   </button>
   <p class="status" data-status role="status"></p>
+  <a class="text-link small" href={url("cart/")} data-view-bag hidden>Review your bag</a>
   <noscript>
     <p>
-      Enable JavaScript to configure a bicycle. Product details and manufacturer
-      links remain available.
+      Enable JavaScript to configure a bicycle. You can still contact us about
+      any build.
     </p>
   </noscript>
 </form>
+
 <script>
   import { bikes } from "../data/bikes/catalog";
   import { money } from "../lib/catalog";
   import { addToCart } from "../lib/storage";
-  const form = document.querySelector<HTMLFormElement>("[data-configurator]");
-  if (form) {
-    const product = bikes.find((b) => b.id === form.dataset.configurator)!;
-    const type = form.elements.namedItem("type") as HTMLSelectElement,
-      size = form.elements.namedItem("size") as HTMLSelectElement,
-      build = form.elements.namedItem("build") as HTMLSelectElement;
-    const status = form.querySelector<HTMLElement>("[data-status]")!;
-    const key = `equator-config-${product.id}`;
-    const renderOptions = () => {
-      const previous = build.value;
-      build.replaceChildren(
-        ...product.builds
-          .filter((b) => b.type === type.value)
-          .map((b) => {
-            const o = new Option(`${b.label} — ${money(b.price)}`, b.id);
-            return o;
-          }),
+
+  document
+    .querySelectorAll<HTMLFormElement>("[data-configurator]")
+    .forEach((form) => {
+      const product = bikes.find((b) => b.id === form.dataset.configurator);
+      if (!product) return;
+      const wheelLinks: Record<string, string> = JSON.parse(
+        form.dataset.wheelLinks || "{}",
       );
-      if ([...build.options].some((o) => o.value === previous))
-        build.value = previous;
-    };
-    const render = () => {
-      const selected = product.builds.find((b) => b.id === build.value)!;
-      form.querySelector<HTMLElement>("[data-complete]")!.hidden =
-        type.value === "frameset";
-      build.disabled = type.value === "frameset";
-      form.querySelector("[data-price]")!.textContent = money(selected.price);
-      form.querySelector("[data-wheels]")!.textContent = selected.wheels
-        ? `Wheels: ${selected.wheels}`
-        : "";
-      form.querySelector("[data-components]")!.textContent =
-        selected.components || "";
-      form.querySelector("[data-summary]")!.textContent =
-        `${product.name} · ${selected.label} · ${size.value || "Choose a size"}`;
-      try {
-        localStorage.setItem(
-          key,
-          JSON.stringify({
-            type: type.value,
-            size: size.value,
-            build: build.value,
-          }),
+      const status = form.querySelector<HTMLElement>("[data-status]")!;
+      const key = `equator-config-${product.id}`;
+      const radios = (name: string) =>
+        [...form.querySelectorAll<HTMLInputElement>(`input[name="${name}"]`)];
+      const value = (name: string) =>
+        radios(name).find((r) => r.checked)?.value ?? "";
+      const set = (name: string, v: string) => {
+        const r = radios(name).find((x) => x.value === v && !x.disabled);
+        if (r) r.checked = true;
+        return Boolean(r);
+      };
+      const text = (sel: string, t: string) => {
+        const el = form.querySelector<HTMLElement>(sel);
+        if (el) el.textContent = t;
+      };
+
+      const selectedBuild = () => {
+        const type = value("type");
+        if (type === "frameset")
+          return product.builds.find((b) => b.type === "frameset")!;
+        return (
+          product.builds.find(
+            (b) => b.id === value("build") && b.type === "complete",
+          ) ?? product.builds.find((b) => b.type === "complete")!
         );
-      } catch {
-        status.textContent =
-          "Browser storage is unavailable. Your selection cannot be saved.";
-      }
-    };
-    try {
-      const saved = JSON.parse(localStorage.getItem(key) || "null");
-      if (saved) {
-        type.value = ["frameset", "complete"].includes(saved.type)
-          ? saved.type
-          : "complete";
-        size.value = product.sizes.includes(saved.size) ? saved.size : "";
-        renderOptions();
-        if (
-          product.builds.some(
-            (b) => b.id === saved.build && b.type === type.value,
-          )
-        )
-          build.value = saved.build;
-      } else renderOptions();
-    } catch {
-      renderOptions();
-    }
-    render();
-    type.addEventListener("change", () => {
-      renderOptions();
-      render();
-    });
-    size.addEventListener("change", render);
-    build.addEventListener("change", render);
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
+      };
+
+      const render = () => {
+        const isFrame = value("type") === "frameset";
+        form
+          .querySelectorAll<HTMLElement>("[data-complete]")
+          .forEach((el) => (el.hidden = isFrame));
+        form
+          .querySelectorAll<HTMLElement>("[data-frameset]")
+          .forEach((el) => (el.hidden = !isFrame));
+        radios("build").forEach((r) => (r.disabled = isFrame));
+        const build = selectedBuild();
+        const size = value("size");
+
+        text("[data-wheels]", build.wheels ?? "");
+        const link = form.querySelector<HTMLAnchorElement>("[data-wheel-link]")!;
+        const href = build.wheelId ? wheelLinks[build.wheelId] : undefined;
+        link.hidden = !href;
+        if (href) link.href = href;
+        const list = form.querySelector<HTMLUListElement>("[data-components]")!;
+        list.replaceChildren(
+          ...(build.components ?? "")
+            .split("·")
+            .map((c) => c.trim())
+            .filter(Boolean)
+            .map((c) => {
+              const li = document.createElement("li");
+              li.textContent = c;
+              return li;
+            }),
+        );
+
+        text("[data-review-step]", isFrame ? "04" : "06");
+        text("[data-r-build]", isFrame ? "Frameset only" : "Complete bicycle");
+        text("[data-r-size]", size || "Not selected yet");
+        text("[data-r-groupset]", build.groupset ?? build.label);
+        text("[data-r-wheels]", build.wheels ?? "");
+        text("[data-price]", money(build.price));
+
+        try {
+          localStorage.setItem(
+            key,
+            JSON.stringify({ type: value("type"), size, build: value("build") }),
+          );
+        } catch {
+          /* Storage unavailable: configuration simply isn't remembered. */
+        }
+      };
+
       try {
-        addToCart({
-          productId: product.id,
-          buildId: build.value,
-          size: size.value,
-        });
-        status.textContent =
-          "Added to your bag. Continue exploring or open your bag to review.";
-        status.classList.remove("error");
-      } catch (error) {
-        status.textContent =
-          error instanceof Error
-            ? error.message
-            : "Unable to save. Please check browser storage.";
-        status.classList.add("error");
+        const saved = JSON.parse(localStorage.getItem(key) || "null");
+        if (saved && typeof saved === "object") {
+          if (typeof saved.type === "string") set("type", saved.type);
+          if (typeof saved.size === "string" && product.sizes.includes(saved.size))
+            set("size", saved.size);
+          if (typeof saved.build === "string") set("build", saved.build);
+        }
+      } catch {
+        /* Ignore unreadable saved configuration. */
       }
-    });
-    form
-      .querySelector('a[href="#size-guide"]')
-      ?.addEventListener("click", () => {
-        document.querySelector<HTMLDetailsElement>("#size-guide")!.open = true;
+      render();
+      form.addEventListener("change", () => {
+        status.textContent = "";
+        status.classList.remove("error");
+        render();
       });
-  }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const size = value("size");
+        if (!size) {
+          status.textContent = "Choose a frame size to continue.";
+          status.classList.add("error");
+          radios("size")[0]?.focus();
+          return;
+        }
+        try {
+          addToCart({ productId: product.id, buildId: selectedBuild().id, size });
+          status.textContent = `${product.name} added to your bag.`;
+          status.classList.remove("error");
+          form.querySelector<HTMLElement>("[data-view-bag]")!.hidden = false;
+        } catch (error) {
+          status.textContent =
+            error instanceof Error
+              ? error.message
+              : "Unable to save. Please check browser storage.";
+          status.classList.add("error");
+        }
+      });
+
+      form
+        .querySelector("[data-open-size]")
+        ?.addEventListener("click", () => {
+          const d = document.querySelector<HTMLDetailsElement>("#size-guide");
+          if (d) d.open = true;
+        });
+    });
 </script>
+
 <style>
-  .config-detail {
+  legend {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .step {
+    font-size: 11px;
+    font-weight: 500;
+    color: #999;
+    letter-spacing: 0.08em;
+  }
+  fieldset {
+    margin-bottom: 34px;
+  }
+  .stacked {
+    grid-template-columns: 1fr;
+  }
+  .option-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .included {
+    display: grid;
+    gap: 4px;
+    padding: 16px;
+    background: #f7f7f7;
+  }
+  .included .text-link {
+    justify-self: start;
+    padding: 6px 0 0;
+  }
+  .included-list {
+    margin: 0 0 12px;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+  }
+  .included-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .text-link.small {
     font-size: 12px;
-    line-height: 1.7;
+    padding: 10px 0 4px;
+    margin-top: 6px;
   }
   .config-review {
     padding: 24px;
     background: #f7f7f7;
-    margin-bottom: 20px;
+    margin: 6px 0 18px;
   }
-  .config-review .eyebrow {
-    font-size: 9px;
+  .config-review h2 {
+    margin-bottom: 14px;
+    letter-spacing: 0.15em;
+    font-weight: 600;
   }
-  .config-review .price {
-    margin: 14px 0;
+  .review-list {
+    margin: 0;
+    font-size: 13px;
   }
-  .config-review p:last-child {
-    margin-bottom: 0;
+  .review-list > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .review-list dd {
+    margin: 0;
+    text-align: right;
+    color: #666;
+  }
+  .review-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 16px 0 6px;
+    font-size: 14px;
+  }
+  .review-total .price {
+    color: #171717;
   }
 </style>
