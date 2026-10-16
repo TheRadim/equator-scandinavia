@@ -19,7 +19,7 @@ Premium Astro storefront for Equator titanium bicycles and carbon wheels in Scan
 10. Production deployment — blocked: needs (a) GitHub token with `workflow` scope to install workflows, (b) Pages enabled, (c) explicit publication approval.
 
 ## Git / push status
-Branch `codex/website-prototype` (remote `origin` = github.com/TheRadim/equator-scandinavia, private). This branch has **never been pushed**: Codex's push was blocked by missing `workflow` scope, and the Claude session had no GitHub credentials in either shell. All commits are local in `/Users/radimtheiner/Coding/Webs/Equator`. To push: `git push -u origin codex/website-prototype` from a terminal where GitHub is authenticated.
+Branch `codex/website-prototype` is pushed to origin (github.com/TheRadim/equator-scandinavia, private) and tracks `origin/codex/website-prototype`; pushed 2026-10-16 up to `91ad00c` plus this status update. GitHub workflows are still templates in docs/website-workflows/ (installing them needs a token with Workflows: write). No CI run or Pages deployment exists yet.
 
 ## Required credentials / decisions before live inquiries
 Resend API key + verified sending domain; representative inbox (`INQUIRY_RECIPIENT`); Turnstile site key + secret; Cloudflare account + KV namespace; legal operator / data controller; final privacy policy, terms, cookie text; approved Scandinavian pricing policy (currently EUR manufacturer references). Details: worker/README.md.
@@ -34,5 +34,5 @@ Resend API key + verified sending domain; representative inbox (`INQUIRY_RECIPIE
 ## Continue exactly here
 1. Read this file, ARCHITECTURE.md, PRODUCT_DATA.md, DECISIONS.md, docs/website-inquiries.md, worker/README.md.
 2. `cd website && npm ci && npm test && npm run build`; `cd ../worker && npm test`.
-3. Push the branch (see Git status). With a `workflow`-scoped token, copy docs/website-workflows/*.yml to .github/workflows/.
+3. With a token that has Workflows: write, copy docs/website-workflows/*.yml to .github/workflows/ (CI runs tests + build on push; Pages deploy stays manual).
 4. Next work, in order: download gallery photos and add them; owner review of copy/prices; when approved, deploy the Worker and set `PUBLIC_INQUIRY_ENDPOINT`; replace policy pages with approved text; enable Pages and run the manual deploy (type PUBLISH); set `PUBLIC_ALLOW_INDEXING=true` only at public launch; custom domain (add `public/CNAME`, update `site`/`base` in astro.config.mjs).
