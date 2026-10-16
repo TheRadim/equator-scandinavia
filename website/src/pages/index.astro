@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
-import {families} from '../data/families';
+import {bikes as families} from '../data/bikes/catalog';
 import {url} from '../lib/urls';
 ---
 <Layout><section class="wrap hero"><div class="hero-copy"><p class="eyebrow">Equator titanium / Made for the ride</p><h1>Built to<br/>go further.</h1><p>Titanium bicycles. Thoughtfully designed.<br/>For wherever the road takes you.</p><a class="button" href={url('bikes/')}>Explore our bikes <span>↗</span></a></div><div class="hero-photo"><img src={url('images/sensei-0.jpg')} alt="Equator Sensei Gen 4 titanium gravel bicycle beside an open field" width="1024" height="768" fetchpriority="high"/><div class="photo-caption"><span>01 / SENSEI GEN 4</span><a href={url('bikes/sensei-gen-4/')}>Meet your next ride ↗</a></div></div></section>

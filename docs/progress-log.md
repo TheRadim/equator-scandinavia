@@ -103,3 +103,7 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 ## 2026-10-16 — Website milestone 6
 
 - Added shared contact/order demo forms, validation, local product-only receipt and explicit no-message confirmation. Cart remains intact. Real delivery and server-side spam protection are deferred by prototype scope; acceptance criteria and credential names documented. Twelve routes build/type-check successfully.
+
+## 2026-10-16 — Website milestone 7
+
+- Added explicit inventory metadata, publication filters, discontinued/held exclusion and catalog maintenance guide. All regional availability remains unconfirmed; manufacturer observations stay dated. Seven tests and build/type-check pass. No synchronization configured.
