@@ -95,3 +95,7 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 
 - Added factory-bundle configurator, frameset hiding, listed size validation, saved selections and live reference pricing. Unknown upgrades are not offered as compatible options.
 - Six logic tests pass, including cart identity/quantity/unknown-price foundations; Astro type-check and build pass.
+
+## 2026-10-16 — Website milestone 5
+
+- Added cart editing, distinct configured lines, item count, wheel inquiry items, local persistence and explicit corrupt-storage recovery. Price-on-request items cannot become a zero-price total. Build/type-check pass.
