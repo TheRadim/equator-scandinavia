@@ -4,6 +4,7 @@ import "../styles/global.css";
 import { url } from "../lib/urls";
 import CurrencySwitch from "../components/CurrencySwitch.astro";
 import { allowIndexing, representativeEmail } from "../lib/config";
+import { site } from "../data/site";
 const {
   title = "Titanium bicycles for the road ahead",
   description = "Equator titanium bicycles, carbon wheels and components for Denmark, Sweden and Norway.",
@@ -143,7 +144,7 @@ const links = [
         </div>
         <div class="footer-bottom bar">
           <span>© 2026 Equator Scandinavia · Representing Equator Cycling, Czech Republic</span>
-          <span>{representativeEmail}</span>
+          {site.showEmail ? <span>{representativeEmail}</span> : <a href={url("contact/")}>Contact us</a>}
         </div>
       </div>
     </footer>

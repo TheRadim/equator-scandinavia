@@ -10,8 +10,10 @@ const range = (r: [number, number | null]) =>
     <p class="eyebrow">Size finder</p>
     <h2 id={`sf-${id}`}>Find your size.</h2>
     <p>
-      Enter your height and inseam (floor to crotch, barefoot). We use Equator's
-      rider-height ranges; your inseam decides when you fit two sizes.
+      Enter your height and inseam (floor to crotch, barefoot). We compare your
+      height with Equator's rider-height ranges, and your inseam with the leg
+      length typical for each size, so long or short legs move you up or down
+      a size.
     </p>
   </div>
   <form class="sf-form" novalidate>
@@ -42,7 +44,7 @@ const range = (r: [number, number | null]) =>
 </section>
 
 <script>
-  import { suggestSize, type Geometry } from "../data/bikes/details";
+  import { saddleHeightCm, suggestSize, type Geometry } from "../data/bikes/details";
   document.querySelectorAll<HTMLElement>("[data-size-finder]").forEach((root) => {
     const { geometry, offered } = JSON.parse(root.dataset.sizeFinder!) as { geometry: Geometry; offered: string[] };
     const form = root.querySelector("form")!;
@@ -69,7 +71,8 @@ const range = (r: [number, number | null]) =>
         return;
       }
       out.textContent = s.alternative ? `${s.size} (or ${s.alternative})` : s.size;
-      reason.textContent = `${s.reason} We'll confirm your size before you order.`;
+      const saddle = i ? ` Approximate saddle height: ${saddleHeightCm(i)} cm (centre of bottom bracket to top of saddle).` : "";
+      reason.textContent = `${s.reason}${saddle} We'll confirm your size before you order.`;
       root.querySelector(`[data-range="${s.size}"]`)?.classList.add("match");
     };
     form.addEventListener("input", update);

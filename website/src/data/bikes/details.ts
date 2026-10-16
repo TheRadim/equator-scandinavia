@@ -261,11 +261,20 @@ export const bikeDetails: Record<string, BikeDetails> = {
   },
 };
 
+/** Typical saddle height (BB to saddle top) for an inseam: inseam × 0.883. */
+export const saddleHeightCm = (inseamCm: number) => Math.round(inseamCm * 0.883 * 10) / 10;
+
 /**
- * Size suggestion from rider height and inseam using Equator's rider-height
- * ranges. Where two sizes overlap, a long inseam (≥ 47% of height) picks the
- * larger size and a short one the smaller. Only sizes currently offered are
- * suggested. Returns null when outside every range.
+ * Size suggestion from rider height AND inseam.
+ * - Height: distance outside Equator's rider-height range for each size.
+ * - Inseam: distance from the inseam a typical rider of that size has
+ *   (middle of the size's height range × 0.46, the average inseam-to-height
+ *   ratio). Calibrated per bike from Equator's own ranges, so it works for
+ *   sloping and traditional frames alike. Long legs push towards the larger
+ *   size, short legs towards the smaller one.
+ * Both are combined into one score; the lowest wins, and a close second is
+ * offered as the alternative. Only sizes currently offered are suggested.
+ * Returns null when no offered size is reasonably close.
  */
 export function suggestSize(
   geo: Geometry,
@@ -273,20 +282,34 @@ export function suggestSize(
   heightCm: number,
   inseamCm?: number,
 ): { size: string; alternative?: string; reason: string } | null {
-  const fits = geo.sizes
-    .map((s, i) => ({ s, min: geo.riderHeight[i][0], max: geo.riderHeight[i][1] ?? Infinity }))
-    .filter((r) => offered.includes(r.s) && heightCm >= r.min && heightCm <= r.max);
-  if (!fits.length) return null;
-  if (fits.length === 1) return { size: fits[0].s, reason: "Your height is in this size's range." };
-  const ratio = inseamCm ? inseamCm / heightCm : null;
-  const [small, large] = [fits[0], fits[fits.length - 1]];
-  if (ratio === null)
-    return {
-      size: small.s,
-      alternative: large.s,
-      reason: "Your height fits two sizes. Add your inseam to choose between them.",
-    };
-  return ratio >= 0.47
-    ? { size: large.s, alternative: small.s, reason: "Your height fits two sizes; your longer legs favour the larger one." }
-    : { size: small.s, alternative: large.s, reason: "Your height fits two sizes; your inseam favours the smaller, more compact one." };
+  const ideal = inseamCm ?? null;
+  const scored = geo.sizes
+    .map((s, i) => {
+      const [lo, hi] = geo.riderHeight[i];
+      const min = lo;
+      const max = hi ?? Infinity;
+      // Representative rider height for the size (open-ended ranges use ±7 cm).
+      const mid = lo === 0 && hi !== null ? hi - 7 : hi === null ? lo + 7 : (lo + hi) / 2;
+      const heightOff = heightCm < min ? min - heightCm : heightCm > max ? heightCm - max : 0;
+      const inseamOff = ideal !== null ? Math.abs(ideal - mid * 0.46) : 0;
+      // 5 cm outside the height range ≈ 4 cm inseam mismatch ≈ 1 point.
+      return { s, heightOff, inseamOff, score: heightOff / 5 + inseamOff / 4 };
+    })
+    .filter((r) => offered.includes(r.s))
+    .sort((a, b) => a.score - b.score);
+  const best = scored[0];
+  if (!best || best.heightOff > 8 || best.score > 3) return null;
+  const second = scored[1];
+  const alternative = second && second.score - best.score < 0.5 ? second.s : undefined;
+  let reason: string;
+  if (ideal === null)
+    reason = alternative
+      ? "Based on your height. Add your inseam for a more precise suggestion."
+      : "Based on your height. Add your inseam to check the fit.";
+  else if (best.heightOff === 0)
+    reason = alternative
+      ? "Your height and inseam sit between two sizes. Choose the smaller one for a more upright, compact fit, the larger for a longer, stretched position."
+      : "This size matches both your height and your inseam.";
+  else reason = "Your inseam suits this size best, although your height is just outside its range.";
+  return { size: best.s, alternative, reason };
 }

@@ -136,3 +136,18 @@ test("currency conversion uses the configured rates and rounds to 10", () => {
   assert.equal(money(241500, "NOK"), "NOK 25,720");
   assert.equal(money(null, "SEK"), "Price on request");
 });
+
+import { bikeDetails, suggestSize } from "../src/data/bikes/details.ts";
+test("size finder uses inseam as well as height", () => {
+  const g = bikeDetails.sensei.geometry;
+  const offered = ["M", "L", "XL"];
+  // 178 cm fits M, L and XL by height; inseam picks the frame.
+  assert.equal(suggestSize(g, offered, 178, 76)?.size, "M"); // short legs
+  assert.equal(suggestSize(g, offered, 178, 86)?.size, "XL"); // long legs
+  assert.equal(suggestSize(g, offered, 178, 82)?.size, "L");
+  const y = bikeDetails.yasei.geometry;
+  assert.equal(suggestSize(y, ["M", "L"], 176, 78)?.size, "M");
+  assert.equal(suggestSize(y, ["M", "L"], 176, 86)?.size, "L");
+  assert.equal(suggestSize(g, offered, 150, 70), null);
+  assert.ok(suggestSize(g, offered, 175)?.size);
+});

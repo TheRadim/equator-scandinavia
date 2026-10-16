@@ -2,16 +2,19 @@
 import Layout from "../layouts/Layout.astro";
 import { url } from "../lib/urls";
 import { representativeEmail } from "../lib/config";
+import { site } from "../data/site";
+// Where people are told to write: the address if shown, otherwise the contact form.
+const writeTo = site.showEmail ? representativeEmail : "us through the contact page";
 const pages = {
   privacy: {
     title: "Privacy policy",
     eyebrow: "Privacy",
     paragraphs: [
-      `This website is run by Equator Scandinavia, the Scandinavian representative of Equator Cycling. Contact: ${representativeEmail}.`,
+      `This website is run by Equator Scandinavia, the Scandinavian representative of Equator Cycling. Contact: ${site.showEmail ? representativeEmail : "use the form on our contact page"}.`,
       "When you send a message or an order inquiry we receive your name, email address, phone number (if given), your message and the products in your bag. We use this only to answer you and to arrange your order with Equator Cycling, who manufacture the products.",
       "Messages are delivered to us by a form-handling service acting on our behalf. We don't sell your details or use them for marketing without asking you first.",
       "Your bag and saved bike configurations are stored in your own browser (local storage) and never sent to us until you submit an inquiry. You can clear them at any time in your browser settings.",
-      `You can ask to see, correct or delete the information we hold about you by writing to ${representativeEmail}.`,
+      `You can ask to see, correct or delete the information we hold about you by writing to ${writeTo}.`,
     ],
   },
   terms: {
@@ -29,7 +32,7 @@ const pages = {
     eyebrow: "Support",
     paragraphs: [
       "Equator products are covered by Equator Cycling's warranty conditions. The terms that apply to your product are confirmed in writing with your order.",
-      `If something isn't right with your Equator, write to ${representativeEmail} with your order reference and a few photos. We'll handle the contact with Equator for you.`,
+      `If something isn't right with your Equator, write to ${writeTo} with your order reference and a few photos. We'll handle the contact with Equator for you.`,
     ],
     source: "https://www.equator-cycling.com/obchodni-podminky/",
   },

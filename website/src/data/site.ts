@@ -6,6 +6,8 @@ export const site = {
   name: "Equator Scandinavia",
   /** Inbox for contact messages and order inquiries; shown on the contact page. */
   email: "hi@radim-theiner.com",
+  /** Show the address on the site (footer, policies). Off until a neutral business address exists. */
+  showEmail: false,
   region: "Denmark · Sweden · Norway",
   /**
    * Formspree form ID (the part after formspree.io/f/). Public by design.

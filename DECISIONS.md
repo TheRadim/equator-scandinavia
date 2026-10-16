@@ -34,3 +34,5 @@
 - Wheel variants are specs, not products: brake type (disc/rim), freehub and tubeless setup (+€32). Equator's second listed price per wheel equals the tubeless option (stated on the 50C Disc page; 50C rim €867/€899 matches).
 - Added current road wheels 50C (disc/rim), Wide 50C, 35C, 45T tubular. Equator states wheels are assembled and tested by hand in Zlín (Wavy 50C, 50C Disc, TT 88C pages); shown site-wide.
 - Removed arrow glyphs from links/buttons; full-width sticky header; compact footer.
+- Personal email hidden from the site until a neutral business address exists (site.showEmail=false).
+- Size finder scores every offered size on height (Equator range) and inseam (vs. mid-range height × 0.46, typical inseam ratio); shows approximate saddle height (inseam × 0.883). Always followed by "we'll confirm your size".
