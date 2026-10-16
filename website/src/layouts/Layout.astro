@@ -49,7 +49,7 @@ const links = [
     <a class="skip" href="#main">
       Skip to content
     </a>
-    <div class="notice">
+    <div class="notice" role="region" aria-label="Site notice">
       {
         liveInquiries
           ? "Request your build — every order is reviewed and confirmed before payment."
@@ -106,13 +106,13 @@ const links = [
             <span class="eyebrow">Czech roots. Northern horizons.</span>
           </div>
           <div>
-            <h3>Explore</h3>
+            <h2 class="footer-title">Explore</h2>
             {links.slice(0, 3).map(([label, path]) => (
               <a href={url(path)}>{label}</a>
             ))}
           </div>
           <div>
-            <h3>Equator & support</h3>
+            <h2 class="footer-title">Equator & support</h2>
             {[
               ["About", "about"],
               ["Contact", "contact"],
@@ -125,7 +125,7 @@ const links = [
             ))}
           </div>
           <div>
-            <h3>Information</h3>
+            <h2 class="footer-title">Information</h2>
             {[
               ["Privacy", "privacy"],
               ["Terms & conditions", "terms"],

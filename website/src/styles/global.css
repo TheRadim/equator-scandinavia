@@ -170,7 +170,10 @@ h3 {
   color: #666;
   margin: 14px 0;
 }
-.footer h3 {
+.footer h3,
+.footer .footer-title {
+  letter-spacing: 0;
+  font-weight: 600;
   font-size: 12px;
 }
 .footer-bottom {
@@ -178,7 +181,7 @@ h3 {
   margin-top: 64px;
   padding-top: 24px;
   font-size: 11px;
-  color: #777;
+  color: #666;
 }
 .skip {
   position: absolute;
@@ -370,7 +373,7 @@ hr {
   left: 16px;
   bottom: 14px;
   font-size: 11px;
-  color: #999;
+  color: #666;
 }
 .card-price {
   color: #171717;
@@ -632,4 +635,10 @@ details.disclosure > :not(summary) {
   top: 0;
   z-index: 30;
   background: #fff;
+}
+h2.h3 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
 }

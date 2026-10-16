@@ -24,11 +24,12 @@ import { url } from "../../lib/urls";
         </button>
       ))}
     </div>
+    <h2 class="visually-hidden">Wheelsets</h2>
     <div class="grid3">
       {wheels.map((w) => <WheelCard wheel={w} />)}
     </div>
     <div class="empty" id="no-wheels" hidden>
-      <h3>Let’s find the right wheelset.</h3>
+      <h2 class="h3">Let’s find the right wheelset.</h2>
       <p>
         We’re confirming the current range for this category. No availability is
         assumed.

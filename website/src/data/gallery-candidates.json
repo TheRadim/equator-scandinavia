@@ -1,0 +1,45 @@
+{
+  "_note": "Official Equator gallery photographs (image reuse permission confirmed 2026-10-16). Not yet downloaded: the cloud build environment cannot reach cdn.myshoptet.com. Run `npm run fetch-images` on a machine with access, then add the saved paths to the product's `images` array and run `npm run images`.",
+  "retrieved": "2026-10-16",
+  "products": {
+    "yasei": {
+      "source": "https://www.equator-cycling.com/en/equator-yasei-titanium/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/144-2_5vai3908-ii.jpg?ff=1&x=1024&y=768&q=85&ts=69947c9c&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/144-3_5vai3912.jpg?ff=1&x=1024&y=768&q=85&ts=69947c9c&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/144-24_5vai4007.jpg?ff=1&x=1024&y=768&q=85&ts=69947ca1&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/144-5_5vai3916.jpg?ff=1&x=1024&y=768&q=85&ts=69947c9d&sg=161563f2"
+      ]
+    },
+    "wavy-50": {
+      "source": "https://www.equator-cycling.com/en/equator-wavy-50c-disk/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/141_set-karbonovych-kol-equator-wavy-50c-disk--1.png?ff=1&x=1024&y=768&q=85&ts=69e1ec42&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/141-2_set-karbonovych-kol-equator-wavy-50c-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1ec44&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/141-1_set-karbonovych-kol-equator-wavy-50c-disk--2.png?ff=1&x=1024&y=768&q=85&ts=69e1ec43&sg=161563f2"
+      ]
+    },
+    "wavy-35": {
+      "source": "https://www.equator-cycling.com/en/set-karbonovych-kol-equator-wavy-35c-disk/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/243-2_set-karbonovych-kol-equator-wavy-35c-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1ec11&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/243-1_set-karbonovych-kol-equator-wavy-35c-disk--2.png?ff=1&x=1024&y=768&q=85&ts=69e1ec10&sg=161563f2"
+      ]
+    },
+    "gravel-ultimate-40": {
+      "source": "https://www.equator-cycling.com/en/set-karbonovych-kol-equator-gravel-40c-disk-ultimate/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/240_set-karbonovych-kol-equator-gravel-40c-disk--1.png?ff=1&x=1024&y=768&q=85&ts=69e1eb53&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/240-2_set-karbonovych-kol-equator-gravel-40c-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1eb56&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/240-1_set-karbonovych-kol-equator-gravel-40c-disk--2.png?ff=1&x=1024&y=768&q=85&ts=69e1eb55&sg=161563f2"
+      ]
+    },
+    "tt-88": {
+      "source": "https://www.equator-cycling.com/en/set-karbonovych-kol-equator-88c-disk/",
+      "urls": [
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/237_set-karbonovych-kol-equator-88c-disk--1.png?ff=1&x=1024&y=768&q=85&ts=69e1ebe5&sg=161563f2",
+        "https://cdn.myshoptet.com/usr/www.equator-cycling.com/user/shop/big/237-2_set-karbonovych-kol-equator-88c-disk--3.png?ff=1&x=1024&y=768&q=85&ts=69e1ebea&sg=161563f2"
+      ]
+    }
+  }
+}
