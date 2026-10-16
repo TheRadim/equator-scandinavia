@@ -1,18 +1,18 @@
-name: Publish approved website prototype
+name: Deploy website to GitHub Pages
+# Builds website/ and publishes website/dist to the gh-pages branch.
+# Pages source: Settings → Pages → Deploy from a branch → gh-pages / (root).
 on:
+  push:
+    branches: [codex/website-prototype]
+    paths: ['website/**', '.github/workflows/website-deploy.yml']
   workflow_dispatch:
-    inputs:
-      confirm_publication:
-        description: 'Type PUBLISH to make this prototype publicly accessible'
-        required: true
 permissions:
-  contents: read
+  contents: write
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: pages-deploy
+  cancel-in-progress: true
 jobs:
-  build:
-    if: inputs.confirm_publication == 'PUBLISH'
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,28 +21,22 @@ jobs:
           node-version: '22'
           cache: npm
           cache-dependency-path: website/package-lock.json
-      - run: npm ci && npm test && npm run build
+      - name: Test and build
         working-directory: website
+        run: npm ci && npm test && npm run build
         env:
-          # Repository → Settings → Secrets and variables → Actions → Variables.
-          # All optional; empty values keep demo mode and noindex.
+          # Repository → Settings → Secrets and variables → Actions → Variables (all optional).
           PUBLIC_INQUIRY_ENDPOINT: ${{ vars.PUBLIC_INQUIRY_ENDPOINT }}
           PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
           PUBLIC_REPRESENTATIVE_EMAIL: ${{ vars.PUBLIC_REPRESENTATIVE_EMAIL }}
           PUBLIC_ALLOW_INDEXING: ${{ vars.PUBLIC_ALLOW_INDEXING }}
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: website/dist
-  deploy:
-    needs: build
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish to gh-pages
+        run: |
+          cd website/dist
+          touch .nojekyll
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "deploy: ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" gh-pages

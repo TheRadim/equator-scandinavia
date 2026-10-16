@@ -1,3 +1,8 @@
-# Workflow installation
+# Workflows
 
-The authenticated GitHub OAuth app lacks workflow scope. To preserve non-destructive pushes, workflow templates live here rather than .github/workflows/. With an appropriately authorized login, copy both YAML files into .github/workflows/ and commit. CI performs build/type checking. Pages deploys only on manual dispatch with PUBLISH entered; configure repository Pages source as GitHub Actions first. Do not enable publication until approved.
+Installed in `.github/workflows/`; these copies are kept as reference.
+
+- `website-check.yml` — on push/PR touching `website/` or `worker/`: site tests, astro check + build, worker tests.
+- `website-deploy.yml` (copy: `website-pages.yml`) — on push to `codex/website-prototype` touching `website/`, or manual run: tests, builds and force-pushes `website/dist` to the `gh-pages` branch. GitHub Pages serves that branch (Settings → Pages → Deploy from a branch → `gh-pages`, `/ (root)`).
+
+Build variables (Settings → Secrets and variables → Actions → Variables, all optional): `PUBLIC_INQUIRY_ENDPOINT` (empty = demo inquiries), `PUBLIC_TURNSTILE_SITE_KEY`, `PUBLIC_REPRESENTATIVE_EMAIL`, `PUBLIC_ALLOW_INDEXING` (`true` only at public launch).

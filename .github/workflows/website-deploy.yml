@@ -1,0 +1,42 @@
+name: Deploy website to GitHub Pages
+# Builds website/ and publishes website/dist to the gh-pages branch.
+# Pages source: Settings → Pages → Deploy from a branch → gh-pages / (root).
+on:
+  push:
+    branches: [codex/website-prototype]
+    paths: ['website/**', '.github/workflows/website-deploy.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+      - name: Test and build
+        working-directory: website
+        run: npm ci && npm test && npm run build
+        env:
+          # Repository → Settings → Secrets and variables → Actions → Variables (all optional).
+          PUBLIC_INQUIRY_ENDPOINT: ${{ vars.PUBLIC_INQUIRY_ENDPOINT }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
+          PUBLIC_REPRESENTATIVE_EMAIL: ${{ vars.PUBLIC_REPRESENTATIVE_EMAIL }}
+          PUBLIC_ALLOW_INDEXING: ${{ vars.PUBLIC_ALLOW_INDEXING }}
+      - name: Publish to gh-pages
+        run: |
+          cd website/dist
+          touch .nojekyll
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "deploy: ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
