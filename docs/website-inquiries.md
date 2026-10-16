@@ -1,0 +1,9 @@
+# Inquiry prototype and production handoff
+
+Current implementation is browser-local simulation only, per the user's 2026-10-16 clarification. Form fields are validated but never submitted to an endpoint or saved in local/session storage. Only product summary, demo reference and time are saved in sessionStorage. The cart is deliberately retained. Use fictional data. Contact and order inquiry share the same component. No recipient or sender address is hardcoded.
+
+Production is unimplemented, not merely missing a key. Do not enable a real POST by changing an environment variable. First approve legal operator, data-controller responsibilities, processors, retention policy and privacy text. Then implement the endpoint, test it using an authorized test recipient and review before activation.
+
+Recommended endpoint: Cloudflare Worker + Resend. Required server configuration names: RESEND_API_KEY, INQUIRY_RECIPIENT, INQUIRY_FROM, ALLOWED_ORIGIN, TURNSTILE_SECRET_KEY. Keep values in provider secret storage. Client configuration names are listed in website/.env.example only; currently unused.
+
+Endpoint acceptance criteria: bounded JSON POST payload; schema validation; allowlisted product/build/size combinations; server-derived prices; no email/header injection; escaped customer content; server-verified Turnstile token; rate limiting; durable request idempotency; provider timeout/retry handling; reference and timestamp generated server-side; minimal logging without personal content. Report acceptance only after email provider accepts delivery, and distinguish acceptance from actual inbox delivery. Customer confirmation is optional and must not turn a successful representative delivery into a retry that duplicates it. Clear cart only on accepted real inquiry. Test invalid payloads, bad captcha, duplicate retries, provider failure and unavailable products.

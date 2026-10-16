@@ -99,3 +99,7 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 ## 2026-10-16 — Website milestone 5
 
 - Added cart editing, distinct configured lines, item count, wheel inquiry items, local persistence and explicit corrupt-storage recovery. Price-on-request items cannot become a zero-price total. Build/type-check pass.
+
+## 2026-10-16 — Website milestone 6
+
+- Added shared contact/order demo forms, validation, local product-only receipt and explicit no-message confirmation. Cart remains intact. Real delivery and server-side spam protection are deferred by prototype scope; acceptance criteria and credential names documented. Twelve routes build/type-check successfully.
