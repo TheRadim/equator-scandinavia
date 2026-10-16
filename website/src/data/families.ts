@@ -27,6 +27,8 @@ export const families = [
     description:
       "Take the long way. An adventure gravel bike for roads less travelled.",
     image: "images/yasei-0.jpg",
-    images: [0, 1, 2, 3, 4].map((n) => `images/yasei-${n}.jpg`),
+    // Near-square photo: crop window positioned so saddle and tyres stay in frame.
+    cardPosition: "50% 67%",
+    images: [...[0, 1, 2, 3, 4].map((n) => `images/yasei-${n}.jpg`), "images/yasei-alt-2.jpg", "images/yasei-alt-7.jpg", "images/yasei-alt-14.jpg"],
   },
 ];

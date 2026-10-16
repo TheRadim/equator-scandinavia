@@ -11,6 +11,7 @@ interface Props {
   sizes?: string;
   eager?: boolean;
   class?: string;
+  style?: string;
   width?: number;
   height?: number;
 }
@@ -20,6 +21,7 @@ const {
   sizes = "(max-width: 900px) 100vw, 50vw",
   eager = false,
   class: cls,
+  style,
 } = Astro.props;
 // Real dimensions at build time: correct width/height (no layout shift) and a
 // "portrait" class so tall photos are shown whole instead of cropped.
@@ -38,6 +40,7 @@ const base = src.replace(/\.(jpe?g|png)$/i, "");
   />
   <img
     class:list={[cls, portrait && "portrait"]}
+    style={style}
     src={url(src)}
     alt={alt}
     width={width}

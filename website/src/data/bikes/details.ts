@@ -211,8 +211,8 @@ export const bikeDetails: Record<string, BikeDetails> = {
         title: "Ready to load up",
         text: "Two bottle cages inside the frame or one on the down tube, another underneath, a bolt-on top-tube bag, and rack and fender mounts.",
       },
-      { ...t47 },
-      { ...udh },
+      { ...t47, image: "images/yasei-alt-14.jpg" },
+      { ...udh, image: "images/yasei-alt-7.jpg" },
     ],
     geometry: {
       sizes: ["S", "M", "L", "XL"],

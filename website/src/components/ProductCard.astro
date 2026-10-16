@@ -15,7 +15,8 @@ const href = url(`bikes/${product.slug}/`);
 <article class="card ratio-wide">
   <a href={href}>
     <Photo
-      class="product-image"
+      class="product-image card-photo"
+      style={`object-position:${(product as { cardPosition?: string }).cardPosition ?? "50% 50%"}`}
       src={product.image}
       alt={`Equator ${product.name} titanium bicycle; illustrative complete build`}
       sizes="(max-width: 767px) 100vw, 33vw"

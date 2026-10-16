@@ -229,6 +229,11 @@ h3 {
 .ratio-wide .product-image {
   aspect-ratio: 3/2;
 }
+/* Bike cards: one frame for all three bikes; every photo fills it. */
+.card.ratio-wide .product-image.card-photo {
+  aspect-ratio: 1.4;
+  object-fit: cover;
+}
 .card h3 {
   margin: 24px 0 10px;
 }
