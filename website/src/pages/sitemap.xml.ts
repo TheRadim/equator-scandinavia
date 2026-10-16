@@ -9,6 +9,13 @@ export const GET: APIRoute = ({ site }) => {
     "accessories/",
     "about/",
     "contact/",
+    "faq/",
+    "warranty/",
+    "crash-replacement/",
+    "shipping/",
+    "privacy/",
+    "terms/",
+    "cookies/",
     ...bikes.map((p) => `bikes/${p.slug}/`),
     ...wheels.map((p) => `wheels/${p.slug}/`),
   ];

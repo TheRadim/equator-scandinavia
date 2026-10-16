@@ -6,7 +6,7 @@ import { url } from "../lib/urls";
 
 <Layout title="Review your inquiry">
   <div class="wrap section">
-    <p class="eyebrow">One step closer / Demo</p>
+    <p class="eyebrow">Request your build</p>
     <h1>
       Let’s talk
       <br />
@@ -14,9 +14,10 @@ import { url } from "../lib/urls";
     </h1>
     <div class="checkout">
       <div>
-        <p>
-          In the finished service, a representative would review your build and
-          confirm pricing and availability before any payment.
+        <p class="intro">
+          Send your build as an inquiry. We'll review it, confirm price,
+          availability and delivery with Equator, and reply by email. Nothing
+          is charged now.
         </p>
         <InquiryForm />
       </div>
@@ -25,8 +26,8 @@ import { url } from "../lib/urls";
         <div id="inquiry-lines"></div>
         <p id="inquiry-total" class="price"></p>
         <p class="caption">
-          Reference estimates only. Shipping and final prices are unconfirmed.
-          The demo keeps your bag intact.
+          Estimated manufacturer reference prices. Shipping and final prices
+          are confirmed with you before payment.
         </p>
         <a class="text-link" href={url("cart/")}>
           Edit your bag ↗

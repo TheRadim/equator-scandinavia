@@ -1,9 +1,14 @@
-# Inquiry prototype and production handoff
+# Website inquiries
 
-Current implementation is browser-local simulation only, per the user's 2026-10-16 clarification. Form fields are validated but never submitted to an endpoint or saved in local/session storage. Only product summary, demo reference and time are saved in sessionStorage. The cart is deliberately retained. Use fictional data. Contact and order inquiry share the same component. No recipient or sender address is hardcoded.
+Updated 2026-10-16.
 
-Production is unimplemented, not merely missing a key. Do not enable a real POST by changing an environment variable. First approve legal operator, data-controller responsibilities, processors, retention policy and privacy text. Then implement the endpoint, test it using an authorized test recipient and review before activation.
+The site has two inquiry modes, chosen at build time:
 
-Recommended endpoint: Cloudflare Worker + Resend. Required server configuration names: RESEND_API_KEY, INQUIRY_RECIPIENT, INQUIRY_FROM, ALLOWED_ORIGIN, TURNSTILE_SECRET_KEY. Keep values in provider secret storage. Client configuration names are listed in website/.env.example only; currently unused.
+- **Demo (default)** — `PUBLIC_INQUIRY_ENDPOINT` empty. Forms validate in the browser and nothing leaves it. The confirmation page states nothing was sent; the bag is kept.
+- **Live** — `PUBLIC_INQUIRY_ENDPOINT` points to the inquiry Worker (`worker/`). The form POSTs JSON with a Turnstile token and an idempotency key. The bag is cleared only after a `200 {ok:true}`; every error keeps the bag and shows the server's message.
 
-Endpoint acceptance criteria: bounded JSON POST payload; schema validation; allowlisted product/build/size combinations; server-derived prices; no email/header injection; escaped customer content; server-verified Turnstile token; rate limiting; durable request idempotency; provider timeout/retry handling; reference and timestamp generated server-side; minimal logging without personal content. Report acceptance only after email provider accepts delivery, and distinguish acceptance from actual inbox delivery. Customer confirmation is optional and must not turn a successful representative delivery into a retry that duplicates it. Clear cart only on accepted real inquiry. Test invalid payloads, bad captcha, duplicate retries, provider failure and unavailable products.
+Customer contact details are never written to localStorage/sessionStorage. Only a product summary, reference and timestamp are kept in sessionStorage for the confirmation page.
+
+Endpoint implementation, security properties, configuration and setup: see `worker/README.md`. All original acceptance criteria (bounded payload, schema validation, allowlisted combinations, server prices, injection-safe email, Turnstile, rate limiting, idempotency, timeouts, server reference/timestamp, minimal logging, accepted-vs-delivered distinction, optional customer copy that cannot duplicate representative delivery) are implemented and unit-tested.
+
+Activation still requires the business approvals listed in `worker/README.md` → "Before activation", followed by a test with an authorised recipient.

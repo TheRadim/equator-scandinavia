@@ -2,6 +2,7 @@
 import "@fontsource-variable/inter";
 import "../styles/global.css";
 import { url } from "../lib/urls";
+import { allowIndexing, liveInquiries } from "../lib/config";
 const {
   title = "Titanium bicycles for the road ahead",
   description = "Explore Equator titanium bicycles and carbon wheels. A Scandinavian storefront prototype.",
@@ -24,7 +25,7 @@ const links = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} — Equator Scandinavia</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="noindex,nofollow" />
+    <meta name="robots" content={allowIndexing ? "index,follow" : "noindex,nofollow"} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:title" content={`${title} — Equator`} />
     <meta property="og:description" content={description} />
@@ -49,7 +50,11 @@ const links = [
       Skip to content
     </a>
     <div class="notice">
-      SCANDINAVIA / PROTOTYPE — Explore a build. No orders or messages are sent.
+      {
+        liveInquiries
+          ? "Request your build — every order is reviewed and confirmed before payment."
+          : "SCANDINAVIA / PREVIEW — Explore a build. Inquiries are in demo mode; nothing is sent."
+      }
     </div>
     <header class="wrap site-header">
       <a href={url()} aria-label="Equator home">

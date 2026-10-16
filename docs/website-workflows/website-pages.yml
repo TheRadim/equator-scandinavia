@@ -21,8 +21,15 @@ jobs:
           node-version: '22'
           cache: npm
           cache-dependency-path: website/package-lock.json
-      - run: npm ci && npm run build
+      - run: npm ci && npm test && npm run build
         working-directory: website
+        env:
+          # Repository → Settings → Secrets and variables → Actions → Variables.
+          # All optional; empty values keep demo mode and noindex.
+          PUBLIC_INQUIRY_ENDPOINT: ${{ vars.PUBLIC_INQUIRY_ENDPOINT }}
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
+          PUBLIC_REPRESENTATIVE_EMAIL: ${{ vars.PUBLIC_REPRESENTATIVE_EMAIL }}
+          PUBLIC_ALLOW_INDEXING: ${{ vars.PUBLIC_ALLOW_INDEXING }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: website/dist

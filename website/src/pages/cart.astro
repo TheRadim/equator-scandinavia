@@ -140,7 +140,7 @@ import { url } from "../lib/urls";
       });
       const total = totals(lines);
       document.querySelector("#cart-total")!.textContent = total.unknown
-        ? "Price confirmation required"
+        ? `${money(total.subtotal)} + price on request`
         : money(total.subtotal);
       document.querySelector("#cart-unknown")!.textContent = total.unknown
         ? `Priced items subtotal: ${money(total.subtotal)}. Other items: price on request.`

@@ -1,0 +1,15 @@
+# Cloudflare Worker for inquiry submission. Not deployed until approved — see README.md.
+name = "equator-scandinavia-inquiry"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://theradim.github.io"
+SEND_CUSTOMER_CONFIRMATION = "false"
+
+# Create with: npx wrangler kv namespace create INQUIRY_KV  — then paste the id here.
+[[kv_namespaces]]
+binding = "INQUIRY_KV"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# Secrets (never commit values): wrangler secret put RESEND_API_KEY / INQUIRY_RECIPIENT / INQUIRY_FROM / TURNSTILE_SECRET_KEY

@@ -1,37 +1,49 @@
 ---
+/**
+ * Shared order-inquiry / contact form.
+ * - Demo mode (default, PUBLIC_INQUIRY_ENDPOINT empty): validates locally, sends nothing.
+ * - Live mode: POSTs to the inquiry Worker with Turnstile; clears the bag only
+ *   after the server accepts. Customer details are never written to storage.
+ */
 import { url } from "../lib/urls";
-const { kind = "order" } = Astro.props;
+import { inquiryEndpoint, liveInquiries, turnstileSiteKey } from "../lib/config";
+import { TOPICS } from "../lib/inquiry";
+const { kind = "order" } = Astro.props as { kind?: "order" | "contact" };
+const submitLabel = kind === "order" ? "Send order inquiry" : "Send message";
 ---
 
-<form data-demo-inquiry={kind} autocomplete="off">
-  <p class="demo-note">
-    Demo only. Use fictional contact details. Nothing is sent to Equator or
-    stored as a lead.
-  </p>
+<form
+  data-inquiry={kind}
+  data-endpoint={inquiryEndpoint}
+  data-live={liveInquiries ? "true" : "false"}
+  novalidate
+>
+  {
+    !liveInquiries && (
+      <p class="demo-note">
+        Demo mode. Use fictional details — nothing is sent to Equator or
+        stored.
+      </p>
+    )
+  }
   <div class="form-pair">
     <label>
       Full name
-      <input name="name" required maxlength="100" placeholder="Demo Rider" />
+      <input name="name" required maxlength="100" autocomplete="name" />
     </label>
     <label>
       Email
-      <input
-        name="email"
-        type="email"
-        required
-        maxlength="200"
-        placeholder="rider@example.com"
-      />
+      <input name="email" type="email" required maxlength="200" autocomplete="email" />
     </label>
   </div>
   <label>
     Phone <span class="muted">(optional)</span>
-    <input name="phone" type="tel" maxlength="40" />
+    <input name="phone" type="tel" maxlength="40" autocomplete="tel" pattern="[+()0-9 .\-]{5,40}" />
   </label>
   <div class="form-pair">
     <label>
       Country
-      <select name="country" required>
+      <select name="country" required autocomplete="country-name">
         <option value="">Select country</option>
         <option>Denmark</option>
         <option>Sweden</option>
@@ -41,90 +53,198 @@ const { kind = "order" } = Astro.props;
     </label>
     <label>
       City or postal code
-      <input name="city" required maxlength="100" />
+      <input name="city" required maxlength="100" autocomplete="address-level2" />
     </label>
   </div>
-  {kind === "contact" && (
-    <label>
-      What would you like to discuss?
-      <select name="topic">
-        <option>Bicycle inquiry</option>
-        <option>Wheelset inquiry</option>
-        <option>Custom build</option>
-        <option>Dealer partnership</option>
-        <option>Warranty support</option>
-        <option>General question</option>
-      </select>
-    </label>
-  )}
+  {
+    kind === "contact" && (
+      <label>
+        What would you like to discuss?
+        <select name="topic">
+          {TOPICS.map((t) => (
+            <option>{t}</option>
+          ))}
+        </select>
+      </label>
+    )
+  }
   <label>
-    Additional comments <span class="muted">(optional)</span>
-    <textarea name="comments" maxlength="2000"></textarea>
+    {kind === "contact" ? "Message" : "Additional comments"}
+    {kind === "order" && <span class="muted">(optional)</span>}
+    <textarea name="comments" maxlength="2000" required={kind === "contact"}
+      placeholder={kind === "order" ? "Height and inseam, component wishes, delivery questions…" : ""}
+    ></textarea>
   </label>
+  <div class="hp" aria-hidden="true">
+    <label>Website <input name="website" tabindex="-1" autocomplete="off" /></label>
+  </div>
   <label class="consent">
-    <input name="consent" type="checkbox" required />I understand this is a demo
-    and have read the{" "}
-    <a href={url("privacy/")} class="text-link">
-      prototype privacy notice
-    </a>
-    .
+    <input name="consent" type="checkbox" required />
+    I agree that my details are used to answer this inquiry, as described in the
+    <a href={url("privacy/")}>privacy policy</a>.
   </label>
-  <button class="button" type="submit" disabled>
-    Preview {kind === "order" ? "order inquiry" : "message"} ↗
+  {
+    liveInquiries && turnstileSiteKey && (
+      <>
+        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" />
+        <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+      </>
+    )
+  }
+  <button class="button full" type="submit" disabled>
+    <span data-label>{liveInquiries ? submitLabel : `Preview ${kind === "order" ? "order inquiry" : "message"}`}</span>
+    <span aria-hidden="true">↗</span>
   </button>
-  <p class="status" role="status"></p>
+  <p class="caption form-foot">
+    {kind === "order"
+      ? "Not a purchase. Your order will be reviewed and confirmed before payment."
+      : "We reply personally by email."}
+  </p>
+  <p class="status" role="status" aria-live="polite" data-status></p>
   <noscript>
-    <p>
-      Enable JavaScript to use this local demo. This form cannot send a message.
-    </p>
+    <p>Enable JavaScript to send this form, or contact us by email.</p>
   </noscript>
 </form>
+
 <script>
-  import { readCart } from "../lib/storage";
+  import { readCart, writeCart } from "../lib/storage";
   import { resolve, totals } from "../lib/catalog";
   import { url } from "../lib/urls";
-  const form = document.querySelector<HTMLFormElement>("[data-demo-inquiry]");
+
+  const form = document.querySelector<HTMLFormElement>("[data-inquiry]");
   if (form) {
-    const button = form.querySelector<HTMLButtonElement>(
-        "button[type=submit]",
-      )!,
-      status = form.querySelector<HTMLElement>("[role=status]")!;
-    form.addEventListener("submit", (event) => {
+    const kind = form.dataset.inquiry as "order" | "contact";
+    const live = form.dataset.live === "true";
+    const endpoint = form.dataset.endpoint || "";
+    const button = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+    const label = button.querySelector<HTMLElement>("[data-label]")!;
+    const idleLabel = label.textContent;
+    const status = form.querySelector<HTMLElement>("[data-status]")!;
+    const startedAt = Date.now();
+    // One key per form view: retries after a network error never create a second inquiry.
+    let idempotencyKey = crypto.randomUUID();
+
+    const field = (n: string) =>
+      form.elements.namedItem(n) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
+    const fail = (message: string, focus?: string) => {
+      status.textContent = message;
+      status.classList.add("error");
+      if (focus) field(focus)?.focus();
+    };
+
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (!form.reportValidity()) return;
-      button.disabled = true;
-      status.textContent = "Preparing your local demo…";
-      try {
-        const items = form.dataset.demoInquiry === "order" ? readCart() : [];
-        if (form.dataset.demoInquiry === "order" && !items.length)
-          throw new Error(
-            "Your bag is empty. Add a product before reviewing an inquiry.",
-          );
-        const name = (
-          form.elements.namedItem("name") as HTMLInputElement
-        ).value.trim();
-        const city = (
-          form.elements.namedItem("city") as HTMLInputElement
-        ).value.trim();
-        if (!name || !city)
-          throw new Error("Please enter a name and city for the demo.");
-        const receipt = {
-          reference: `DEMO-${crypto.randomUUID().slice(0, 8).toUpperCase()}`,
-          timestamp: new Date().toISOString(),
-          kind: form.dataset.demoInquiry,
-          items: items.map((line) => ({ ...line, ...resolve(line) })),
-          totals: totals(items),
+      status.classList.remove("error");
+      if (!form.checkValidity()) {
+        const invalid = form.querySelector<HTMLElement>(":invalid");
+        const name = invalid?.getAttribute("name");
+        const messages: Record<string, string> = {
+          name: "Please enter your name.",
+          email: "Please enter a valid email address.",
+          phone: "Please check your phone number.",
+          country: "Please choose your country.",
+          city: "Please enter your city or postal code.",
+          comments: "Please write a short message.",
+          consent: "Please accept the privacy policy to continue.",
         };
-        sessionStorage.setItem("equator-demo-receipt", JSON.stringify(receipt));
-        form.reset();
+        fail(messages[name || ""] || "Please check the highlighted field.");
+        invalid?.focus();
+        return;
+      }
+      let items: ReturnType<typeof readCart> = [];
+      try {
+        items = kind === "order" ? readCart() : [];
+      } catch {
+        return fail("Your saved bag could not be read. Return to your bag to reset it.");
+      }
+      if (kind === "order" && !items.length)
+        return fail("Your bag is empty. Add a product before sending an inquiry.");
+
+      const data = new FormData(form);
+      const payload = {
+        kind,
+        name: String(data.get("name") || "").trim(),
+        email: String(data.get("email") || "").trim(),
+        phone: String(data.get("phone") || "").trim(),
+        country: String(data.get("country") || ""),
+        city: String(data.get("city") || "").trim(),
+        topic: kind === "contact" ? String(data.get("topic") || "") : "",
+        comments: String(data.get("comments") || "").trim(),
+        consent: data.get("consent") === "on",
+        website: String(data.get("website") || ""),
+        startedAt,
+        idempotencyKey,
+        turnstileToken: String(data.get("cf-turnstile-response") || ""),
+        items: items.map(({ productId, buildId, size, quantity }) => ({ productId, buildId, size, quantity })),
+      };
+      const summary = items.map((line) => {
+        const r = resolve(line);
+        return { quantity: line.quantity, name: r.name, description: r.description, price: r.price };
+      });
+
+      button.disabled = true;
+      label.textContent = live ? "Sending…" : "Preparing preview…";
+      status.textContent = "";
+
+      if (!live) {
+        // Demo: nothing leaves the browser; only a product summary is kept for the confirmation page.
+        sessionStorage.setItem(
+          "equator-inquiry-receipt",
+          JSON.stringify({
+            mode: "demo",
+            kind,
+            reference: `DEMO-${idempotencyKey.slice(0, 8).toUpperCase()}`,
+            timestamp: new Date().toISOString(),
+            items: summary,
+            totals: totals(items),
+          }),
+        );
         window.location.assign(url("confirmation/"));
-      } catch (error) {
-        status.textContent =
-          error instanceof Error
-            ? error.message
-            : "Unable to create a local preview. Check browser storage.";
-        status.classList.add("error");
+        return;
+      }
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok || !body.ok) {
+          // A rejected verification token cannot be reused: reset the widget.
+          (window as unknown as { turnstile?: { reset: () => void } }).turnstile?.reset();
+          if (res.status === 400) idempotencyKey = crypto.randomUUID();
+          throw new Error(
+            typeof body.error === "string"
+              ? body.error
+              : "We couldn't send your inquiry. Your bag has been kept — please try again.",
+          );
+        }
+        sessionStorage.setItem(
+          "equator-inquiry-receipt",
+          JSON.stringify({
+            mode: "live",
+            kind,
+            reference: String(body.reference),
+            timestamp: String(body.receivedAt),
+            items: summary,
+            totals: totals(items),
+          }),
+        );
+        // Clear the bag only after the server accepted the inquiry.
+        if (kind === "order") writeCart([]);
+        window.location.assign(url("confirmation/"));
+      } catch (e) {
+        const offline = e instanceof TypeError;
+        fail(
+          offline
+            ? "Network problem — your inquiry was not sent. Your bag has been kept; please try again."
+            : e instanceof Error
+              ? e.message
+              : "Something went wrong. Please try again.",
+        );
         button.disabled = false;
+        label.textContent = idleLabel;
       }
     });
     button.disabled = false;
@@ -138,15 +258,39 @@ const { kind = "order" } = Astro.props;
   }
   .demo-note {
     background: #f5f5f2;
-    padding: 20px;
+    padding: 16px 20px;
     font-size: 13px;
   }
   .consent {
-    line-height: 1.7;
+    display: flex;
+    align-items: flex-start;
+    gap: 2px;
+    line-height: 1.6;
   }
-  .consent .text-link {
-    padding: 0;
-    font-size: inherit;
+  .consent input {
+    flex: none;
+    margin-top: 2px;
+  }
+  .consent a {
+    text-decoration: underline;
+  }
+  .hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .cf-turnstile {
+    margin: 4px 0 18px;
+  }
+  .form-foot {
+    margin: 12px 0 0;
+  }
+  input:user-invalid,
+  select:user-invalid,
+  textarea:user-invalid {
+    border-color: #a01919;
   }
   @media (max-width: 767px) {
     .form-pair {

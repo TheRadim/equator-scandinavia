@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import InquiryForm from "../components/InquiryForm.astro";
+import { liveInquiries, representativeEmail } from "../lib/config";
 ---
 
 <Layout title="Contact">
@@ -17,13 +18,32 @@ import InquiryForm from "../components/InquiryForm.astro";
           Bicycles, wheels, a custom build or a possible partnership. A good
           place to start is a conversation.
         </p>
-        <h3>Scandinavian inquiries</h3>
+        <h3>Service region</h3>
         <p>Denmark · Sweden · Norway</p>
+        <h3>We can help with</h3>
         <p>
-          Representative contact details will be added before launch. This
-          prototype form lets you explore the experience without sending a
-          message.
+          Bicycle and wheelset inquiries · custom builds · dealer partnerships ·
+          warranty support · general questions
         </p>
+        {
+          representativeEmail ? (
+            <>
+              <h3>Email</h3>
+              <p>
+                <a class="text-link" href={`mailto:${representativeEmail}`}>
+                  {representativeEmail}
+                </a>
+              </p>
+            </>
+          ) : (
+            <p class="caption">Direct contact details will be published at launch.</p>
+          )
+        }
+        {!liveInquiries && (
+          <p class="caption">
+            This form currently runs in demo mode and does not send messages.
+          </p>
+        )}
       </div>
       <InquiryForm kind="contact" />
     </div>

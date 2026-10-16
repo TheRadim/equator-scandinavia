@@ -3,48 +3,135 @@ import Layout from "../layouts/Layout.astro";
 import { url } from "../lib/urls";
 ---
 
-<Layout title="Demo inquiry preview">
-  <section class="wrap section">
-    <p class="eyebrow">Prototype / Nothing has been sent</p>
-    <h1>
-      Your inquiry,
-      <br />
-      previewed.
-    </h1>
-    <div class="prose">
-      <p>
-        This is a local demonstration. No order was placed, no email was sent,
-        and your bag has been kept.
+<Layout title="Inquiry received" description="Confirmation of your Equator Scandinavia inquiry.">
+  <section class="wrap section confirm">
+    <p class="eyebrow" data-eyebrow>Inquiry</p>
+    <h1 data-title>Thanks for your inquiry.</h1>
+    <p class="lead" data-lead>
+      We'll review your configuration, confirm availability and pricing, and
+      get back to you.
+    </p>
+    <div class="receipt" data-receipt hidden>
+      <div class="receipt-head">
+        <span>Reference</span>
+        <strong data-reference></strong>
+      </div>
+      <p class="caption" data-time></p>
+      <div data-lines></div>
+      <div class="receipt-total" data-total-row hidden>
+        <span>Estimated total</span><span data-total></span>
+      </div>
+      <p class="caption">
+        This is not an order confirmation and nothing has been charged. Your
+        order will be reviewed and confirmed before payment.
       </p>
-      <p id="demo-reference"></p>
-      <div id="demo-summary"></div>
-      <a class="button" href={url("bikes/")}>
-        Continue exploring ↗
-      </a>
+    </div>
+    <p data-empty hidden>
+      There's no recent inquiry in this browser session.
+    </p>
+    <div class="actions">
+      <a class="button" href={url("bikes/")}>Continue exploring ↗</a>
+      <a class="text-link" href={url("cart/")} data-bag-link hidden>Return to your bag</a>
     </div>
   </section>
 </Layout>
 <script>
   import { money } from "../lib/catalog";
-  const reference = document.querySelector("#demo-reference")!,
-    summary = document.querySelector("#demo-summary")!;
+  const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
+  type Receipt = {
+    mode: "demo" | "live";
+    kind: "order" | "contact";
+    reference: string;
+    timestamp: string;
+    items: { quantity: number; name: string; description: string; price: number | null }[];
+    totals: { subtotal: number; unknown: boolean };
+  };
+  let data: Receipt | null = null;
   try {
-    const data = JSON.parse(
-      sessionStorage.getItem("equator-demo-receipt") || "null",
-    );
-    if (!data)
-      reference.textContent =
-        "No demo inquiry has been previewed in this browser session.";
-    else {
-      reference.textContent = `${String(data.reference)} · ${new Date(data.timestamp).toLocaleString("en-GB")}`;
-      for (const item of data.items) {
-        const p = document.createElement("p");
-        p.textContent = `${item.quantity} × ${item.name} — ${item.description} — ${money(item.price)}`;
-        summary.append(p);
-      }
-    }
+    data = JSON.parse(sessionStorage.getItem("equator-inquiry-receipt") || "null");
   } catch {
-    reference.textContent =
-      "No readable demo preview is available. Your bag is unchanged.";
+    data = null;
+  }
+  if (!data) {
+    $("[data-empty]").hidden = false;
+    $("[data-lead]").hidden = true;
+    $("[data-title]").textContent = "Nothing to confirm yet.";
+  } else {
+    const demo = data.mode === "demo";
+    if (demo) {
+      $("[data-eyebrow]").textContent = "Demo preview / Nothing has been sent";
+      $("[data-title]").textContent = "Your inquiry, previewed.";
+      $("[data-lead]").textContent =
+        "This was a demonstration. No inquiry or email was sent, and your bag has been kept.";
+      $("[data-bag-link]").hidden = false;
+    } else if (data.kind === "contact") {
+      $("[data-title]").textContent = "Thanks for getting in touch.";
+      $("[data-lead]").textContent = "Your message has been received. We'll reply by email.";
+    }
+    $("[data-receipt]").hidden = false;
+    $("[data-reference]").textContent = data.reference;
+    $("[data-time]").textContent = `Submitted ${new Date(data.timestamp).toLocaleString("en-GB", { dateStyle: "long", timeStyle: "short" })}`;
+    const host = $("[data-lines]");
+    for (const item of data.items ?? []) {
+      const row = document.createElement("div");
+      row.className = "receipt-line";
+      const left = document.createElement("div");
+      const name = document.createElement("strong");
+      name.textContent = `${item.quantity} × ${item.name}`;
+      const desc = document.createElement("p");
+      desc.className = "caption";
+      desc.textContent = item.description;
+      left.append(name, desc);
+      const price = document.createElement("span");
+      price.textContent = money(item.price);
+      row.append(left, price);
+      host.append(row);
+    }
+    if (data.items?.length) {
+      $("[data-total-row]").hidden = false;
+      $("[data-total]").textContent = data.totals.unknown
+        ? `${money(data.totals.subtotal)} + price on request`
+        : money(data.totals.subtotal);
+    }
   }
 </script>
+<style>
+  .confirm .lead {
+    max-width: 620px;
+    font-size: 18px;
+  }
+  .receipt {
+    max-width: 680px;
+    background: #f7f7f7;
+    padding: 28px;
+    margin: 36px 0;
+  }
+  .receipt-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+  .receipt :global(.receipt-line) {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 14px 0;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 14px;
+  }
+  .receipt :global(.receipt-line p) {
+    margin: 4px 0 0;
+  }
+  .receipt-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0 8px;
+    font-size: 16px;
+  }
+  .actions {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+</style>
