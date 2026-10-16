@@ -43,6 +43,9 @@ const { images, alt, label, sublabel, caption } = Astro.props;
 <script>
   document.querySelectorAll<HTMLElement>("[data-gallery]").forEach((g) => {
     const main = g.querySelector<HTMLImageElement>("img.gallery-main");
+    main?.addEventListener("load", () =>
+      main.classList.toggle("portrait", main.naturalHeight > main.naturalWidth * 0.9),
+    );
     g.querySelectorAll<HTMLButtonElement>("[data-src]").forEach((b) =>
       b.addEventListener("click", () => {
         if (main) {

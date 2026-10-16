@@ -2,10 +2,10 @@
 import "@fontsource-variable/inter";
 import "../styles/global.css";
 import { url } from "../lib/urls";
-import { allowIndexing, liveInquiries } from "../lib/config";
+import { allowIndexing, representativeEmail } from "../lib/config";
 const {
   title = "Titanium bicycles for the road ahead",
-  description = "Explore Equator titanium bicycles and carbon wheels. A Scandinavian storefront prototype.",
+  description = "Equator titanium bicycles, carbon wheels and components for Denmark, Sweden and Norway.",
   image = "images/sensei-0.jpg",
   jsonLd,
 } = Astro.props;
@@ -54,13 +54,6 @@ const links = [
     <a class="skip" href="#main">
       Skip to content
     </a>
-    <div class="notice" role="region" aria-label="Site notice">
-      {
-        liveInquiries
-          ? "Request your build — every order is reviewed and confirmed before payment."
-          : "SCANDINAVIA / PREVIEW — Explore a build. Inquiries are in demo mode; nothing is sent."
-      }
-    </div>
     <header class="wrap site-header">
       <a href={url()} aria-label="Equator home">
         <img src={url("logo.svg")} width="143" height="28" alt="Equator" />
@@ -138,12 +131,11 @@ const links = [
             ].map(([label, path]) => (
               <a href={url(path + "/")}>{label}</a>
             ))}
-            <p style="font-size:12px">Prototype policies await approval.</p>
           </div>
         </div>
         <div class="footer-bottom bar">
-          <span>© 2026 Equator Scandinavia · Website prototype</span>
-          <span>Designed for the road ahead.</span>
+          <span>© 2026 Equator Scandinavia · Representing Equator Cycling, Czech Republic</span>
+          <span>{representativeEmail}</span>
         </div>
       </div>
     </footer>

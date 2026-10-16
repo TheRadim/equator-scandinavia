@@ -9,6 +9,14 @@ const tone =
       : status === "Out of stock"
         ? "out"
         : "unknown";
+const label =
+  status === "Out of stock"
+    ? "Restocking"
+    : status === "Available to order"
+      ? "Made to order"
+      : status === "Availability unconfirmed"
+        ? "Ask for availability"
+        : status;
 ---
 
-<span class={`status-badge ${tone}`}><span aria-hidden="true"></span>{status}</span>
+<span class={`status-badge ${tone}`}><span aria-hidden="true"></span>{label}</span>

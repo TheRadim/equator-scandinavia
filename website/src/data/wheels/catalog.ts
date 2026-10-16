@@ -53,16 +53,16 @@ export const allWheels: Wheel[] = [
     slug: "wavy-35c",
     name: "Wavy 35C",
     category: "Road",
-    images: ["images/wavy-35-0.jpg"],
+    images: ["images/wavy-35-0.jpg", "images/wavy-35-1.png", "images/wavy-35-2.png", "images/wavy-35-3.jpg"],
     depthLabel: "35",
     description:
       "A lighter, lower wave-profile carbon rim for climbing, all-day road and fast gravel.",
     intendedUse: "Road · fast gravel · triathlon",
     referenceFrom: 141100,
     publication: "prototype",
-    inventoryStatus: "Availability unconfirmed",
+    inventoryStatus: "In stock",
     availability:
-      "Manufacturer listed in stock on 16 October 2026. Freehub variant availability to be confirmed.",
+      "In stock at Equator (updated 16 October 2026). Freehub option confirmed with your order.",
     source:
       "https://www.equator-cycling.com/en/set-karbonovych-kol-equator-wavy-35c-disk/",
     specs: {
@@ -86,16 +86,16 @@ export const allWheels: Wheel[] = [
     slug: "wavy-50c",
     name: "Wavy 50C",
     category: "Road",
-    images: [],
+    images: ["images/wavy-50-1.png", "images/wavy-50-2.png", "images/wavy-50-3.png", "images/wavy-50-4.jpg"],
     depthLabel: "50",
     description:
       "The deeper Wavy rim, specified on the Raiden SRAM Red AXS build. Made for speed on open roads.",
     intendedUse: "Road · triathlon / time trial",
     referenceFrom: 141100,
     publication: "prototype",
-    inventoryStatus: "Availability unconfirmed",
+    inventoryStatus: "In stock",
     availability:
-      "Manufacturer listed in stock on 16 October 2026. Freehub variant availability to be confirmed.",
+      "In stock at Equator (updated 16 October 2026). Freehub option confirmed with your order.",
     source: "https://www.equator-cycling.com/en/equator-wavy-50c-disk/",
     specs: {
       "Rim depth": "50 mm",
@@ -117,7 +117,7 @@ export const allWheels: Wheel[] = [
     slug: "gravel-ultimate-40c",
     name: "Gravel Ultimate 40C",
     category: "Gravel",
-    images: [],
+    images: ["images/gravel-ultimate-40-1.png", "images/gravel-ultimate-40-2.png", "images/gravel-ultimate-40-3.png"],
     depthLabel: "40",
     description:
       "A light, wide hookless carbon gravel wheelset for mixed surfaces and long days.",
@@ -126,7 +126,7 @@ export const allWheels: Wheel[] = [
     publication: "prototype",
     inventoryStatus: "Available to order",
     availability:
-      "Manufacturer lists this wheelset as custom production (16 October 2026). Lead time to be confirmed.",
+      "Built to order by Equator. Lead time is confirmed with your order.",
     source:
       "https://www.equator-cycling.com/en/set-karbonovych-kol-equator-gravel-40c-disk-ultimate/",
     specs: {
@@ -149,7 +149,7 @@ export const allWheels: Wheel[] = [
     slug: "tt-88c",
     name: "TT 88C",
     category: "TT",
-    images: [],
+    images: ["images/tt-88-1.png", "images/tt-88-2.png", "images/tt-88-3.png"],
     depthLabel: "88",
     description:
       "A deep 88 mm aero rim for time trials and triathlon. Assembled in Zlín.",
@@ -158,7 +158,7 @@ export const allWheels: Wheel[] = [
     publication: "prototype",
     inventoryStatus: "Out of stock",
     availability:
-      "Manufacturer expects new stock in November 2026 (observed 16 October 2026). Inquiries welcome; nothing is reserved.",
+      "New stock expected November 2026 (Equator, updated 16 October 2026). Order now and we'll confirm the date.",
     source:
       "https://www.equator-cycling.com/en/set-karbonovych-kol-equator-88c-disk/",
     specs: {

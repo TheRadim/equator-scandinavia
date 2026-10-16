@@ -7,6 +7,7 @@ export const families = [
     description:
       "For the road that becomes a trail. And the trail that takes you further.",
     image: "images/sensei-0.jpg",
+    images: [0, 1, 2, 3, 4, 5].map((n) => `images/sensei-${n}.jpg`),
   },
   {
     id: "raiden",
@@ -16,6 +17,7 @@ export const families = [
     description:
       "Clean lines. Open roads. A titanium road bike with a singular purpose.",
     image: "images/raiden-0.jpg",
+    images: [0, 1, 2, 3, 4, 5, 6].map((n) => `images/raiden-${n}.jpg`),
   },
   {
     id: "yasei",
@@ -25,5 +27,6 @@ export const families = [
     description:
       "Take the long way. An adventure gravel bike for roads less travelled.",
     image: "images/yasei-0.jpg",
+    images: [0, 1, 2, 3, 4].map((n) => `images/yasei-${n}.jpg`),
   },
 ];

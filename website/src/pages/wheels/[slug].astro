@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import Gallery from "../../components/Gallery.astro";
 import StatusBadge from "../../components/StatusBadge.astro";
 import { wheels, wheelCategories, type Wheel } from "../../data/wheels/catalog";
-import { money } from "../../lib/catalog";
+import { money, fromPrice } from "../../lib/catalog";
 import { productJsonLd } from "../../lib/seo";
 import { url } from "../../lib/urls";
 export function getStaticPaths() {
@@ -56,16 +56,9 @@ const verified = new Date(product.verified).toLocaleDateString("en-GB", {
         <h1>{product.name}</h1>
         <p class="lead">{product.description}</p>
         <p class="price">
-          {product.price !== null
-            ? money(product.price)
-            : product.referenceFrom !== null
-              ? `From ${money(product.referenceFrom)}`
-              : "Price on request"}
+          {product.price !== null ? money(product.price) : fromPrice(product.referenceFrom)}
         </p>
-        <p class="caption">
-          Manufacturer reference price, checked {verified}. Your price is
-          confirmed personally before any payment.
-        </p>
+        <p class="caption">Price in EUR, confirmed with your order.</p>
         <hr />
         <form class="wheel-form" data-wheel-form={product.id}>
           <fieldset>

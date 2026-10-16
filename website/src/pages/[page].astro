@@ -1,71 +1,72 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { url } from "../lib/urls";
+import { representativeEmail } from "../lib/config";
 const pages = {
   privacy: {
-    title: "Privacy, clearly.",
-    eyebrow: "Prototype notice / Final policy pending",
+    title: "Privacy policy",
+    eyebrow: "Privacy",
     paragraphs: [
-      "This prototype does not send inquiry forms to Equator or an email service. Please use fictional details. Form contact fields are not saved by the application.",
-      "Your browser stores product configurations and your bag in localStorage. A demo reference, timestamp and product summary are stored in sessionStorage. You can remove this information using your browser’s site-data controls.",
-      "Before real inquiries are enabled, the legal operator, controller responsibilities, processing services, retention period, contact information and privacy rights process must be approved and documented. This notice is not the final production privacy policy.",
+      `This website is run by Equator Scandinavia, the Scandinavian representative of Equator Cycling. Contact: ${representativeEmail}.`,
+      "When you send a message or an order inquiry we receive your name, email address, phone number (if given), your message and the products in your bag. We use this only to answer you and to arrange your order with Equator Cycling, who manufacture the products.",
+      "Messages are delivered to us by a form-handling service acting on our behalf. We don't sell your details or use them for marketing without asking you first.",
+      "Your bag and saved bike configurations are stored in your own browser (local storage) and never sent to us until you submit an inquiry. You can clear them at any time in your browser settings.",
+      `You can ask to see, correct or delete the information we hold about you by writing to ${representativeEmail}.`,
     ],
   },
   terms: {
-    title: "A conversation comes first.",
-    eyebrow: "Terms / Approval pending",
+    title: "How ordering works",
+    eyebrow: "Terms",
     paragraphs: [
-      "This is a prototype. Adding an item to the bag or previewing an inquiry does not place an order or create a confirmed purchase. No payments are collected.",
-      "Displayed EUR prices are dated manufacturer references. They are not approved Scandinavian offers. Final pricing, specifications, availability, delivery and applicable terms require confirmation before a purchase.",
-      "The seller’s identity, regional representation arrangements and production terms have not been finalized for this website. No commercial terms should be inferred from this prototype.",
+      "Equator bikes, wheels and components are manufactured by Equator Cycling in the Czech Republic and sold in Denmark, Sweden and Norway through Equator Scandinavia.",
+      "Adding products to your bag and sending an inquiry does not create a purchase or any obligation. We reply with a written confirmation of price, availability, delivery and payment. Your order is placed only when you accept that confirmation.",
+      "Prices on this website are shown in EUR as a guide. The confirmed price, including delivery to your country, is stated in your order confirmation.",
+      "Product specifications come from Equator Cycling and may change. We confirm the exact specification of your build before you order.",
     ],
   },
   warranty: {
-    title: "Support for the road ahead.",
-    eyebrow: "Warranty / Confirmation required",
+    title: "Warranty",
+    eyebrow: "Support",
     paragraphs: [
-      "Warranty coverage, eligibility and the claims process for Scandinavian customers need confirmation with Equator before launch.",
-      "We do not offer a new warranty or lifetime guarantee through this prototype. Manufacturer statements about long-term ownership are not a substitute for approved warranty terms.",
-      "The manufacturer’s terms refer to separate warranty conditions. Confirm the policy applicable to the specific product and purchase.",
+      "Equator products are covered by Equator Cycling's warranty conditions. The terms that apply to your product are confirmed in writing with your order.",
+      `If something isn't right with your Equator, write to ${representativeEmail} with your order reference and a few photos. We'll handle the contact with Equator for you.`,
     ],
     source: "https://www.equator-cycling.com/obchodni-podminky/",
   },
   "crash-replacement": {
-    title: "When the unexpected happens.",
-    eyebrow: "Crash replacement / Confirmation required",
+    title: "Crash replacement",
+    eyebrow: "Support",
     paragraphs: [
-      "Equator publishes a crash replacement program for its wheels. The terms and applicability to a particular product must be checked directly with the manufacturer.",
-      "Regional eligibility, costs and arrangements have not been confirmed for this website. No free replacement, discount or repair timeframe is promised here.",
+      "Equator runs a crash replacement programme for its carbon wheels. If your wheel is damaged in a crash, contact us with your order reference and photos, and we'll check with Equator what the programme offers for your wheel.",
     ],
     source: "https://www.equator-cycling.com/crash-replacement-program/",
   },
   shipping: {
-    title: "From the workshop to your ride.",
-    eyebrow: "Delivery / Confirmation required",
+    title: "Shipping & delivery",
+    eyebrow: "Delivery",
     paragraphs: [
-      "Delivery availability, destination, cost and estimated timing will be confirmed personally before any purchase.",
-      "A dated stock statement on the manufacturer’s website is not a delivery promise. Scandinavian pricing, taxes, import handling and delivery arrangements require confirmation, especially across different countries.",
-      "No delivery terms have been approved for this prototype.",
+      "We deliver to Denmark, Sweden and Norway. Bikes and framesets ship from Equator in the Czech Republic.",
+      "Delivery cost and the expected delivery date depend on the product and your location. Both are stated in your order confirmation before you pay.",
+      "Products marked In stock are available at Equator; products marked Restocking or Made to order have a longer lead time, which we confirm with you.",
     ],
   },
   cookies: {
-    title: "Only what this demo needs.",
-    eyebrow: "Browser storage",
+    title: "Cookies",
+    eyebrow: "Privacy",
     paragraphs: [
-      "This prototype does not include analytics or advertising scripts. It uses browser storage for your bag, selected bicycle configuration and product-only demo receipt.",
-      "The application does not set tracking cookies. Hosting providers may have their own technical processing; that must be reviewed when a production host is activated.",
-      "Clear site data in your browser to remove saved configurations and cart contents. A future production storage notice must reflect the services actually enabled.",
+      "This website doesn't use advertising or analytics cookies, and doesn't track you.",
+      "It stores your bag and your bike configuration in your browser's local storage so they are still there when you come back. Clear your browser's site data to remove them.",
     ],
   },
   faq: {
-    title: "A few useful answers.",
-    eyebrow: "Questions, answered",
+    title: "Questions & answers",
+    eyebrow: "FAQ",
     paragraphs: [
-      "Can I buy here? This is a prototype. You can explore configurations and preview an inquiry, but no order, email or payment is processed.",
-      "Can I choose other components? The configurator offers listed factory builds only. Other changes require a conversation and compatibility confirmation.",
-      "Are the prices final? No. They are manufacturer reference prices in EUR, checked on the date shown. Final regional pricing and delivery require confirmation.",
-      "Why are there few wheels and accessories? The collection is deliberately small. Products with unresolved availability or specifications are held for review.",
-      "Are the photographs final? No. These are genuine Equator photographs used with permission. Future studio photography can replace them without changing the product pages.",
+      "How do I order? Configure your bike or choose your parts, add them to your bag and send an inquiry. We confirm price, availability and delivery in writing, and you order once you're happy.",
+      "Do I pay online? No. Payment is arranged after you have accepted your order confirmation.",
+      "Can I change components? The configurator shows Equator's factory builds. Mention any changes in your message and we'll check compatibility and price with Equator.",
+      "Which size do I need? Tell us your height and inseam in your message and we'll help you choose.",
+      "Are you a shop? We are the Scandinavian representative of Equator Cycling. Interested in selling Equator in your shop? Get in touch through the contact page.",
     ],
   },
 };
@@ -84,20 +85,30 @@ const page = pages[Astro.params.page as keyof typeof pages];
 ---
 
 <Layout title={page.title}>
+  <style>
+    .faq-q { color: #171717; font-weight: 600; }
+  </style>
   <section class="wrap">
     <div class="page-heading">
       <p class="eyebrow">{page.eyebrow}</p>
       <h1>{page.title}</h1>
     </div>
     <div class="prose">
-      {page.paragraphs.map((text) => (
-        <p>{text}</p>
-      ))}
+      {page.paragraphs.map((text) => {
+        const q = Astro.params.page === "faq" ? text.indexOf("? ") : -1;
+        return q > 0 ? (
+          <p>
+            <strong class="faq-q">{text.slice(0, q + 1)}</strong>
+            <br />
+            {text.slice(q + 2)}
+          </p>
+        ) : (
+          <p>{text}</p>
+        );
+      })}
       {"source" in page && (
         <p>
-          <a href={page.source}>Read the manufacturer’s source ↗</a>
-          <br />
-          <small>Reviewed 16 October 2026.</small>
+          <a href={page.source} rel="noopener">Equator Cycling's conditions (equator-cycling.com) ↗</a>
         </p>
       )}
       <a class="button" href={url("bikes/")}>

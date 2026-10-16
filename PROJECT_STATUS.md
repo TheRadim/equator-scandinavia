@@ -28,6 +28,14 @@ Premium Astro storefront for Equator titanium bicycles and carbon wheels in Scan
 ## Required credentials / decisions before live inquiries
 Resend API key + verified sending domain; representative inbox (`INQUIRY_RECIPIENT`); Turnstile site key + secret; Cloudflare account + KV namespace; legal operator / data controller; final privacy policy, terms, cookie text; approved Scandinavian pricing policy (currently EUR manufacturer references). Details: worker/README.md.
 
+## Session 2026-10-16 (late) — storefront goes "serious"
+- All prototype/demo wording removed; policies rewritten in plain, non-committal business language pending owner approval (docs/owner-todo.md).
+- Contact/inquiry form: name, email, phone, message. Delivery order: Worker → Formspree (site.formspreeId) → mailto hi@radim-theiner.com (current).
+- Business details in website/src/data/site.ts. Prices can be hidden with PUBLIC_SHOW_PRICES=false.
+- Photos: 44 official images fetched by the "Fetch product images" GitHub Action (the dev sandbox can't reach Equator's CDN); bike galleries, wheel and accessory photos live.
+- Accessories: 8 products (2 forks, 2 seatposts, stem, bottle cage, seat clamp, spacers) with options; all restocking at Equator.
+- Bike pages: key figures, feature stories (tyre clearance, titanium, T47, UDH, routing, mounts), size finder (height + inseam), geometry table with drawing, full spec and frameset contents. Data in website/src/data/bikes/details.ts.
+
 ## Known limitations
 - Photography: one photo per bike and only Wavy 35C has a wheel photo; other wheels show a typographic tile. Gallery URLs are in website/src/data/gallery-candidates.json; this session's network could not reach cdn.myshoptet.com. Run `npm run fetch-images` on the Mac, add paths to `images`, run `npm run images`.
 - Yasei photo has white side bars from the source image.

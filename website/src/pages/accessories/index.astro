@@ -1,0 +1,68 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import AccessoryCard from "../../components/AccessoryCard.astro";
+import { accessories, accessoryCategories } from "../../data/accessories/catalog";
+---
+
+<Layout
+  title="Accessories"
+  description="Equator carbon forks, titanium seatposts, stems, bottle cages and small parts."
+>
+  <section class="wrap section">
+    <p class="eyebrow">Accessories & components</p>
+    <h1>The finishing details.</h1>
+    <p class="intro">
+      Carbon forks and titanium parts from Equator, made to match the frames.
+    </p>
+    <div class="filters" role="group" aria-label="Accessory category">
+      {
+        ["All", ...accessoryCategories].map((c, i) => (
+          <button type="button" class="filter" data-filter={c} aria-pressed={i === 0}>
+            {c}
+          </button>
+        ))
+      }
+    </div>
+    <h2 class="visually-hidden">Products</h2>
+    <div class="grid3">
+      {accessories.map((a) => <AccessoryCard item={a} />)}
+    </div>
+  </section>
+</Layout>
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((button) =>
+    button.addEventListener("click", () => {
+      document.querySelectorAll<HTMLElement>("[data-category]").forEach((card) => {
+        card.hidden =
+          button.dataset.filter !== "All" && card.dataset.category !== button.dataset.filter;
+      });
+      document
+        .querySelectorAll("[data-filter]")
+        .forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+    }),
+  );
+</script>
+<style>
+  .intro {
+    max-width: 560px;
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 35px 0;
+  }
+  .filter {
+    min-height: 44px;
+    padding: 10px 2px;
+    margin-right: 22px;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid transparent;
+    font-size: 14px;
+    color: #666;
+  }
+  .filter[aria-pressed="true"] {
+    color: #171717;
+    border-bottom-color: #171717;
+  }
+</style>

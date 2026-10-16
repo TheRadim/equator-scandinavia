@@ -1,16 +1,35 @@
 import { bikes } from "../data/bikes/catalog.ts";
 import { wheels } from "../data/wheels/catalog.ts";
+import { accessories } from "../data/accessories/catalog.ts";
 export type Selection = { productId: string; buildId: string; size: string };
 export type Line = Selection & { quantity: number };
 export const displayCurrency = "EUR";
+/**
+ * PUBLIC_SHOW_PRICES=false hides every price on the site (e.g. once a dealer
+ * network sets local prices). Outside Astro (tests, the inquiry Worker) prices
+ * always show, so the representative still sees reference prices.
+ */
+const env = (import.meta as { env?: Record<string, string | undefined> }).env;
+export const pricesVisible = env?.PUBLIC_SHOW_PRICES !== "false";
 export function money(amount: number | null) {
-  return amount === null
+  return amount === null || !pricesVisible
     ? "Price on request"
     : new Intl.NumberFormat("en-IE", {
         style: "currency",
         currency: displayCurrency,
         maximumFractionDigits: 0,
       }).format(amount / 100);
+}
+/** "From €2,415" — or "Price on request" when unknown or prices are hidden. */
+export function fromPrice(amount: number | null, prefix = "From") {
+  return amount === null || !pricesVisible
+    ? "Price on request"
+    : `${prefix} ${money(amount)}`;
+}
+/** Total line: "€8,060", "€2,415 + price on request", or "Price on request". */
+export function totalLabel(t: { subtotal: number; unknown: boolean }) {
+  if (!pricesVisible || (t.unknown && t.subtotal === 0)) return "Price on request";
+  return t.unknown ? `${money(t.subtotal)} + price on request` : money(t.subtotal);
 }
 export function resolve(selection: Selection) {
   const bike = bikes.find(
@@ -59,7 +78,25 @@ export function resolve(selection: Selection) {
       availability: wheel.availability,
     };
   }
-  throw new Error("This product is not in the current prototype catalog.");
+  const accessory = accessories.find(
+    (a) => a.id === selection.productId && a.publication === "prototype",
+  );
+  if (accessory && selection.size === "") {
+    const option = accessory.options.find((o) => o.id === selection.buildId);
+    if (!option)
+      throw new Error("This option is no longer listed. Please choose it again.");
+    return {
+      name: accessory.name,
+      image: accessory.images[0] ?? null,
+      price: accessory.price,
+      description:
+        option.id === "standard"
+          ? accessory.category
+          : `${accessory.optionLabel ?? "Option"}: ${option.label}`,
+      availability: accessory.availability,
+    };
+  }
+  throw new Error("This product is no longer in the catalog.");
 }
 export function identity(s: Selection) {
   return JSON.stringify([s.productId, s.buildId, s.size]);

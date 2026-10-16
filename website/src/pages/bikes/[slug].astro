@@ -4,7 +4,11 @@ import Configurator from "../../components/Configurator.astro";
 import Gallery from "../../components/Gallery.astro";
 import StatusBadge from "../../components/StatusBadge.astro";
 import { bikes, type Product } from "../../data/bikes/catalog";
-import { money } from "../../lib/catalog";
+import { fromPrice, money } from "../../lib/catalog";
+import Photo from "../../components/Photo.astro";
+import SizeFinder from "../../components/SizeFinder.astro";
+import GeometryTable from "../../components/GeometryTable.astro";
+import { bikeDetails } from "../../data/bikes/details";
 import { productJsonLd } from "../../lib/seo";
 import { url } from "../../lib/urls";
 export function getStaticPaths() {
@@ -14,6 +18,7 @@ export function getStaticPaths() {
   }));
 }
 const { product } = Astro.props as { product: Product };
+const details = bikeDetails[product.id];
 const prices = product.builds
   .map((b) => b.price)
   .filter((p): p is number => p !== null);
@@ -42,7 +47,7 @@ const geometrySource = product.builds[0].source;
       <a href={url("bikes/")}>Bikes</a> / {product.name}
     </nav>
     <div class="product-layout">
-      <div class="product-media">
+      <div class="product-media ratio-wide">
         <Gallery
           images={product.images}
           alt={`Equator ${product.name} titanium bicycle, illustrative complete build`}
@@ -54,45 +59,19 @@ const geometrySource = product.builds[0].source;
         <p class="eyebrow">{product.category} / Titanium</p>
         <h1>{product.name}</h1>
         <p class="lead">{product.description}</p>
-        <p class="price">{from === null ? "Price on request" : `From ${money(from)}`}</p>
+        <p class="price">{fromPrice(from)}</p>
         <div class="availability">
           <StatusBadge status={product.inventoryStatus} />
           <p class="caption">
-            {product.availability}. Reference prices checked {verified}.
+            {product.availability}
           </p>
         </div>
         <hr />
         <Configurator product={product} />
         <div class="product-details">
-          <details class="disclosure">
-            <summary>Frame details</summary>
-            <dl class="specs">
-              {
-                Object.entries(product.specs).map(([key, value]) => (
-                  <div>
-                    <dt>{key}</dt>
-                    <dd>{value}</dd>
-                  </div>
-                ))
-              }
-              <div><dt>Listed sizes</dt><dd>{product.sizes.join(", ")}</dd></div>
-            </dl>
-          </details>
-          <details class="disclosure" id="size-guide">
-            <summary>Size guide</summary>
-            <p>
-              Currently selectable sizes: {product.sizes.join(", ")}. The right
-              size depends on your measurements and riding position — tell us
-              your height and inseam in your inquiry and we'll help you choose.
-            </p>
-            <p class="caption">
-              Equator's geometry table may list sizes that are not currently
-              offered. We don't republish geometry until it is confirmed.
-            </p>
-            <a class="text-link" href={geometrySource} rel="noopener">
-              Manufacturer geometry ↗
-            </a>
-          </details>
+          <a class="text-link" href="#size-finder">Find your size</a>
+          <a class="text-link" href="#geometry">Geometry</a>
+          <a class="text-link" href="#specs">Full specification</a>
           <details class="disclosure">
             <summary>How ordering works</summary>
             <p>
@@ -105,10 +84,243 @@ const geometrySource = product.builds[0].source;
       </div>
     </div>
   </div>
+
+  <section class="story">
+    <div class="wrap">
+      <div class="story-intro">
+        <p class="eyebrow">{product.name}</p>
+        <h2>{details.tagline}</h2>
+        <p class="lead">{details.intro}</p>
+      </div>
+      <dl class="key-figures">
+        {details.keyFigures.map((k) => (
+          <div>
+            <dt>{k.label}</dt>
+            <dd>{k.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <div class="wrap features">
+    {details.features.map((f, i) =>
+      f.image ? (
+        <section class:list={["feature", i % 2 === 1 && "flip"]}>
+          <div class="feature-media">
+            <Photo class="feature-img" src={f.image} alt={`${product.name}: ${f.title}`} sizes="(max-width: 900px) 100vw, 55vw" />
+          </div>
+          <div class="feature-copy">
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+          </div>
+        </section>
+      ) : null,
+    )}
+    <div class="feature-grid">
+      {details.features.filter((f) => !f.image).map((f) => (
+        <section class="feature-card">
+          <h3>{f.title}</h3>
+          <p>{f.text}</p>
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div id="size-finder">
+      <SizeFinder geometry={details.geometry} offered={product.sizes} id={product.id} />
+    </div>
+    <GeometryTable geometry={details.geometry} offered={product.sizes} source={details.source} />
+
+    <section class="full-specs" id="specs" aria-labelledby="specs-title">
+      <div>
+        <p class="eyebrow">Specification</p>
+        <h2 id="specs-title">The details.</h2>
+      </div>
+      <div class="spec-columns">
+        <div>
+          <h3 class="spec-title">Frame & fork</h3>
+          <dl class="specs">
+            {Object.entries(details.frameSpecs).map(([k, v]) => (
+              <div>
+                <dt>{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))}
+            <div><dt>Sizes offered</dt><dd>{product.sizes.join(", ")}</dd></div>
+          </dl>
+          <h3 class="spec-title">Frameset includes</h3>
+          <ul class="included-list">
+            {details.framesetContents.map((c) => <li>{c}</li>)}
+          </ul>
+        </div>
+        <div>
+          {product.builds
+            .filter((b) => b.type === "complete")
+            .map((b) => (
+              <div class="build-spec">
+                <h3 class="spec-title">Complete bike · {b.label}</h3>
+                <dl class="specs">
+                  <div><dt>Groupset</dt><dd>{b.groupset}</dd></div>
+                  <div><dt>Wheels</dt><dd>{b.wheels}</dd></div>
+                  {(b.components ?? "").split("·").map((c) => c.trim()).filter(Boolean).map((c) => (
+                    <div><dt>Component</dt><dd>{c}</dd></div>
+                  ))}
+                  <div><dt>Price</dt><dd>{money(b.price)}</dd></div>
+                </dl>
+              </div>
+            ))}
+        </div>
+      </div>
+    </section>
+  </div>
 </Layout>
 
 <style>
   .product-details {
     margin-top: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 24px;
+  }
+  .product-details .disclosure {
+    flex-basis: 100%;
+    margin-top: 16px;
+  }
+  .story {
+    background: #f7f7f7;
+    padding: 88px 0 72px;
+  }
+  .story-intro {
+    max-width: 760px;
+  }
+  .story-intro h2 {
+    font-size: clamp(2.4rem, 5vw, 4.5rem);
+    margin-bottom: 20px;
+  }
+  .story-intro .lead {
+    font-size: 18px;
+  }
+  .key-figures {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    margin: 56px 0 0;
+    border-top: 1px solid #ddd;
+    padding-top: 28px;
+  }
+  .key-figures dd {
+    margin: 0;
+    font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+    letter-spacing: -0.03em;
+    color: #171717;
+    order: -1;
+  }
+  .key-figures div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .key-figures dt {
+    font-size: 13px;
+    color: #666;
+  }
+  .features {
+    display: grid;
+    gap: 72px;
+    padding: 88px 0 64px;
+  }
+  .feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: center;
+  }
+  .feature.flip .feature-media {
+    order: 2;
+  }
+  .feature :global(.feature-img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    background: #f7f7f7;
+  }
+  .feature :global(.feature-img.portrait) {
+    object-fit: cover;
+  }
+  .feature-copy h3,
+  .feature-card h3 {
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .feature-copy p {
+    font-size: 17px;
+    max-width: 460px;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  .feature-card {
+    padding: 32px;
+    background: #f7f7f7;
+  }
+  .feature-card h3 {
+    font-size: 1.4rem;
+  }
+  .full-specs {
+    padding: 64px 0 96px;
+    border-top: 1px solid #e5e5e5;
+  }
+  .full-specs h2 {
+    font-size: clamp(2rem, 3.4vw, 3rem);
+  }
+  .spec-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 64px;
+    margin-top: 24px;
+  }
+  .spec-columns .spec-title {
+    margin-top: 28px;
+  }
+  .included-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+  }
+  .included-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  @media (max-width: 900px) {
+    .key-figures {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .feature {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .feature.flip .feature-media {
+      order: 0;
+    }
+    .features {
+      gap: 48px;
+      padding: 56px 0 40px;
+    }
+    .spec-columns {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .story {
+      padding: 56px 0 48px;
+    }
   }
 </style>

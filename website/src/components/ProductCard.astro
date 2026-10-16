@@ -1,7 +1,7 @@
 ---
 import { url } from "../lib/urls";
 import Photo from "./Photo.astro";
-import { money } from "../lib/catalog";
+import { fromPrice } from "../lib/catalog";
 import type { Product } from "../data/bikes/catalog";
 const { product } = Astro.props as { product: Product };
 const prices = product.builds
@@ -11,7 +11,7 @@ const from = prices.length ? Math.min(...prices) : null;
 const href = url(`bikes/${product.slug}/`);
 ---
 
-<article class="card">
+<article class="card ratio-wide">
   <a href={href}>
     <Photo
       class="product-image"
@@ -27,7 +27,7 @@ const href = url(`bikes/${product.slug}/`);
   <span class="meta muted">{product.category}</span>
   <p style="margin:14px 0 8px">{product.description}</p>
   <p class="card-price">
-    {from === null ? "Price on request" : `Frameset from ${money(from)}`}
+    {fromPrice(from, "Frameset from")}
   </p>
   <a class="text-link" href={href}>View bike</a>
 </article>

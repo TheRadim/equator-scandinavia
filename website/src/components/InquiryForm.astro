@@ -1,90 +1,73 @@
 ---
 /**
- * Shared order-inquiry / contact form.
- * - Demo mode (default, PUBLIC_INQUIRY_ENDPOINT empty): validates locally, sends nothing.
- * - Live mode: POSTs to the inquiry Worker with Turnstile; clears the bag only
- *   after the server accepts. Customer details are never written to storage.
+ * Shared contact / order-inquiry form: name, email, phone, message.
+ * Delivery (see lib/config.ts): Worker → Formspree → visitor's email app.
+ * The bag is cleared only after a server accepted the inquiry. Customer
+ * details are never written to browser storage.
  */
 import { url } from "../lib/urls";
-import { inquiryEndpoint, liveInquiries, turnstileSiteKey } from "../lib/config";
-import { TOPICS } from "../lib/inquiry";
+import {
+  deliveryMode,
+  formspreeId,
+  inquiryEndpoint,
+  representativeEmail,
+  turnstileSiteKey,
+} from "../lib/config";
 const { kind = "order" } = Astro.props as { kind?: "order" | "contact" };
 const submitLabel = kind === "order" ? "Send order inquiry" : "Send message";
+const endpoint =
+  deliveryMode === "worker"
+    ? inquiryEndpoint
+    : deliveryMode === "formspree"
+      ? `https://formspree.io/f/${formspreeId}`
+      : "";
 ---
 
 <form
   data-inquiry={kind}
-  data-endpoint={inquiryEndpoint}
-  data-live={liveInquiries ? "true" : "false"}
+  data-mode={deliveryMode}
+  data-endpoint={endpoint}
+  data-email={representativeEmail}
   novalidate
 >
-  {
-    !liveInquiries && (
-      <p class="demo-note">
-        Demo mode. Use fictional details — nothing is sent to Equator or
-        stored.
-      </p>
-    )
-  }
   <div class="form-pair">
     <label>
-      Full name
-      <input name="name" required maxlength="100" autocomplete="name" />
+      Name
+      <input id={`${kind}-name`} name="name" required maxlength="100" autocomplete="name" />
     </label>
     <label>
       Email
-      <input name="email" type="email" required maxlength="200" autocomplete="email" />
+      <input id={`${kind}-email`} name="email" type="email" required maxlength="200" autocomplete="email" />
     </label>
   </div>
   <label>
     Phone <span class="muted">(optional)</span>
-    <input name="phone" type="tel" maxlength="40" autocomplete="tel" pattern="[+()0-9 .\-]{5,40}" />
+    <input id={`${kind}-phone`} name="phone" type="tel" maxlength="40" autocomplete="tel" pattern="[+()0-9 .\-]{5,40}" />
   </label>
-  <div class="form-pair">
-    <label>
-      Country
-      <select name="country" required autocomplete="country-name">
-        <option value="">Select country</option>
-        <option>Denmark</option>
-        <option>Sweden</option>
-        <option>Norway</option>
-        <option>Other</option>
-      </select>
-    </label>
-    <label>
-      City or postal code
-      <input name="city" required maxlength="100" autocomplete="address-level2" />
-    </label>
-  </div>
-  {
-    kind === "contact" && (
-      <label>
-        What would you like to discuss?
-        <select name="topic">
-          {TOPICS.map((t) => (
-            <option>{t}</option>
-          ))}
-        </select>
-      </label>
-    )
-  }
   <label>
-    {kind === "contact" ? "Message" : "Additional comments"}
-    {kind === "order" && <span class="muted">(optional)</span>}
-    <textarea name="comments" maxlength="2000" required={kind === "contact"}
-      placeholder={kind === "order" ? "Height and inseam, component wishes, delivery questions…" : ""}
+    Message {kind === "order" && <span class="muted">(optional)</span>}
+    <textarea
+      id={`${kind}-message`}
+      name="message"
+      maxlength="2000"
+      required={kind === "contact"}
+      placeholder={kind === "order"
+        ? "Your height and inseam, delivery country, questions about components…"
+        : "Bikes, wheels, a custom build or a dealer partnership — how can we help?"}
     ></textarea>
   </label>
   <div class="hp" aria-hidden="true">
-    <label>Website <input name="website" tabindex="-1" autocomplete="off" /></label>
+    <label>Leave empty <input name="website" tabindex="-1" autocomplete="off" /></label>
   </div>
   <label class="consent">
-    <input name="consent" type="checkbox" required />
-    I agree that my details are used to answer this inquiry, as described in the
-    <a href={url("privacy/")}>privacy policy</a>.
+    <input id={`${kind}-consent`} name="consent" type="checkbox" required />
+    <span>
+      I agree that my details are used to answer this {kind === "order" ? "inquiry" : "message"}, as
+      described in the <a href={url("privacy/")}>privacy policy</a>.
+    </span>
   </label>
   {
-    liveInquiries && turnstileSiteKey && (
+    deliveryMode === "worker" && turnstileSiteKey && (
       <>
         <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" />
         <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
@@ -92,62 +75,68 @@ const submitLabel = kind === "order" ? "Send order inquiry" : "Send message";
     )
   }
   <button class="button full" type="submit" disabled>
-    <span data-label>{liveInquiries ? submitLabel : `Preview ${kind === "order" ? "order inquiry" : "message"}`}</span>
+    <span data-label>{submitLabel}</span>
     <span aria-hidden="true">↗</span>
   </button>
   <p class="caption form-foot">
     {kind === "order"
-      ? "Not a purchase. Your order will be reviewed and confirmed before payment."
-      : "We reply personally by email."}
+      ? "No payment now. We confirm price, availability and delivery with you before you order."
+      : `Or email us directly: ${representativeEmail}`}
   </p>
   <p class="status" role="status" aria-live="polite" data-status></p>
   <noscript>
-    <p>Enable JavaScript to send this form, or contact us by email.</p>
+    <p>Please email us at {representativeEmail}.</p>
   </noscript>
 </form>
 
 <script>
   import { readCart, writeCart } from "../lib/storage";
-  import { resolve, totals } from "../lib/catalog";
+  import { money, resolve, totalLabel, totals } from "../lib/catalog";
   import { url } from "../lib/urls";
 
   const form = document.querySelector<HTMLFormElement>("[data-inquiry]");
   if (form) {
     const kind = form.dataset.inquiry as "order" | "contact";
-    const live = form.dataset.live === "true";
+    const mode = form.dataset.mode as "worker" | "formspree" | "email";
     const endpoint = form.dataset.endpoint || "";
+    const inbox = form.dataset.email || "";
     const button = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
     const label = button.querySelector<HTMLElement>("[data-label]")!;
     const idleLabel = label.textContent;
     const status = form.querySelector<HTMLElement>("[data-status]")!;
     const startedAt = Date.now();
-    // One key per form view: retries after a network error never create a second inquiry.
+    // One key per form view: a retry after a network error never sends twice.
     let idempotencyKey = crypto.randomUUID();
 
-    const field = (n: string) =>
-      form.elements.namedItem(n) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
-    const fail = (message: string, focus?: string) => {
+    const fail = (message: string) => {
       status.textContent = message;
       status.classList.add("error");
-      if (focus) field(focus)?.focus();
+      button.disabled = false;
+      label.textContent = idleLabel;
+    };
+    const makeReference = () => {
+      const d = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+      const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      const tail = [...crypto.getRandomValues(new Uint8Array(5))]
+        .map((n) => alphabet[n % alphabet.length])
+        .join("");
+      return `EQ-${d}-${tail}`;
     };
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       status.classList.remove("error");
+      status.textContent = "";
       if (!form.checkValidity()) {
         const invalid = form.querySelector<HTMLElement>(":invalid");
-        const name = invalid?.getAttribute("name");
         const messages: Record<string, string> = {
           name: "Please enter your name.",
           email: "Please enter a valid email address.",
           phone: "Please check your phone number.",
-          country: "Please choose your country.",
-          city: "Please enter your city or postal code.",
-          comments: "Please write a short message.",
+          message: "Please write a short message.",
           consent: "Please accept the privacy policy to continue.",
         };
-        fail(messages[name || ""] || "Please check the highlighted field.");
+        fail(messages[invalid?.getAttribute("name") || ""] || "Please check the highlighted field.");
         invalid?.focus();
         return;
       }
@@ -155,96 +144,122 @@ const submitLabel = kind === "order" ? "Send order inquiry" : "Send message";
       try {
         items = kind === "order" ? readCart() : [];
       } catch {
-        return fail("Your saved bag could not be read. Return to your bag to reset it.");
+        return fail("Your saved bag could not be read. Open your bag to reset it.");
       }
       if (kind === "order" && !items.length)
         return fail("Your bag is empty. Add a product before sending an inquiry.");
 
       const data = new FormData(form);
-      const payload = {
-        kind,
-        name: String(data.get("name") || "").trim(),
-        email: String(data.get("email") || "").trim(),
-        phone: String(data.get("phone") || "").trim(),
-        country: String(data.get("country") || ""),
-        city: String(data.get("city") || "").trim(),
-        topic: kind === "contact" ? String(data.get("topic") || "") : "",
-        comments: String(data.get("comments") || "").trim(),
-        consent: data.get("consent") === "on",
-        website: String(data.get("website") || ""),
-        startedAt,
-        idempotencyKey,
-        turnstileToken: String(data.get("cf-turnstile-response") || ""),
-        items: items.map(({ productId, buildId, size, quantity }) => ({ productId, buildId, size, quantity })),
-      };
+      const field = (n: string) => String(data.get(n) || "").trim();
       const summary = items.map((line) => {
         const r = resolve(line);
-        return { quantity: line.quantity, name: r.name, description: r.description, price: r.price };
+        return { quantity: line.quantity, name: r.name, description: r.description, price: r.price, ids: line };
       });
-
-      button.disabled = true;
-      label.textContent = live ? "Sending…" : "Preparing preview…";
-      status.textContent = "";
-
-      if (!live) {
-        // Demo: nothing leaves the browser; only a product summary is kept for the confirmation page.
+      const total = totals(items);
+      const orderText = summary.length
+        ? [
+            ...summary.map(
+              (l) =>
+                `${l.quantity} × ${l.name} — ${l.description} — ${money(l.price)} [${l.ids.productId}/${l.ids.buildId}${l.ids.size ? "/" + l.ids.size : ""}]`,
+            ),
+            `Estimated total: ${totalLabel(total)}`,
+          ].join("\n")
+        : "";
+      const reference = makeReference();
+      const saveReceipt = (ref: string, timestamp: string, sent: boolean) =>
         sessionStorage.setItem(
           "equator-inquiry-receipt",
-          JSON.stringify({
-            mode: "demo",
-            kind,
-            reference: `DEMO-${idempotencyKey.slice(0, 8).toUpperCase()}`,
-            timestamp: new Date().toISOString(),
-            items: summary,
-            totals: totals(items),
-          }),
+          JSON.stringify({ sent, kind, reference: ref, timestamp, items: summary, totals: total }),
         );
-        window.location.assign(url("confirmation/"));
+
+      button.disabled = true;
+      label.textContent = "Sending…";
+
+      if (mode === "email") {
+        const subject =
+          kind === "order" ? `Order inquiry ${reference} — ${field("name")}` : `Message from ${field("name")}`;
+        const body = [
+          `Name: ${field("name")}`,
+          `Email: ${field("email")}`,
+          `Phone: ${field("phone") || "—"}`,
+          "",
+          field("message") || "—",
+          ...(orderText ? ["", "Order:", orderText] : []),
+        ].join("\n");
+        window.location.href = `mailto:${inbox}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        status.textContent = `Your email app should open with the message ready to send. If it doesn't, write to ${inbox}.`;
+        button.disabled = false;
+        label.textContent = idleLabel;
         return;
       }
 
       try {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+        let res: Response;
+        if (mode === "formspree") {
+          res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({
+              _subject:
+                kind === "order"
+                  ? `Order inquiry ${reference} — ${field("name")}`
+                  : `Contact message — ${field("name")}`,
+              reference,
+              type: kind === "order" ? "Order inquiry" : "Contact message",
+              name: field("name"),
+              email: field("email"),
+              phone: field("phone"),
+              message: field("message"),
+              ...(orderText ? { order: orderText } : {}),
+              _gotcha: field("website"),
+            }),
+          });
+        } else {
+          res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              kind,
+              name: field("name"),
+              email: field("email"),
+              phone: field("phone"),
+              comments: field("message"),
+              consent: data.get("consent") === "on",
+              website: field("website"),
+              startedAt,
+              idempotencyKey,
+              turnstileToken: String(data.get("cf-turnstile-response") || ""),
+              items: items.map(({ productId, buildId, size, quantity }) => ({ productId, buildId, size, quantity })),
+            }),
+          });
+        }
         const body = await res.json().catch(() => ({}));
-        if (!res.ok || !body.ok) {
-          // A rejected verification token cannot be reused: reset the widget.
+        if (!res.ok || body.ok === false || (mode === "worker" && !body.ok)) {
           (window as unknown as { turnstile?: { reset: () => void } }).turnstile?.reset();
           if (res.status === 400) idempotencyKey = crypto.randomUUID();
-          throw new Error(
+          const message =
             typeof body.error === "string"
               ? body.error
-              : "We couldn't send your inquiry. Your bag has been kept — please try again.",
-          );
+              : Array.isArray(body.errors) && body.errors[0]?.message
+                ? String(body.errors[0].message)
+                : `We couldn't send your message. Please try again or email ${inbox}.`;
+          throw new Error(message);
         }
-        sessionStorage.setItem(
-          "equator-inquiry-receipt",
-          JSON.stringify({
-            mode: "live",
-            kind,
-            reference: String(body.reference),
-            timestamp: String(body.receivedAt),
-            items: summary,
-            totals: totals(items),
-          }),
+        saveReceipt(
+          mode === "worker" ? String(body.reference) : reference,
+          mode === "worker" ? String(body.receivedAt) : new Date().toISOString(),
+          true,
         );
-        // Clear the bag only after the server accepted the inquiry.
-        if (kind === "order") writeCart([]);
+        if (kind === "order") writeCart([]); // only after the message was accepted
         window.location.assign(url("confirmation/"));
       } catch (e) {
-        const offline = e instanceof TypeError;
         fail(
-          offline
-            ? "Network problem — your inquiry was not sent. Your bag has been kept; please try again."
+          e instanceof TypeError
+            ? `Network problem — nothing was sent. Please try again or email ${inbox}.`
             : e instanceof Error
               ? e.message
               : "Something went wrong. Please try again.",
         );
-        button.disabled = false;
-        label.textContent = idleLabel;
       }
     });
     button.disabled = false;
@@ -255,11 +270,6 @@ const submitLabel = kind === "order" ? "Send order inquiry" : "Send message";
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-  }
-  .demo-note {
-    background: #f5f5f2;
-    padding: 16px 20px;
-    font-size: 13px;
   }
   .consent {
     display: flex;
@@ -288,7 +298,6 @@ const submitLabel = kind === "order" ? "Send order inquiry" : "Send message";
     margin: 12px 0 0;
   }
   input:user-invalid,
-  select:user-invalid,
   textarea:user-invalid {
     border-color: #a01919;
   }

@@ -54,8 +54,9 @@ test("saved price injection ignored and quantity capped", () => {
 import { validateMetadata, isVisible } from "../src/lib/publication.ts";
 import { allBikes } from "../src/data/bikes/catalog.ts";
 import { allWheels } from "../src/data/wheels/catalog.ts";
+import { allAccessories } from "../src/data/accessories/catalog.ts";
 test("catalog metadata validates and holds never become visible", () => {
-  const all = [...allBikes, ...allWheels];
+  const all = [...allBikes, ...allWheels, ...allAccessories];
   for (const p of all) validateMetadata(p);
   assert.equal(new Set(all.map((p) => p.id)).size, all.length);
   assert.equal(
@@ -97,10 +98,23 @@ test("every catalog photograph exists with responsive WebP variants", () => {
   const paths = [
     ...allBikes.flatMap((b) => b.images),
     ...allWheels.flatMap((w) => w.images),
+    ...allAccessories.flatMap((a) => a.images),
   ];
   for (const p of paths) {
     assert.ok(existsSync(`public/${p}`), p);
     const base = p.replace(/\.(jpe?g|png)$/i, "");
     for (const w of [640, 1024]) assert.ok(existsSync(`public/${base}-${w}.webp`), `${base}-${w}.webp (run npm run images)`);
   }
+});
+
+test("accessory lines need a listed option; CZK-only parts are price on request", () => {
+  const stem = resolve({ productId: "stem", buildId: "90", size: "" });
+  assert.match(stem.description, /90 mm/);
+  assert.equal(stem.price, null);
+  assert.equal(resolve({ productId: "bottle-cage", buildId: "standard", size: "" }).price, 7700);
+  assert.throws(() => resolve({ productId: "stem", buildId: "150", size: "" }));
+  assert.throws(() => resolve({ productId: "bottle-cage", buildId: "standard", size: "M" }));
+});
+test("every bike has a photo gallery", () => {
+  for (const b of allBikes) assert.ok(b.images.length >= 4, b.id);
 });

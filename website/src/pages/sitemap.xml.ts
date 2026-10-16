@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { bikes } from "../data/bikes/catalog";
 import { wheels } from "../data/wheels/catalog";
+import { accessories } from "../data/accessories/catalog";
 export const GET: APIRoute = ({ site }) => {
   const paths = [
     "",
@@ -18,6 +19,7 @@ export const GET: APIRoute = ({ site }) => {
     "cookies/",
     ...bikes.map((p) => `bikes/${p.slug}/`),
     ...wheels.map((p) => `wheels/${p.slug}/`),
+    ...accessories.map((p) => `accessories/${p.slug}/`),
   ];
   const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   const body = paths

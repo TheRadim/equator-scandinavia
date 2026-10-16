@@ -5,7 +5,7 @@ import { url } from "../lib/urls";
 
 <Layout title="Inquiry received" description="Confirmation of your Equator Scandinavia inquiry.">
   <section class="wrap section confirm">
-    <p class="eyebrow" data-eyebrow>Inquiry</p>
+    <p class="eyebrow" data-eyebrow>Inquiry received</p>
     <h1 data-title>Thanks for your inquiry.</h1>
     <p class="lead" data-lead>
       We'll review your configuration, confirm availability and pricing, and
@@ -22,8 +22,8 @@ import { url } from "../lib/urls";
         <span>Estimated total</span><span data-total></span>
       </div>
       <p class="caption">
-        This is not an order confirmation and nothing has been charged. Your
-        order will be reviewed and confirmed before payment.
+        Nothing has been charged. We'll send you a written confirmation of
+        price, availability and delivery before you order.
       </p>
     </div>
     <p data-empty hidden>
@@ -36,10 +36,10 @@ import { url } from "../lib/urls";
   </section>
 </Layout>
 <script>
-  import { money } from "../lib/catalog";
+  import { money, totalLabel } from "../lib/catalog";
   const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
   type Receipt = {
-    mode: "demo" | "live";
+    sent?: boolean;
     kind: "order" | "contact";
     reference: string;
     timestamp: string;
@@ -57,14 +57,7 @@ import { url } from "../lib/urls";
     $("[data-lead]").hidden = true;
     $("[data-title]").textContent = "Nothing to confirm yet.";
   } else {
-    const demo = data.mode === "demo";
-    if (demo) {
-      $("[data-eyebrow]").textContent = "Demo preview / Nothing has been sent";
-      $("[data-title]").textContent = "Your inquiry, previewed.";
-      $("[data-lead]").textContent =
-        "This was a demonstration. No inquiry or email was sent, and your bag has been kept.";
-      $("[data-bag-link]").hidden = false;
-    } else if (data.kind === "contact") {
+    if (data.kind === "contact") {
       $("[data-title]").textContent = "Thanks for getting in touch.";
       $("[data-lead]").textContent = "Your message has been received. We'll reply by email.";
     }
@@ -89,9 +82,7 @@ import { url } from "../lib/urls";
     }
     if (data.items?.length) {
       $("[data-total-row]").hidden = false;
-      $("[data-total]").textContent = data.totals.unknown
-        ? `${money(data.totals.subtotal)} + price on request`
-        : money(data.totals.subtotal);
+      $("[data-total]").textContent = totalLabel(data.totals);
     }
   }
 </script>

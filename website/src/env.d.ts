@@ -4,6 +4,8 @@ interface ImportMetaEnv {
   readonly PUBLIC_REPRESENTATIVE_EMAIL?: string;
   readonly PUBLIC_ALLOW_INDEXING?: string;
   readonly PUBLIC_RELATIVE_LINKS?: string;
+  readonly PUBLIC_SHOW_PRICES?: string;
+  readonly PUBLIC_FORMSPREE_ID?: string;
 }
 interface ImportMeta {
   readonly env: ImportMetaEnv;

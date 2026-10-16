@@ -6,7 +6,7 @@
  */
 import type { Product } from "../data/bikes/catalog";
 import { wheels } from "../data/wheels/catalog";
-import { money } from "../lib/catalog";
+import { money, fromPrice } from "../lib/catalog";
 import { url } from "../lib/urls";
 const { product } = Astro.props as { product: Product };
 const frame = product.builds.find((b) => b.type === "frameset");
@@ -29,9 +29,7 @@ const wheelLinks = Object.fromEntries(
             <input type="radio" name="type" value="complete" checked />
             <span class="option-title">Complete bicycle</span>
             <span class="option-meta">
-              {Number.isFinite(fromComplete)
-                ? `From ${money(fromComplete)}`
-                : "Price on request"}
+              {fromPrice(Number.isFinite(fromComplete) ? fromComplete : null)}
             </span>
           </label>
         )
@@ -65,7 +63,7 @@ const wheelLinks = Object.fromEntries(
         ))
       }
     </div>
-    <a class="text-link small" href="#size-guide" data-open-size>Size guidance</a>
+    <a class="text-link small" href="#size-finder">Find your size</a>
   </fieldset>
 
   <fieldset data-complete>
@@ -127,7 +125,7 @@ const wheelLinks = Object.fromEntries(
       <span class="price" data-price></span>
     </div>
     <p class="caption">
-      Manufacturer reference price. Your build is reviewed and confirmed —
+      Price in EUR. We confirm your build —
       price, availability and delivery — before any payment.
     </p>
   </section>
@@ -147,7 +145,7 @@ const wheelLinks = Object.fromEntries(
 
 <script>
   import { bikes } from "../data/bikes/catalog";
-  import { money } from "../lib/catalog";
+  import { money, fromPrice } from "../lib/catalog";
   import { addToCart } from "../lib/storage";
 
   document

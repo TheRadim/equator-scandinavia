@@ -43,15 +43,14 @@ const frame = (id: string, price: number, path: string): Build => ({
 });
 export const allBikes: Product[] = families.map((f) => ({
   ...f,
-  images: [f.image],
   verified: "2026-10-16",
   publication: "prototype",
-  inventoryStatus: "Availability unconfirmed",
+  inventoryStatus: f.id === "raiden" ? "Out of stock" : "In stock",
   sizes: f.id === "sensei" ? ["M", "L", "XL"] : ["M", "L"],
   availability:
     f.id === "raiden"
-      ? "Manufacturer expected new stock soon when checked on 16 October 2026"
-      : "Manufacturer listed in stock on 16 October 2026; confirm your size and delivery",
+      ? "New stock expected soon (Equator, updated 16 October 2026). Order now and we'll confirm the delivery date."
+      : "In stock at Equator (updated 16 October 2026). Delivery time is confirmed with your order.",
   specs: {
     "Frame material": "Titanium 3Al-2.5V",
     "Bottom bracket": "T47",

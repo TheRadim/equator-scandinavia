@@ -1,0 +1,150 @@
+---
+import type { Geometry } from "../data/bikes/details";
+const { geometry, offered, id } = Astro.props as { geometry: Geometry; offered: string[]; id: string };
+const range = (r: [number, number | null]) =>
+  r[0] === 0 ? `up to ${r[1]} cm` : r[1] === null ? `${r[0]} cm +` : `${r[0]}–${r[1]} cm`;
+---
+
+<section class="size-finder" aria-labelledby={`sf-${id}`} data-size-finder={JSON.stringify({ geometry, offered })}>
+  <div>
+    <p class="eyebrow">Size finder</p>
+    <h2 id={`sf-${id}`}>Find your size.</h2>
+    <p>
+      Enter your height and inseam (floor to crotch, barefoot). We use Equator's
+      rider-height ranges; your inseam decides when you fit two sizes.
+    </p>
+  </div>
+  <form class="sf-form" novalidate>
+    <div class="sf-inputs">
+      <label>
+        Height (cm)
+        <input id={`sf-${id}-height`} name="height" type="number" inputmode="numeric" min="140" max="215" placeholder="178" />
+      </label>
+      <label>
+        Inseam (cm)
+        <input id={`sf-${id}-inseam`} name="inseam" type="number" inputmode="numeric" min="60" max="110" placeholder="84" />
+      </label>
+    </div>
+    <div class="sf-result" aria-live="polite">
+      <p class="sf-size" data-size>—</p>
+      <p class="caption" data-reason>Your suggested size appears here.</p>
+    </div>
+    <ul class="sf-ranges">
+      {geometry.sizes.map((s, i) => (
+        <li class:list={[!offered.includes(s) && "off"]} data-range={s}>
+          <strong>{s}</strong>
+          <span>{range(geometry.riderHeight[i])}</span>
+          {!offered.includes(s) && <em>not currently offered</em>}
+        </li>
+      ))}
+    </ul>
+  </form>
+</section>
+
+<script>
+  import { suggestSize, type Geometry } from "../data/bikes/details";
+  document.querySelectorAll<HTMLElement>("[data-size-finder]").forEach((root) => {
+    const { geometry, offered } = JSON.parse(root.dataset.sizeFinder!) as { geometry: Geometry; offered: string[] };
+    const form = root.querySelector("form")!;
+    const out = root.querySelector<HTMLElement>("[data-size]")!;
+    const reason = root.querySelector<HTMLElement>("[data-reason]")!;
+    const update = () => {
+      const h = Number((form.elements.namedItem("height") as HTMLInputElement).value);
+      const i = Number((form.elements.namedItem("inseam") as HTMLInputElement).value) || undefined;
+      root.querySelectorAll("[data-range]").forEach((li) => li.classList.remove("match"));
+      if (!h) {
+        out.textContent = "—";
+        reason.textContent = "Your suggested size appears here.";
+        return;
+      }
+      if (h < 140 || h > 215) {
+        out.textContent = "—";
+        reason.textContent = "Please enter your height in centimetres.";
+        return;
+      }
+      const s = suggestSize(geometry, offered, h, i);
+      if (!s) {
+        out.textContent = "Ask us";
+        reason.textContent = "Your height is outside the sizes currently offered. Send us a message and we'll check with Equator.";
+        return;
+      }
+      out.textContent = s.alternative ? `${s.size} (or ${s.alternative})` : s.size;
+      reason.textContent = `${s.reason} We'll confirm your size before you order.`;
+      root.querySelector(`[data-range="${s.size}"]`)?.classList.add("match");
+    };
+    form.addEventListener("input", update);
+    form.addEventListener("submit", (e) => e.preventDefault());
+  });
+</script>
+
+<style>
+  .size-finder {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: 64px;
+    padding: 64px 0;
+    border-top: 1px solid #e5e5e5;
+  }
+  .size-finder h2 {
+    font-size: clamp(2rem, 3.4vw, 3rem);
+  }
+  .sf-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .sf-result {
+    background: #f7f7f7;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+  }
+  .sf-size {
+    font-size: 36px;
+    letter-spacing: -0.03em;
+    color: #171717;
+    margin: 0 0 4px;
+  }
+  .sf-result .caption {
+    margin: 0;
+  }
+  .sf-ranges {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0;
+  }
+  .sf-ranges li {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+  }
+  .sf-ranges strong {
+    width: 32px;
+  }
+  .sf-ranges em {
+    font-style: normal;
+    font-size: 12px;
+    color: #666;
+    margin-left: auto;
+  }
+  .sf-ranges li.off {
+    color: #666;
+  }
+  .sf-ranges li.match {
+    font-weight: 600;
+  }
+  .sf-ranges li.match span::after {
+    content: " · suggested";
+  }
+  @media (max-width: 900px) {
+    .size-finder {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 48px 0;
+    }
+  }
+</style>

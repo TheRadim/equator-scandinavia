@@ -20,3 +20,11 @@
 - Configurator uses option tiles, six steps; wheelset/components are shown as included with the factory build (no unverified upgrade pricing).
 - Product JSON-LD omits Offer (no binding price/stock). Search indexing off unless `PUBLIC_ALLOW_INDEXING=true`.
 - Typeface: Inter Variable, self-hosted.
+
+2026-10-16 (owner direction):
+- Owner is the Scandinavian middle man building an international storefront to sell Equator bikes and to show dealers. Site copy is now customer-facing, without prototype notices. Prices shown for now; may be hidden later for a dealer model (`PUBLIC_SHOW_PRICES`).
+- Inbox: hi@radim-theiner.com. Form delivery: Formspree (owner to create form); mailto fallback until then.
+- Contact/inquiry form reduced to name, email, phone, message (owner request).
+- Accessories published although all are restocking at Equator, labelled "Restocking"; CZK-only prices shown as "Price on request" (no FX).
+- Geometry published as Equator lists it, including sizes not currently offered (greyed); suspicious values flagged with * pending Equator confirmation.
+- Size finder uses Equator's rider-height ranges; inseam ≥ 47% of height picks the larger of two overlapping sizes. Always followed by "we'll confirm your size".

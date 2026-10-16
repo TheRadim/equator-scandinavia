@@ -1,0 +1,166 @@
+---
+import type { Geometry } from "../data/bikes/details";
+const { geometry, offered, source } = Astro.props as {
+  geometry: Geometry;
+  offered: string[];
+  source: string;
+};
+const range = (r: [number, number | null]) =>
+  r[0] === 0 ? `≤ ${r[1]} cm` : r[1] === null ? `${r[0]}+ cm` : `${r[0]}–${r[1]} cm`;
+const hasCheck = geometry.rows.some((r) => r.check?.length);
+---
+
+<section class="geometry" id="geometry" aria-labelledby="geometry-title">
+  <div class="geo-head">
+    <p class="eyebrow">Geometry</p>
+    <h2 id="geometry-title">Every measurement.</h2>
+  </div>
+  <div class="geo-body">
+    <figure class="geo-drawing" aria-label="Frame geometry drawing with measurement keys">
+      <svg viewBox="0 0 540 330" role="img" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="110" cy="240" r="82" stroke-width="1.5" opacity=".3" />
+          <circle cx="425" cy="240" r="82" stroke-width="1.5" opacity=".3" />
+          <path stroke-width="3" d="M110 240 L245 262 L205 82 Z" />
+          <path stroke-width="3" d="M205 82 L382 74 L394 122 L245 262" />
+          <path stroke-width="3" d="M394 122 L425 240" />
+          <path stroke-width="3" d="M382 74 L394 122" />
+        </g>
+        <g stroke="#767676" stroke-width="1" fill="none">
+          <path stroke-dasharray="4 4" d="M245 262 V58" />
+          <path stroke-dasharray="4 4" d="M245 58 H382" />
+          <path stroke-dasharray="4 4" d="M382 58 V74" />
+          <path stroke-dasharray="4 4" d="M60 240 H480" />
+          <path d="M262 240 V262" />
+        </g>
+        <g font-size="15" font-weight="600" fill="currentColor" font-family="inherit">
+          <text x="252" y="160">A</text>
+          <text x="306" y="50">B</text>
+          <text x="200" y="176">C</text>
+          <text x="290" y="98">D</text>
+          <text x="398" y="98">E</text>
+          <text x="418" y="160">F</text>
+          <text x="214" y="246">G</text>
+          <text x="168" y="268">H</text>
+          <text x="268" y="258">I</text>
+        </g>
+      </svg>
+    </figure>
+    <div class="geo-table-wrap">
+      <table class="geo-table">
+        <thead>
+          <tr>
+            <th scope="col">Size</th>
+            {geometry.sizes.map((s) => (
+              <th scope="col" class:list={[!offered.includes(s) && "off"]}>{s}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Rider height</th>
+            {geometry.riderHeight.map((r, i) => (
+              <td class:list={[!offered.includes(geometry.sizes[i]) && "off"]}>{range(r)}</td>
+            ))}
+          </tr>
+          {geometry.rows.map((row) => (
+            <tr>
+              <th scope="row">
+                {row.key && <span class="geo-key">{row.key}</span>}
+                {row.label}
+              </th>
+              {row.values.map((v, i) => (
+                <td class:list={[!offered.includes(geometry.sizes[i]) && "off"]}>
+                  {v ?? "—"}
+                  {row.check?.includes(i) && <sup title="To be confirmed">*</sup>}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class="caption geo-notes">
+    Sizes currently offered: {offered.join(", ")}. Greyed-out sizes are in
+    Equator's geometry but not currently available.
+    {hasCheck && " * Value as published by Equator; being confirmed."}
+    {geometry.note && ` ${geometry.note}`}
+    <a href={source} rel="noopener">Equator geometry source ↗</a>
+  </p>
+</section>
+
+<style>
+  .geometry {
+    padding: 64px 0;
+    border-top: 1px solid #e5e5e5;
+  }
+  .geo-head h2 {
+    font-size: clamp(2rem, 3.4vw, 3rem);
+  }
+  .geo-body {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 48px;
+    align-items: start;
+    margin-top: 24px;
+  }
+  .geo-drawing {
+    margin: 0;
+    color: #171717;
+  }
+  .geo-drawing svg {
+    width: 100%;
+    height: auto;
+  }
+  .geo-table-wrap {
+    overflow-x: auto;
+  }
+  .geo-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    min-width: 480px;
+  }
+  .geo-table th,
+  .geo-table td {
+    text-align: right;
+    padding: 11px 10px;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+  }
+  .geo-table th[scope="row"] {
+    text-align: left;
+    font-weight: 500;
+    color: #171717;
+  }
+  .geo-table thead th {
+    font-weight: 600;
+    border-bottom: 1px solid #171717;
+  }
+  .geo-key {
+    display: inline-block;
+    width: 22px;
+    color: #666;
+    font-weight: 600;
+  }
+  .off {
+    color: #767676;
+  }
+  .geo-notes {
+    margin-top: 16px;
+    max-width: 760px;
+  }
+  .geo-notes a {
+    text-decoration: underline;
+  }
+  @media (max-width: 900px) {
+    .geo-body {
+      grid-template-columns: 1fr;
+    }
+    .geo-drawing {
+      max-width: 420px;
+    }
+  }
+</style>

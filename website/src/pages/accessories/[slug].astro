@@ -1,0 +1,106 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Gallery from "../../components/Gallery.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
+import { accessories, type Accessory } from "../../data/accessories/catalog";
+import { money } from "../../lib/catalog";
+import { productJsonLd } from "../../lib/seo";
+import { url } from "../../lib/urls";
+export function getStaticPaths() {
+  return accessories.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+}
+const { product } = Astro.props as { product: Accessory };
+const hasChoice = product.options.length > 1;
+---
+
+<Layout
+  title={product.name}
+  description={`Equator ${product.name}: ${product.description}`}
+  image={product.images[0]}
+  jsonLd={productJsonLd({
+    name: `Equator ${product.name}`,
+    description: product.description,
+    image: product.images[0],
+    path: `accessories/${product.slug}/`,
+  })}
+>
+  <div class="wrap">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href={url("accessories/")}>Accessories</a> / {product.name}
+    </nav>
+    <div class="product-layout">
+      <div class="product-media">
+        <Gallery images={product.images} alt={`Equator ${product.name}`} label={product.name} />
+      </div>
+      <div class="product-info">
+        <p class="eyebrow">{product.category}</p>
+        <h1>{product.name}</h1>
+        <p class="lead">{product.description}</p>
+        <p class="price">{money(product.price)}</p>
+        <hr />
+        <form data-option-form={product.id}>
+          {
+            hasChoice ? (
+              <fieldset>
+                <legend>{product.optionLabel}</legend>
+                <div class="option-grid sizes">
+                  {product.options.map((o, i) => (
+                    <label class="option">
+                      <input type="radio" name="option" value={o.id} checked={i === 0} />
+                      <span class="option-title">{o.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            ) : (
+              <input type="hidden" name="option" value={product.options[0].id} />
+            )
+          }
+          <div class="availability">
+            <StatusBadge status={product.inventoryStatus} />
+            <p class="caption">{product.availability}</p>
+          </div>
+          <button class="button full" type="submit">
+            Add to bag <span aria-hidden="true">↗</span>
+          </button>
+          <p class="status" role="status" data-status></p>
+          <a class="text-link" href={url("cart/")} hidden data-view-bag>Review your bag</a>
+        </form>
+        <hr />
+        <h2 class="spec-title">Specifications</h2>
+        <dl class="specs">
+          {
+            Object.entries(product.specs).map(([k, v]) => (
+              <div>
+                <dt>{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import { addToCart } from "../../lib/storage";
+  const form = document.querySelector<HTMLFormElement>("[data-option-form]");
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const status = form.querySelector<HTMLElement>("[data-status]")!;
+    try {
+      addToCart({
+        productId: form.dataset.optionForm!,
+        buildId: String(new FormData(form).get("option")),
+        size: "",
+      });
+      status.textContent = "Added to your bag.";
+      status.classList.remove("error");
+      form.querySelector<HTMLElement>("[data-view-bag]")!.hidden = false;
+    } catch (e) {
+      status.textContent = e instanceof Error ? e.message : "Unable to save your bag.";
+      status.classList.add("error");
+    }
+  });
+</script>

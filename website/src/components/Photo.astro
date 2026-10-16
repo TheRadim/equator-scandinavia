@@ -3,6 +3,7 @@
  * Responsive photograph: WebP 640/1024 variants (from `npm run images`) with
  * the original JPG/PNG as fallback.
  */
+import sharp from "sharp";
 import { url } from "../lib/urls";
 interface Props {
   src: string;
@@ -19,9 +20,13 @@ const {
   sizes = "(max-width: 900px) 100vw, 50vw",
   eager = false,
   class: cls,
-  width = 1024,
-  height = 768,
 } = Astro.props;
+// Real dimensions at build time: correct width/height (no layout shift) and a
+// "portrait" class so tall photos are shown whole instead of cropped.
+const meta = await sharp(`public/${src}`).metadata();
+const width = meta.width ?? 1024;
+const height = meta.height ?? 768;
+const portrait = height > width * 0.9;
 const base = src.replace(/\.(jpe?g|png)$/i, "");
 ---
 
@@ -32,7 +37,7 @@ const base = src.replace(/\.(jpe?g|png)$/i, "");
     sizes={sizes}
   />
   <img
-    class={cls}
+    class:list={[cls, portrait && "portrait"]}
     src={url(src)}
     alt={alt}
     width={width}

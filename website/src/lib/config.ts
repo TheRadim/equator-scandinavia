@@ -1,18 +1,25 @@
+import { site } from "../data/site.ts";
 /**
- * Build-time public configuration (safe to expose). Set in website/.env or as
- * GitHub Actions variables. Leaving PUBLIC_INQUIRY_ENDPOINT empty keeps the
- * site in demo mode: forms validate locally and nothing is sent.
+ * Build-time public configuration (safe to expose). Values come from
+ * src/data/site.ts and can be overridden with PUBLIC_* build variables.
+ *
+ * Form delivery, first match wins:
+ *  1. PUBLIC_INQUIRY_ENDPOINT — the Cloudflare Worker in worker/
+ *  2. Formspree form ID — site.formspreeId or PUBLIC_FORMSPREE_ID
+ *  3. Email — the form opens the visitor's email app addressed to site.email
  */
-export const inquiryEndpoint: string = (
-  import.meta.env.PUBLIC_INQUIRY_ENDPOINT ?? ""
-).trim();
-export const turnstileSiteKey: string = (
-  import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? ""
-).trim();
-export const representativeEmail: string = (
-  import.meta.env.PUBLIC_REPRESENTATIVE_EMAIL ?? ""
-).trim();
-export const liveInquiries = inquiryEndpoint.length > 0;
-/** Search indexing stays off until a deliberate public launch (PUBLIC_ALLOW_INDEXING=true). */
-export const allowIndexing =
-  (import.meta.env.PUBLIC_ALLOW_INDEXING ?? "").trim() === "true";
+const env = import.meta.env;
+export const inquiryEndpoint: string = (env.PUBLIC_INQUIRY_ENDPOINT ?? "").trim();
+export const turnstileSiteKey: string = (env.PUBLIC_TURNSTILE_SITE_KEY ?? "").trim();
+export const formspreeId: string = ((env.PUBLIC_FORMSPREE_ID ?? "").trim() || site.formspreeId).trim();
+export const representativeEmail: string =
+  (env.PUBLIC_REPRESENTATIVE_EMAIL ?? "").trim() || site.email;
+export const deliveryMode: "worker" | "formspree" | "email" = inquiryEndpoint
+  ? "worker"
+  : formspreeId
+    ? "formspree"
+    : "email";
+/** Kept for older imports: true when messages are sent by the site itself. */
+export const liveInquiries = deliveryMode !== "email";
+/** Search indexing stays off until PUBLIC_ALLOW_INDEXING=true. */
+export const allowIndexing = (env.PUBLIC_ALLOW_INDEXING ?? "").trim() === "true";

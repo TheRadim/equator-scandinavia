@@ -19,7 +19,7 @@ export type Inquiry = {
   name: string;
   email: string;
   phone: string;
-  country: (typeof COUNTRIES)[number];
+  country: (typeof COUNTRIES)[number] | "";
   city: string;
   topic: string;
   comments: string;
@@ -75,8 +75,9 @@ export function parseInquiry(body: unknown, now = Date.now()): Inquiry {
   if (!kind) throw new InputError("Invalid request type.");
   const email = text(b.email, "email", { max: 200, required: true });
   if (!EMAIL.test(email)) throw new InputError("Please enter a valid email address.", "email");
-  const country = text(b.country, "country", { max: 20, required: true });
-  if (!(COUNTRIES as readonly string[]).includes(country))
+  // Country and city are optional (the site form asks only name, email, phone, message).
+  const country = text(b.country, "country", { max: 20 });
+  if (country && !(COUNTRIES as readonly string[]).includes(country))
     throw new InputError("Please choose a country.", "country");
   const topic = text(b.topic, "topic", { max: 40 });
   if (topic && !(TOPICS as readonly string[]).includes(topic))
@@ -115,7 +116,7 @@ export function parseInquiry(body: unknown, now = Date.now()): Inquiry {
     email,
     phone,
     country: country as Inquiry["country"],
-    city: text(b.city, "city or postal code", { max: 100, required: true }),
+    city: text(b.city, "city or postal code", { max: 100 }),
     topic,
     comments,
     items,
@@ -168,7 +169,7 @@ export function representativeEmail(inq: Inquiry, reference: string, receivedAt:
   const s = summarize(inq.items);
   const subject =
     inq.kind === "order"
-      ? `Build inquiry ${reference} — ${inq.name} (${inq.country})`
+      ? `Order inquiry ${reference} — ${inq.name}${inq.country ? ` (${inq.country})` : ""}`
       : `Contact ${reference} — ${inq.topic || "General question"} — ${inq.name}`;
   const rows: [string, string][] = [
     ["Reference", reference],
@@ -177,9 +178,9 @@ export function representativeEmail(inq: Inquiry, reference: string, receivedAt:
     ["Name", inq.name],
     ["Email", inq.email],
     ["Phone", inq.phone || "—"],
-    ["Country", inq.country],
-    ["City / postal code", inq.city],
   ];
+  if (inq.country) rows.push(["Country", inq.country]);
+  if (inq.city) rows.push(["City / postal code", inq.city]);
   if (inq.topic) rows.push(["Topic", inq.topic]);
   const textLines = [
     ...rows.map(([k, v]) => `${k}: ${v}`),

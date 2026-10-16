@@ -132,3 +132,10 @@ test("contact message needs text and validates topic", () => {
   assert.match(r.subject, /Dealer partnership/);
   assert.equal(escapeHtml(`<a href="x">'`), "&lt;a href=&quot;x&quot;&gt;&#39;");
 });
+
+test("country and city are optional", () => {
+  const { country, city, ...rest } = base;
+  const inq = parseInquiry(rest);
+  assert.equal(inq.country, "");
+  assert.doesNotMatch(representativeEmail(inq, "EQ-1", "t").text, /Country/);
+});
