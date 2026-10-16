@@ -8,6 +8,7 @@
     "preview": "astro preview --host 127.0.0.1",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "images": "node scripts/optimize-images.mjs",
+    "build:preview": "node scripts/build-preview.mjs",
     "fetch-images": "node scripts/fetch-images.mjs"
   },
   "dependencies": {

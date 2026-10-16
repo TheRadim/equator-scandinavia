@@ -21,6 +21,9 @@ Premium Astro storefront for Equator titanium bicycles and carbon wheels in Scan
 ## Git / push status
 Branch `codex/website-prototype` is pushed to origin (github.com/TheRadim/equator-scandinavia, private) and tracks `origin/codex/website-prototype`; pushed 2026-10-16 up to `91ad00c` plus this status update. GitHub workflows are still templates in docs/website-workflows/ (installing them needs a token with Workflows: write). No CI run or Pages deployment exists yet.
 
+## Preview hosting
+A private preview is published as a claude.ai artifact (owner-only link; share from its Share menu): https://claude.ai/artifact/EXrN2kGK448MCkWCTEBLpG. It is built with `npm run build:preview -- <outDir>` (relative links, demo inquiries) and republished from a Claude session. GitHub Pages is not used yet: the repo is private (Pages needs a public repo or a paid plan) and the token would need Pages/Workflows permissions.
+
 ## Required credentials / decisions before live inquiries
 Resend API key + verified sending domain; representative inbox (`INQUIRY_RECIPIENT`); Turnstile site key + secret; Cloudflare account + KV namespace; legal operator / data controller; final privacy policy, terms, cookie text; approved Scandinavian pricing policy (currently EUR manufacturer references). Details: worker/README.md.
 
