@@ -90,3 +90,8 @@ Next: document initial meeting findings, confirm product details, and evaluate o
 ## 2026-10-16 — Website milestone 3
 
 - Added typed product data, three family pages, wheel filters/detail and an honest accessory empty state. Reference prices and inventory observations retain source dates; uncertain merchandise is held. Eight routes build with zero type errors.
+
+## 2026-10-16 — Website milestone 4
+
+- Added factory-bundle configurator, frameset hiding, listed size validation, saved selections and live reference pricing. Unknown upgrades are not offered as compatible options.
+- Six logic tests pass, including cart identity/quantity/unknown-price foundations; Astro type-check and build pass.

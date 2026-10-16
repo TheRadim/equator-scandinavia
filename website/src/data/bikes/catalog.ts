@@ -1,4 +1,4 @@
-import { families } from '../families';
+import { families } from '../families.ts';
 export type Build = { id:string; type:'frameset'|'complete'; label:string; price:number|null; groupset?:string; wheels?:string; components?:string; source:string };
 export type Product = { id:string; slug:string; name:string; category:string; description:string; image:string; sizes:string[]; availability:string; verified:string; publication:'prototype'|'review'; builds:Build[]; specs:Record<string,string> };
 const root='https://www.equator-cycling.com/en/';
