@@ -18,7 +18,7 @@ Never commit credentials, personal contact information, private commercial terms
 
 ## Sheets updates
 
-No live synchronization exists yet. scripts/validate_leads.py is a read-only preview. Every future sync must read the live target immediately before writing, validate incoming data, use stable IDs, reject ambiguous matches and default to dry run. IDs never depend on row numbers, and do not change when a business changes name or website. Match canonical website plus city to flag likely duplicate branches; business name plus country and city is a second check. Never merge uncertain matches automatically.
+scripts/validate_leads.py remains a read-only preview. scripts/sheets provides an optional dry-run-first live bridge; no unattended synchronization is configured. Every sync must read the live target immediately before writing, validate incoming data, use stable IDs, reject ambiguous matches and default to dry run. IDs never depend on row numbers, and do not change when a business changes name or website. Match canonical website plus city to flag likely duplicate branches; business name plus country and city is a second check. Never merge uncertain matches automatically.
 
 Protect all manual fields: qualification, contact person/status/dates, notes, partnership model, fit and response state. Automated enrichment may fill only empty approved discovery fields. Never clear a field because a source is blank. Reject stale snapshots before applying an approved change set. Repeated runs must be idempotent; verify by readback. Back up before bulk updates. Do not store operational snapshots in Git.
 
