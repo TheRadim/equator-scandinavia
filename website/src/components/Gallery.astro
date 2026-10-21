@@ -48,11 +48,17 @@ const { images, alt, label, sublabel, caption } = Astro.props;
     );
     g.querySelectorAll<HTMLButtonElement>("[data-src]").forEach((b) =>
       b.addEventListener("click", () => {
-        if (main) {
-          main.src = b.dataset.src!;
-          const source = main.parentElement?.querySelector("source");
-          const base = b.dataset.src!.replace(/\.(jpe?g|png)$/i, "");
-          if (source) source.srcset = `${base}-640.webp 640w, ${base}-1024.webp 1024w`;
+        if (main && b.getAttribute("aria-pressed") !== "true") {
+          // Short crossfade so the photo doesn't jump: fade out, swap, fade in on load.
+          main.classList.add("swapping");
+          window.setTimeout(() => {
+            main.addEventListener("load", () => main.classList.remove("swapping"), { once: true });
+            main.src = b.dataset.src!;
+            const source = main.parentElement?.querySelector("source");
+            const base = b.dataset.src!.replace(/\.(jpe?g|png)$/i, "");
+            if (source) source.srcset = `${base}-640.webp 640w, ${base}-1024.webp 1024w`;
+            if (main.complete) main.classList.remove("swapping");
+          }, 160);
         }
         g.querySelectorAll("[data-src]").forEach((x) =>
           x.setAttribute("aria-pressed", String(x === b)),

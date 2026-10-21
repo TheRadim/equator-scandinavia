@@ -11,6 +11,20 @@
   color: #171717;
   background: #fff;
   font-synthesis: none;
+  /* Type scale: use only these steps (12 / 14 / 16 / 18) below the h3 size. */
+  --fs-label: 12px;
+  --fs-ui: 14px;
+  --fs-body: 16px;
+  --fs-lead: 18px;
+  /* Motion tokens. Strong curves; UI stays under 300 ms. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-press: 120ms;
+  --dur-fast: 160ms;
+  --dur-ui: 220ms;
+  --dur-line: 280ms;
+  --dur-reveal: 640ms;
+  --dur-photo: 700ms;
 }
 * {
   box-sizing: border-box;
@@ -85,9 +99,9 @@ h3 {
   padding-block: 100px;
 }
 .eyebrow {
-  font-size: 11px;
+  font-size: var(--fs-label);
   font-weight: 600;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 24px;
 }
@@ -104,17 +118,65 @@ h3 {
   background: #171717;
   color: white;
   border: 1px solid #171717;
-  font-size: 13px;
+  font-size: var(--fs-ui);
+  transition:
+    background-color var(--dur-ui) ease,
+    border-color var(--dur-ui) ease,
+    color var(--dur-ui) ease,
+    transform var(--dur-press) var(--ease-out);
+}
+.button:active:not(:disabled) {
+  transform: scale(0.97);
 }
 .button.light {
   color: #171717;
   background: white;
 }
+/* Underline: a quiet grey rule; a dark line draws over it on hover. */
 .text-link {
+  position: relative;
   display: inline-block;
   padding: 12px 0;
-  border-bottom: 1px solid;
-  font-size: 13px;
+  font-size: var(--fs-ui);
+  background: linear-gradient(#cfcfcf, #cfcfcf) left bottom / 100% 1px no-repeat;
+}
+.text-link::after,
+.site-header nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0.28);
+  transform-origin: left;
+  transition: transform var(--dur-line) var(--ease-out);
+}
+.site-header nav a {
+  position: relative;
+  padding: 6px 0;
+}
+.site-header nav a::after {
+  transform: scaleX(0);
+}
+.site-header nav a[aria-current]::after {
+  transform: scaleX(1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .button:hover:not(:disabled) {
+    background: #3a3a3a;
+    border-color: #3a3a3a;
+  }
+  .button.light:hover:not(:disabled) {
+    background: #f0f0ee;
+    border-color: #171717;
+  }
+  .text-link:hover::after,
+  .card:hover .text-link::after,
+  .site-header nav a:hover::after {
+    transform: scaleX(1);
+  }
 }
 .grid3 {
   display: grid;
@@ -131,7 +193,7 @@ h3 {
   padding: 10px 20px;
   background: #f0f0ec;
   text-align: center;
-  font-size: 11px;
+  font-size: var(--fs-label);
   letter-spacing: 0.04em;
 }
 .site-header {
@@ -144,7 +206,7 @@ h3 {
 .site-header nav {
   display: flex;
   gap: 32px;
-  font-size: 13px;
+  font-size: var(--fs-ui);
 }
 .site-header img {
   width: 143px;
@@ -154,7 +216,7 @@ h3 {
   display: flex;
   gap: 24px;
   align-items: center;
-  font-size: 13px;
+  font-size: var(--fs-ui);
 }
 .mobile-menu {
   display: none;
@@ -181,24 +243,30 @@ h3 {
 }
 .footer a {
   display: block;
-  font-size: 13px;
+  font-size: var(--fs-ui);
   color: #666;
+  transition: color var(--dur-fast) ease;
 }
-.footer a:hover {
-  color: #171717;
+.breadcrumbs a {
+  transition: color var(--dur-fast) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer a:hover {
+    color: #171717;
+  }
 }
 .footer h3,
 .footer .footer-title {
   letter-spacing: 0;
   font-weight: 600;
-  font-size: 12px;
+  font-size: var(--fs-label);
   margin: 0 0 4px;
 }
 .footer-bottom {
   border-top: 1px solid #ddd;
   margin-top: 64px;
   padding-top: 24px;
-  font-size: 11px;
+  font-size: var(--fs-label);
   color: #666;
 }
 .skip {
@@ -236,16 +304,48 @@ h3 {
   aspect-ratio: 1.4;
   object-fit: cover;
 }
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.card > a:first-child {
+  display: block;
+  width: 100%;
+}
+/* Photo frame clips the slow hover zoom. */
+.card picture {
+  display: block;
+  overflow: hidden;
+  background: #f7f7f7;
+}
+.card picture img {
+  display: block;
+  transition: transform var(--dur-photo) var(--ease-out);
+}
 .card h3 {
   margin: 24px 0 10px;
 }
 .card .meta {
-  font-size: 11px;
+  font-size: var(--fs-label);
   letter-spacing: 0.07em;
   text-transform: uppercase;
 }
 .card p {
-  font-size: 14px;
+  font-size: var(--fs-body);
+  max-width: 46ch;
+}
+/* Last link sits on one baseline across a row, whatever the text length. */
+.card > :last-child {
+  margin-top: auto;
+}
+.card .status-badge {
+  margin-bottom: 4px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .card:hover picture img {
+    transform: scale(1.035);
+  }
 }
 .empty {
   padding: 60px;
@@ -261,7 +361,7 @@ h3 {
 }
 label {
   display: block;
-  font-size: 13px;
+  font-size: var(--fs-ui);
   margin-bottom: 18px;
 }
 input,
@@ -275,6 +375,19 @@ textarea {
   border-radius: 0;
   background: white;
   margin-top: 8px;
+  transition: border-color var(--dur-fast) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  input:not([type="checkbox"]):hover,
+  select:hover,
+  textarea:hover {
+    border-color: #999;
+  }
+}
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #171717;
 }
 input[type="checkbox"] {
   display: inline-block;
@@ -499,6 +612,22 @@ hr {
   padding: 0;
   border: 1px solid transparent;
   background: #f7f7f7;
+  transition: border-color var(--dur-fast) ease, opacity var(--dur-fast) ease;
+}
+.gallery-thumbs button[aria-pressed="false"] {
+  opacity: 0.72;
+}
+@media (hover: hover) and (pointer: fine) {
+  .gallery-thumbs button:hover {
+    opacity: 1;
+  }
+}
+/* Main photo crossfades when a thumbnail is chosen. */
+.gallery img.gallery-main {
+  transition: opacity var(--dur-ui) ease;
+}
+.gallery img.gallery-main.swapping {
+  opacity: 0;
 }
 .gallery-thumbs button[aria-pressed="true"] {
   border-color: #171717;
@@ -537,8 +666,19 @@ hr {
   pointer-events: none;
   margin: 0;
 }
-.option:hover {
-  border-color: #999;
+@media (hover: hover) and (pointer: fine) {
+  .option:hover {
+    border-color: #999;
+  }
+}
+.option {
+  transition:
+    border-color var(--dur-fast) ease,
+    box-shadow var(--dur-fast) ease,
+    transform var(--dur-press) var(--ease-out);
+}
+.option:active {
+  transform: scale(0.985);
 }
 .option:has(input:checked) {
   border-color: #171717;
@@ -576,7 +716,7 @@ hr {
   width: 100%;
 }
 .spec-title {
-  font-size: 15px;
+  font-size: var(--fs-body);
   letter-spacing: 0;
   font-weight: 600;
   margin-bottom: 8px;
@@ -588,7 +728,7 @@ hr {
   display: grid;
   grid-template-columns: minmax(110px, 0.8fr) minmax(0, 1.2fr);
   gap: 20px;
-  font-size: 13px;
+  font-size: var(--fs-ui);
   border-bottom: 1px solid #eee;
   padding: 13px 0;
 }
@@ -608,7 +748,7 @@ details.disclosure:last-of-type {
 }
 details.disclosure summary {
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--fs-ui);
   min-height: 24px;
   list-style: none;
   display: flex;
@@ -617,13 +757,24 @@ details.disclosure summary {
 details.disclosure summary::-webkit-details-marker {
   display: none;
 }
+/* The plus turns into a close cross when the panel opens. */
 details.disclosure summary::after {
   content: "+";
   font-size: 18px;
   line-height: 1;
+  transition: transform var(--dur-ui) var(--ease-out);
 }
 details.disclosure[open] summary::after {
-  content: "–";
+  transform: rotate(45deg);
+}
+details.disclosure[open] > :not(summary) {
+  animation: disclose var(--dur-ui) var(--ease-out);
+}
+@keyframes disclose {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
 }
 details.disclosure > :not(summary) {
   margin-top: 16px;
@@ -747,4 +898,79 @@ dl + .text-link {
 }
 .gallery > .caption {
   margin-top: 10px;
+}
+
+/* ---------- Motion ---------- */
+/* Mobile menu: drops in from under the header. */
+.mobile-menu:not([open]) .drawer {
+  display: none;
+}
+@media (max-width: 767px) {
+  .mobile-menu[open] .drawer {
+    transition:
+      opacity var(--dur-ui) var(--ease-out),
+      transform var(--dur-ui) var(--ease-out);
+    @starting-style {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+  .mobile-menu summary svg {
+    transition: transform var(--dur-ui) var(--ease-out);
+  }
+  .mobile-menu[open] summary svg {
+    transform: rotate(90deg);
+  }
+}
+.bag-link svg {
+  transition: transform var(--dur-press) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .bag-link:hover svg {
+    transform: translateY(-1px);
+  }
+}
+/* Scroll reveal: only when JS is running, so content never stays hidden. */
+.js [data-reveal],
+.js [data-reveal-group] > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.js [data-reveal].in,
+.js [data-reveal-group] > .in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal],
+  .js [data-reveal-group] > * {
+    transform: none;
+    transition: opacity 300ms ease;
+    transition-delay: 0ms;
+  }
+  .card picture img,
+  .button,
+  .option,
+  .mobile-menu summary svg,
+  .bag-link svg,
+  details.disclosure summary::after {
+    transition-property: opacity, color, background-color, border-color, box-shadow;
+  }
+  .card:hover picture img,
+  .button:active:not(:disabled),
+  .option:active {
+    transform: none;
+  }
+  .mobile-menu[open] .drawer {
+    @starting-style {
+      transform: none;
+    }
+  }
+  details.disclosure[open] > :not(summary) {
+    animation: none;
+  }
 }

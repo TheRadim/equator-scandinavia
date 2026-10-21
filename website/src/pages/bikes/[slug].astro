@@ -88,12 +88,12 @@ const geometrySource = product.builds[0].source;
 
   <section class="story">
     <div class="wrap">
-      <div class="story-intro">
+      <div class="story-intro" data-reveal>
         <p class="eyebrow">{product.name}</p>
         <h2>{details.tagline}</h2>
         <p class="lead">{details.intro}</p>
       </div>
-      <dl class="key-figures">
+      <dl class="key-figures" data-reveal-group>
         {details.keyFigures.map((k) => (
           <div>
             <dt>{k.label}</dt>
@@ -107,7 +107,7 @@ const geometrySource = product.builds[0].source;
   <div class="wrap features">
     {details.features.map((f, i) =>
       f.image ? (
-        <section class:list={["feature", i % 2 === 1 && "flip"]}>
+        <section class:list={["feature", i % 2 === 1 && "flip"]} data-reveal-group>
           <div class="feature-media">
             <Photo class="feature-img" src={f.image} alt={`${product.name}: ${f.title}`} sizes="(max-width: 900px) 100vw, 55vw" />
           </div>
@@ -118,7 +118,7 @@ const geometrySource = product.builds[0].source;
         </section>
       ) : null,
     )}
-    <div class="feature-grid">
+    <div class="feature-grid" data-reveal-group>
       {details.features.filter((f) => !f.image).map((f) => (
         <section class="feature-card">
           <h3>{f.title}</h3>
@@ -201,7 +201,7 @@ const geometrySource = product.builds[0].source;
     margin-bottom: 20px;
   }
   .story-intro .lead {
-    font-size: 18px;
+    font-size: var(--fs-lead);
   }
   .key-figures {
     display: grid;
@@ -224,7 +224,7 @@ const geometrySource = product.builds[0].source;
     gap: 6px;
   }
   .key-figures dt {
-    font-size: 13px;
+    font-size: var(--fs-ui);
     color: #666;
   }
   .features {
@@ -261,7 +261,7 @@ const geometrySource = product.builds[0].source;
     margin-bottom: 14px;
   }
   .feature-copy p {
-    font-size: 17px;
+    font-size: var(--fs-body);
     max-width: 460px;
   }
   .feature-grid {

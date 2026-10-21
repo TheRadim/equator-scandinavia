@@ -28,6 +28,7 @@ const links = [
 <html lang="en" data-root={root}>
   <head>
     <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
     <link rel="icon" type="image/svg+xml" href={url("logo.svg")} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} | Equator Scandinavia</title>
@@ -63,7 +64,7 @@ const links = [
       </a>
       <nav aria-label="Main navigation">
         {links.map(([label, path]) => (
-          <a href={url(path)}>{label}</a>
+          <a href={url(path)} aria-current={below === path ? "page" : below.startsWith(path) ? "true" : undefined}>{label}</a>
         ))}
       </nav>
       <div class="header-actions">
@@ -110,7 +111,6 @@ const links = [
               Titanium bicycles.
               <br />A different way forward.
             </p>
-            <span class="eyebrow">Czech roots. Northern horizons.</span>
           </div>
           <div>
             <h2 class="footer-title">Explore</h2>
@@ -175,7 +175,35 @@ const links = [
     });
   });
   updateCount();
-  window.addEventListener("cartchange", updateCount);
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Feedback: the bag count gives a small bump when something is added.
+  window.addEventListener("cartchange", () => {
+    updateCount();
+    if (reduceMotion) return;
+    document.querySelectorAll<HTMLElement>("[data-cart-count]").forEach((el) =>
+      el.animate(
+        [{ transform: "scale(1)" }, { transform: "scale(1.3)" }, { transform: "scale(1)" }],
+        { duration: 280, easing: "cubic-bezier(0.23, 1, 0.32, 1)" },
+      ),
+    );
+  });
+  // Scroll reveal for [data-reveal]; siblings get a short stagger via --i.
+  document.querySelectorAll<HTMLElement>("[data-reveal-group]").forEach((group) =>
+    [...group.children].forEach((child, i) => (child as HTMLElement).style.setProperty("--i", String(i % 6))),
+  );
+  const revealables = document.querySelectorAll<HTMLElement>("[data-reveal], [data-reveal-group] > *");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        }),
+      { rootMargin: "0px 0px -8% 0px" },
+    );
+    revealables.forEach((el) => io.observe(el));
+  } else revealables.forEach((el) => el.classList.add("in"));
   window.addEventListener("storage", updateCount);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape")

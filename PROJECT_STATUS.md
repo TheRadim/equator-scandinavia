@@ -36,6 +36,11 @@ Resend API key + verified sending domain; representative inbox (`INQUIRY_RECIPIE
 - Accessories: 8 products (2 forks, 2 seatposts, stem, bottle cage, seat clamp, spacers) with options; all restocking at Equator.
 - Bike pages: key figures, feature stories (tyre clearance, titanium, T47, UDH, routing, mounts), size finder (height + inseam), geometry table with drawing, full spec and frameset contents. Data in website/src/data/bikes/details.ts.
 
+## Session 2026-10-21 — motion, type and spacing polish
+- Rejected homepage redesign removed (branch design/landing deleted).
+- Added subtle motion and hover states site-wide (see DECISIONS.md 2026-10-21), all respecting reduced motion.
+- Type scale tidied (no text below 12 px), card text and links aligned across rows, "All wheels" moved next to the wheels heading, duplicate footer tagline removed, mobile value strip stacked.
+
 ## Known limitations
 - Photography: one photo per bike and only Wavy 35C has a wheel photo; other wheels show a typographic tile. Gallery URLs are in website/src/data/gallery-candidates.json; this session's network could not reach cdn.myshoptet.com. Run `npm run fetch-images` on the Mac, add paths to `images`, run `npm run images`.
 - Yasei photo has white side bars from the source image.

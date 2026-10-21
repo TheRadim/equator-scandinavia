@@ -15,7 +15,7 @@ import { bikes } from "../../data/bikes/catalog";
       </p>
     </div>
     <h2 class="visually-hidden">Bicycle families</h2>
-    <div class="grid3 section" style="padding-top:10px">
+    <div class="grid3 section" data-reveal-group style="padding-top:10px">
       {bikes.map((product) => (
         <ProductCard product={product} />
       ))}
