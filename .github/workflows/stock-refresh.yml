@@ -1,0 +1,17 @@
+name: Refresh stock
+# GitHub runs scheduled workflows only on the default branch (main). This one
+# starts the website deploy on codex/website-prototype every 6 hours; that
+# workflow reads current stock from Equator's product pages before building.
+on:
+  schedule:
+    - cron: '23 */6 * * *'
+  workflow_dispatch:
+permissions:
+  actions: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh workflow run website-deploy.yml --ref codex/website-prototype --repo "$GITHUB_REPOSITORY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
