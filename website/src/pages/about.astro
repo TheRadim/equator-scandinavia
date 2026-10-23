@@ -2,126 +2,94 @@
 import Layout from "../layouts/Layout.astro";
 import { url } from "../lib/urls";
 import Photo from "../components/Photo.astro";
-// Equator's own film "Equator Titanium Manufacturing" (owner-supplied file),
-// re-encoded to 960×540 without sound for a quiet looping background.
+// Background film: Equator's own "Equator Titanium Manufacturing" (owner-supplied
+// file), re-encoded to 960×540 without sound. Wording follows Equator's site:
+// frames designed and tested in the Czech Republic; 20 years of carbon wheels
+// ("20 let výroby karbonových zapletených kol", equator-cycling.com/o-nas, checked 23 Oct 2026).
+const points = [
+  {
+    title: "Designed in Zlín",
+    text: "Every angle, tube length, diameter and profile is decided in-house.",
+  },
+  {
+    title: "Tested, then tested again",
+    text: "Each frame is refined over several prototypes, ridden on a test track in the Ore Mountains.",
+  },
+  {
+    title: "Built to keep",
+    text: "Titanium doesn't corrode and needs no paint. Wet roads and salted winters won't make it rust.",
+  },
+];
 ---
 
 <Layout
   title="About Equator"
-  description="A small family company from Zlín: twenty years of hand-built carbon wheels, and titanium bikes developed, tested and assembled in the Czech Republic."
+  description="A small family company from Zlín, Czech Republic, designing and testing titanium bikes, with 20 years of experience in carbon wheels."
   image="images/sensei-2.jpg"
 >
-  <div class="wrap about">
-    <h1 data-reveal>About</h1>
+  <section class="hero" aria-labelledby="about-title">
+    <video
+      class="hero-video"
+      data-film
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster={url("video/titanium-manufacturing-poster.jpg")}
+      aria-hidden="true"
+    >
+      <source src={url("video/titanium-manufacturing-540.mp4")} type="video/mp4" />
+    </video>
+    <div class="wrap hero-copy">
+      <h1 id="about-title">About Equator</h1>
+      <p>A small family company in Zlín, Czech Republic, designing titanium bikes and carbon wheels.</p>
+    </div>
+    <button type="button" class="film-toggle" data-film-toggle aria-pressed="false" hidden>
+      <span data-film-label>Pause film</span>
+    </button>
+  </section>
 
-    <section class="split" data-reveal-group>
-      <div class="copy">
-        <h2>Twenty years of wheels. Then titanium.</h2>
-        <p>
-          Equator is a small family company from Zlín, in the Czech Republic.
-          For twenty years it has built carbon wheels by hand. Titanium frames
-          were the logical next step.
-        </p>
-        <p>
-          The idea is simple: a bike you keep for years, not just a few
-          seasons.
-        </p>
-      </div>
-      <figure>
-        <Photo
-          src="images/sensei-2.jpg"
-          alt="Equator Sensei Gen 4 titanium bicycle on a gravel track between fields"
-          sizes="(max-width: 767px) 100vw, 45vw"
-          eager
-        />
-      </figure>
-    </section>
+  <section class="wrap statement" data-reveal>
+    <p>
+      Twenty years of building carbon wheels taught Equator a feel for detail.
+      Titanium frames were the logical next step.
+    </p>
+  </section>
 
-    <section class="film" aria-labelledby="film-title" data-reveal>
-      <video
-        class="film-video"
-        data-film
-        muted
-        loop
-        playsinline
-        preload="none"
-        poster={url("video/titanium-manufacturing-poster.jpg")}
-        aria-hidden="true"
-      >
-        <source src={url("video/titanium-manufacturing-540.mp4")} type="video/mp4" />
-      </video>
-      <div class="film-copy">
-        <h2 id="film-title">Made in the Czech Republic.</h2>
-        <p>Equator develops, tests and assembles its titanium bikes at home.</p>
+  <section class="wrap points" id="titanium" data-reveal-group>
+    {points.map((p) => (
+      <div>
+        <h2>{p.title}</h2>
+        <p>{p.text}</p>
       </div>
-      <button type="button" class="film-toggle" data-film-toggle aria-pressed="false" hidden>
-        <span data-film-label>Pause film</span>
-      </button>
-    </section>
+    ))}
+  </section>
 
-    <section class="split flip" data-reveal-group>
-      <figure>
-        <Photo
-          src="images/raiden-6.jpg"
-          alt="Titanium bottom bracket shell and chainstays of an Equator Raiden"
-          sizes="(max-width: 767px) 100vw, 45vw"
-        />
-      </figure>
-      <div class="copy">
-        <h2>Tested where it's rough.</h2>
-        <p>
-          Equator designs every geometry itself, then refines it over a series
-          of prototypes, ridden on a test track in the Ore Mountains until the
-          ride is right.
-        </p>
-        <p>
-          Supple and comfortable where it should be. Stiff and direct where it
-          counts.
-        </p>
-      </div>
-    </section>
+  <figure class="wrap wide" data-reveal>
+    <Photo
+      src="images/sensei-2.jpg"
+      alt="Equator Sensei Gen 4 titanium bicycle on a gravel track between fields"
+      sizes="100vw"
+    />
+  </figure>
 
-    <section class="split" id="titanium" data-reveal-group>
-      <div class="copy">
-        <h2>Made for wet roads and long winters.</h2>
-        <p>
-          Titanium doesn't corrode and doesn't change its properties, so the
-          frames need no paint. Rain, grit and salted winter roads won't make it
-          rust. Scratches become part of the bike's story.
-        </p>
-        <p>
-          The wheels follow the same thinking: built and tested by hand in Zlín,
-          with Sapim CX-Ray spokes and Enduro sealed bearings.
-        </p>
-      </div>
-      <figure>
-        <Photo
-          src="images/yasei-1.jpg"
-          alt="Equator Yasei titanium adventure bike on a gravel road"
-          sizes="(max-width: 767px) 100vw, 45vw"
-        />
-      </figure>
-    </section>
-
-    <section class="closing" data-reveal>
-      <h2>Now in Scandinavia.</h2>
-      <p>
-        Equator Scandinavia brings these bikes and wheels to riders and shops in
-        Denmark, Sweden and Norway, starting in Copenhagen. Every request is
-        answered personally, and price and delivery are confirmed before
-        anything is paid.
-      </p>
-      <div class="actions">
-        <a class="button" href={url("bikes/")}>Explore the bikes</a>
-        <a class="text-link" href={url("contact/")}>Get in touch</a>
-      </div>
-    </section>
-  </div>
+  <section class="wrap closing" data-reveal>
+    <h2>Now in Scandinavia.</h2>
+    <p>
+      Equator Scandinavia brings these bikes and wheels to riders and shops in
+      Denmark, Sweden and Norway, starting in Copenhagen. Every request is
+      answered personally.
+    </p>
+    <div class="actions">
+      <a class="button" href={url("bikes/")}>Explore the bikes</a>
+      <a class="text-link" href={url("contact/")}>Get in touch</a>
+    </div>
+  </section>
 </Layout>
 
 <script>
-  // Background film: plays muted on repeat while on screen. It doesn't start for
-  // visitors who prefer reduced motion or save data; the button pauses or plays it.
+  // Background film: muted, on repeat, only while on screen. No autoplay for
+  // reduced motion or Save-Data; the button pauses or plays it.
   const video = document.querySelector<HTMLVideoElement>("[data-film]");
   const toggle = document.querySelector<HTMLButtonElement>("[data-film-toggle]");
   if (video && toggle) {
@@ -130,9 +98,8 @@ import Photo from "../components/Photo.astro";
     let wanted = !reduce && !saveData;
     const label = toggle.querySelector<HTMLElement>("[data-film-label]")!;
     const sync = () => {
-      const playing = !video.paused;
-      toggle.setAttribute("aria-pressed", String(!playing));
-      label.textContent = playing ? "Pause film" : "Play film";
+      toggle.setAttribute("aria-pressed", String(video.paused));
+      label.textContent = video.paused ? "Play film" : "Pause film";
     };
     video.addEventListener("play", sync);
     video.addEventListener("pause", sync);
@@ -146,96 +113,56 @@ import Photo from "../components/Photo.astro";
     new IntersectionObserver(([e]) => {
       if (e.isIntersecting && wanted) video.play().catch(() => {});
       else if (!e.isIntersecting) video.pause();
-    }, { threshold: 0.25 }).observe(video);
+    }, { threshold: 0.2 }).observe(video);
   }
 </script>
 
 <style>
-  .about {
-    padding: 72px 0 120px;
-  }
-  .about h1 {
-    margin: 0 0 56px;
-  }
-  .about h2 {
-    font-size: clamp(1.75rem, 2.8vw, 2.6rem);
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: 20px;
-  }
-  .about p {
-    font-size: var(--fs-lead);
-    line-height: 1.6;
-    margin: 0 0 14px;
-  }
-  figure {
-    margin: 0;
-  }
-  .split {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(40px, 7vw, 120px);
-    align-items: center;
-    padding-bottom: clamp(96px, 12vw, 180px);
-  }
-  .split .copy {
-    max-width: 30rem;
-  }
-  .split.flip .copy {
-    justify-self: start;
-  }
-  .split :global(img) {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
-  }
-  .film {
+  /* Hero: the film fills the first screen, text sits bottom left on a soft fade. */
+  .hero {
     position: relative;
+    height: min(86vh, 860px);
+    min-height: 480px;
     overflow: hidden;
-    aspect-ratio: 16 / 9;
-    max-height: 82vh;
-    width: 100%;
-    margin: 0 0 clamp(96px, 12vw, 180px);
     background: #111;
     color: #fff;
   }
-  .film-video {
+  .hero-video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  /* Darkens the lower part so the text stays readable on every frame. */
-  .film::after {
+  .hero::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.1) 55%, rgba(0, 0, 0, 0));
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.12) 50%, rgba(0, 0, 0, 0.05));
     pointer-events: none;
   }
-  .film-copy {
+  .hero-copy {
     position: absolute;
     z-index: 1;
-    left: clamp(20px, 4vw, 56px);
-    bottom: clamp(20px, 4vw, 56px);
-    max-width: 40rem;
+    left: 0;
+    right: 0;
+    bottom: clamp(32px, 6vw, 80px);
   }
-  .film-copy h2 {
+  .hero-copy h1 {
     color: #fff;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
-  .about .film-copy p {
-    color: rgba(255, 255, 255, 0.86);
+  .hero-copy p {
+    max-width: 30rem;
     margin: 0;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: var(--fs-lead);
   }
   .film-toggle {
     position: absolute;
     z-index: 1;
-    right: clamp(12px, 3vw, 40px);
-    bottom: clamp(16px, 4vw, 56px);
+    right: clamp(18px, 3vw, 40px);
+    bottom: clamp(32px, 6vw, 80px);
     min-height: 44px;
     padding: 0 16px;
     border: 1px solid rgba(255, 255, 255, 0.6);
@@ -253,10 +180,55 @@ import Photo from "../components/Photo.astro";
   .film-toggle:focus-visible {
     outline-color: #fff;
   }
+
+  .statement {
+    padding: clamp(96px, 12vw, 176px) 0 clamp(64px, 8vw, 112px);
+  }
+  .statement p {
+    max-width: 24ch;
+    margin: 0;
+    color: #171717;
+    font-size: clamp(1.75rem, 3.6vw, 3.4rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+  .points {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(32px, 5vw, 72px);
+    padding-bottom: clamp(96px, 12vw, 176px);
+  }
+  .points h2 {
+    font-size: var(--fs-lead);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    margin: 0 0 10px;
+  }
+  .points p {
+    max-width: 32ch;
+    margin: 0;
+  }
+  .wide {
+    margin: 0 auto clamp(96px, 12vw, 176px);
+  }
+  .wide :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2;
+    object-fit: cover;
+    object-position: 50% 35%;
+  }
   .closing {
     max-width: 40rem;
-    margin: 0 auto;
+    padding-bottom: clamp(96px, 12vw, 176px);
     text-align: center;
+  }
+  .closing p {
+    margin: 0 auto;
+    font-size: var(--fs-lead);
   }
   .actions {
     display: flex;
@@ -267,38 +239,25 @@ import Photo from "../components/Photo.astro";
     margin-top: 32px;
   }
   @media (max-width: 767px) {
-    .about {
-      padding: 40px 0 80px;
+    .hero {
+      height: 78vh;
+      min-height: 440px;
     }
-    .about h1 {
-      margin-bottom: 32px;
-    }
-    .split {
-      grid-template-columns: 1fr;
-      gap: 28px;
-      padding-bottom: 72px;
-    }
-    .split.flip figure {
-      order: 0;
-    }
-    .split:not(.flip) figure {
-      order: -1;
-    }
-    .film {
-      aspect-ratio: 4 / 5;
-      max-height: none;
-      margin-bottom: 72px;
-    }
-    .film-copy {
-      right: 20px;
-      bottom: 84px;
+    .hero-copy {
+      bottom: 92px;
     }
     .film-toggle {
-      left: 20px;
+      left: 18px;
       right: auto;
-      bottom: 20px;
+      bottom: 28px;
     }
-    .about p {
+    .points {
+      grid-template-columns: 1fr;
+    }
+    .wide :global(img) {
+      aspect-ratio: 4 / 3;
+    }
+    .closing p {
       font-size: var(--fs-body);
     }
   }

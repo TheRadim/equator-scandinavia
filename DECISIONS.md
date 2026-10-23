@@ -55,3 +55,5 @@
 - Danish translation deferred (owner); DKK prices already available.
 
 - 2026-10-23: The YouTube embed on About is replaced by the owner-supplied film file, re-encoded to 960×540 H.264 without sound (2.5 MB, website/public/video/), playing muted on repeat as the background of the "Made in the Czech Republic" block. It loads only when scrolled to, pauses off screen, has a Pause/Play button, and doesn't autoplay for reduced motion or Save-Data. No third-party requests.
+
+- 2026-10-23 (owner): Frames are designed and tested in the Czech Republic, manufactured elsewhere; the site never says "made in"/"manufactured in" the Czech Republic for frames. Terms page wording changed to "come from Equator Cycling, Czech Republic". Years of wheel experience: 20, as Equator's own site states ("20 let výroby karbonových zapletených kol", o-nas page, checked 23 Oct 2026); owner recalled ~15, site wording kept. About page: film as full-screen hero background, statement, three points, one photo, closing.
