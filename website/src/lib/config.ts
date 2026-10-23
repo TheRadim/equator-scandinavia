@@ -21,5 +21,8 @@ export const deliveryMode: "worker" | "formspree" | "email" = inquiryEndpoint
     : "email";
 /** Kept for older imports: true when messages are sent by the site itself. */
 export const liveInquiries = deliveryMode !== "email";
+/** Cookieless visitor statistics (Umami Cloud); off while empty. */
+export const umamiWebsiteId: string =
+  (env.PUBLIC_UMAMI_WEBSITE_ID ?? "").trim() || site.umamiWebsiteId;
 /** Search indexing stays off until PUBLIC_ALLOW_INDEXING=true. */
 export const allowIndexing = (env.PUBLIC_ALLOW_INDEXING ?? "").trim() === "true";

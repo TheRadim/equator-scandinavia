@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { url } from "../lib/urls";
-import { representativeEmail } from "../lib/config";
+import { representativeEmail, umamiWebsiteId } from "../lib/config";
 import { site } from "../data/site";
 // Where people are told to write: the address if shown, otherwise the contact form.
 const writeTo = site.showEmail ? representativeEmail : "us through the contact page";
@@ -14,6 +14,9 @@ const pages = {
       `This website is run by Equator Scandinavia, the Scandinavian representative of Equator Cycling. Contact: ${site.showEmail ? representativeEmail : "use the form on our contact page"}.`,
       "When you send a message or an order inquiry we receive your name, email address, phone number (if given), your message and the products in your bag. We use this only to answer you and to arrange your order with Equator Cycling, who manufacture the products.",
       "Messages are delivered to us by a form-handling service acting on our behalf. We don't sell your details or use them for marketing without asking you first.",
+      ...(umamiWebsiteId
+        ? ["Visits are counted anonymously with Umami (no cookies, no personal data): pages viewed, country, referring website, device type and visit length."]
+        : []),
       "Your bag and saved bike configurations are stored in your own browser (local storage) and never sent to us until you submit an inquiry. You can clear them at any time in your browser settings.",
       `You can ask to see, correct or delete the information we hold about you by writing to ${writeTo}.`,
     ],
@@ -63,7 +66,9 @@ const pages = {
     description: "Equator Scandinavia uses no tracking or advertising cookies. Your bag and currency choice are kept in your own browser.",
     eyebrow: "Privacy",
     paragraphs: [
-      "This website doesn't use advertising or analytics cookies, and doesn't track you.",
+      umamiWebsiteId
+        ? "This website uses no cookies for advertising or analytics. We count visits with Umami, a privacy-friendly statistics service that sets no cookies and stores no personal data: we see which pages are read, roughly from which country, from which website people arrive and how long a visit lasts, never who you are."
+        : "This website doesn't use advertising or analytics cookies, and doesn't track you.",
       "It stores your bag, your bike configuration and your chosen currency in your browser's local storage so they are still there when you come back. Clear your browser's site data to remove them.",
     ],
   },
