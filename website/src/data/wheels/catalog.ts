@@ -1,3 +1,4 @@
+import { withStock } from "../../lib/stock.ts";
 import { isVisible, type InventoryStatus } from "../../lib/publication.ts";
 
 /**
@@ -83,7 +84,9 @@ type WheelInput = Omit<
   Wheel,
   "inventoryStatus" | "availability" | "price" | "source" | "verified" | "publication" | "freehubs"
 > & Partial<Pick<Wheel, "freehubs">>;
-const wheel = (w: WheelInput): Wheel => ({
+const wheel = (input: WheelInput): Wheel => {
+  const w = { ...input, brakes: input.brakes.map((b) => withStock(b, b.source)) };
+  return {
   verified: "2026-10-16",
   publication: "prototype",
   freehubs: standardFreehubs,
@@ -96,7 +99,8 @@ const wheel = (w: WheelInput): Wheel => ({
   availability: w.brakes[0].availability,
   price: w.brakes[0].price,
   source: w.brakes[0].source,
-});
+  };
+};
 
 export const allWheels: Wheel[] = [
   wheel({

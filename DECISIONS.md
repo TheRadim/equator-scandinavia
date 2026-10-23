@@ -46,3 +46,10 @@
 - Favicon traced from the vector "E" of the Equator wordmark (public/logo.svg) by scripts/brand-assets.mjs. The owner's uploaded favicon.svg was a 21×12 px bitmap and would render blurry; it stays in the repo root, unused.
 - Link-preview images are generated at build time (src/pages/og/[name].jpg.ts): bikes fill 1200×630, wheels/parts are centred on their own background, wordmark top left.
 - Cart, inquiry, confirmation and 404 are always noindex. Form fallback inbox is encoded in the page source.
+
+2026-10-24 (owner direction):
+- Stock: a visitor's browser can't read equator-cycling.com (no CORS), so availability is read server-side. Every deploy, and every 6 hours via stock-refresh.yml on main, the deploy workflow reads Equator's product pages (Shoptet availability label and schema.org offers; product pages are allowed by Equator's robots.txt; one request at a time, identified user agent), builds with the result and publishes /stock.json. Each page view re-reads /stock.json and updates badges and availability lines. A page that can't be read keeps its last published status.
+- Link underlines: none at rest; draw in from the left on hover, leave to the right.
+- About page told as one simple story column; photo Sensei Gen 4 (sensei-2).
+- Wheels catalogue ordered by use, then rim depth.
+- Danish translation deferred (owner); DKK prices already available.

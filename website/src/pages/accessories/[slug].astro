@@ -58,8 +58,8 @@ const hasChoice = product.options.length > 1;
             )
           }
           <div class="availability">
-            <StatusBadge status={product.inventoryStatus} />
-            <p class="caption">{product.availability}</p>
+            <StatusBadge status={product.inventoryStatus} source={product.source} />
+            <p class="caption" data-stock-text={product.source}>{product.availability}</p>
           </div>
           <button class="button full" type="submit">
             Add to bag

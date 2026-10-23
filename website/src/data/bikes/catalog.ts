@@ -1,5 +1,6 @@
 import { isVisible } from "../../lib/publication.ts";
 import { families } from "../families.ts";
+import { withStock } from "../../lib/stock.ts";
 export type Build = {
   id: string;
   type: "frameset" | "complete";
@@ -132,4 +133,6 @@ export const allBikes: Product[] = families.map((f) => ({
           ],
 }));
 
-export const bikes = allBikes.filter(isVisible);
+export const bikes = allBikes
+  .map((b) => withStock(b, b.builds.find((x) => x.type === "frameset")?.source ?? ""))
+  .filter(isVisible);

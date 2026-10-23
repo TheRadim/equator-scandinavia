@@ -22,6 +22,6 @@ const href = url(`accessories/${item.slug}/`);
   <span class="meta muted">{item.category}</span>
   <p style="margin:14px 0 8px">{item.description}</p>
   <p class="card-price"><Price amount={item.price} /></p>
-  <StatusBadge status={item.inventoryStatus} />
+  <StatusBadge status={item.inventoryStatus} source={item.source} />
   <div><a class="text-link" href={href}>View details</a></div>
 </article>

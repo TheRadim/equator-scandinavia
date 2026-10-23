@@ -1,3 +1,4 @@
+import { withStock } from "../../lib/stock.ts";
 import { isVisible, type InventoryStatus } from "../../lib/publication.ts";
 
 /**
@@ -229,4 +230,4 @@ export const accessoryCategories: AccessoryCategory[] = [
   "Bottle cages & small parts",
 ];
 
-export const accessories = allAccessories.filter(isVisible);
+export const accessories = allAccessories.map((a) => withStock(a, a.source)).filter(isVisible);

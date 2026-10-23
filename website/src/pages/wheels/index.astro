@@ -3,6 +3,11 @@ import Layout from "../../layouts/Layout.astro";
 import { wheels, wheelCategories } from "../../data/wheels/catalog";
 import WheelCard from "../../components/WheelCard.astro";
 import { url } from "../../lib/urls";
+// Catalogue order: by intended use, then by rim depth.
+const order = wheelCategories.map((c) => c.id);
+const sorted = [...wheels].sort(
+  (a, b) => order.indexOf(a.category) - order.indexOf(b.category) || Number(a.depthLabel) - Number(b.depthLabel),
+);
 ---
 
 <Layout
@@ -31,7 +36,7 @@ import { url } from "../../lib/urls";
     </div>
     <h2 class="visually-hidden">Wheelsets</h2>
     <div class="grid3" data-reveal-group>
-      {wheels.map((w) => <WheelCard wheel={w} />)}
+      {sorted.map((w) => <WheelCard wheel={w} />)}
     </div>
     <section class="made-in" aria-labelledby="made-in-title">
       <div>

@@ -184,6 +184,9 @@ const links = [
 <script>
   import { updateCount } from "../lib/storage";
   import { activeCurrency, currencyKey, fromPrice, money } from "../lib/catalog";
+  import { url } from "../lib/urls";
+  import { availabilityText, statusLabel, statusTone } from "../lib/status";
+  import type { StockData } from "../lib/stock";
   // Show build-time EUR prices in the visitor's chosen currency.
   const currency = activeCurrency();
   if (currency !== "EUR")
@@ -204,6 +207,27 @@ const links = [
       location.reload();
     });
   });
+  // Live stock: reload the latest reading from Equator (scripts/check-stock.mjs)
+  // and update every badge and availability line on the page.
+  if (document.querySelector("[data-stock-src], [data-stock-text]"))
+    fetch(url("stock.json"), { cache: "no-cache" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: StockData | null) => {
+        if (!data?.checkedAt) return;
+        document.querySelectorAll<HTMLElement>("[data-stock-src]").forEach((el) => {
+          const entry = data.items[el.dataset.stockSrc!];
+          if (!entry) return;
+          el.className = `status-badge ${statusTone(entry.status)}`;
+          el.querySelector("[data-stock-label]")!.textContent = statusLabel(entry.status);
+        });
+        document.querySelectorAll<HTMLElement>("[data-stock-text]").forEach((el) => {
+          const entry = data.items[el.dataset.stockText!];
+          if (entry) el.textContent = availabilityText(entry, data.checkedAt!);
+        });
+      })
+      .catch(() => {
+        /* offline or not published yet: keep the build-time status */
+      });
   updateCount();
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   // Feedback: the bag count gives a small bump when something is added.

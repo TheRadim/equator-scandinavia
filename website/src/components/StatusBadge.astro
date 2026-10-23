@@ -1,22 +1,7 @@
 ---
 import type { InventoryStatus } from "../lib/publication";
-const { status } = Astro.props as { status: InventoryStatus };
-const tone =
-  status === "In stock"
-    ? "ok"
-    : status === "Available to order"
-      ? "order"
-      : status === "Out of stock"
-        ? "out"
-        : "unknown";
-const label =
-  status === "Out of stock"
-    ? "Restocking"
-    : status === "Available to order"
-      ? "Made to order"
-      : status === "Availability unconfirmed"
-        ? "Ask for availability"
-        : status;
+import { statusLabel, statusTone } from "../lib/status";
+const { status, source } = Astro.props as { status: InventoryStatus; source?: string };
 ---
 
-<span class={`status-badge ${tone}`}><span aria-hidden="true"></span>{label}</span>
+<span class={`status-badge ${statusTone(status)}`} data-stock-src={source}><span aria-hidden="true"></span><span data-stock-label>{statusLabel(status)}</span></span>

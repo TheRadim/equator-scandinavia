@@ -107,8 +107,8 @@ const categoryLabel =
           }
           {product.brakes.map((b, i) => (
             <div class="availability" data-brake-panel={b.id} hidden={i > 0}>
-              <StatusBadge status={b.inventoryStatus} />
-              <p class="caption">{b.availability}</p>
+              <StatusBadge status={b.inventoryStatus} source={b.source} />
+              <p class="caption" data-stock-text={b.source}>{b.availability}</p>
             </div>
           ))}
           <button class="button full" type="submit">Add to bag</button>

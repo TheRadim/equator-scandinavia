@@ -30,6 +30,7 @@ const verified = new Date(product.verified).toLocaleDateString("en-GB", {
   year: "numeric",
 });
 const geometrySource = product.builds[0].source;
+const stockSource = product.builds.find((b) => b.type === "frameset")?.source;
 ---
 
 <Layout
@@ -62,8 +63,8 @@ const geometrySource = product.builds[0].source;
         <p class="lead">{product.description}</p>
         <p class="price"><Price amount={from} prefix="From" /></p>
         <div class="availability">
-          <StatusBadge status={product.inventoryStatus} />
-          <p class="caption">
+          <StatusBadge status={product.inventoryStatus} source={stockSource} />
+          <p class="caption" data-stock-text={stockSource}>
             {product.availability}
           </p>
         </div>

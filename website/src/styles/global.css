@@ -132,15 +132,18 @@ h3 {
   color: #171717;
   background: white;
 }
-/* Underline: a quiet grey rule; a dark line draws over it on hover. */
+/* Link underline: none at rest; draws in from the left on hover and leaves to the right.
+   Drawn on the content box, so it sits under the text whatever the padding. */
 .text-link {
   position: relative;
   display: inline-block;
   padding: 12px 0;
   font-size: var(--fs-ui);
-  background: linear-gradient(#cfcfcf, #cfcfcf) left bottom / 100% 1px no-repeat;
+  background: linear-gradient(currentColor, currentColor) right bottom / 0% 1px no-repeat;
+  background-origin: content-box;
+  background-clip: content-box;
+  transition: background-size var(--dur-line) var(--ease-out);
 }
-.text-link::after,
 .site-header nav a::after {
   content: "";
   position: absolute;
@@ -149,16 +152,13 @@ h3 {
   bottom: 0;
   height: 1px;
   background: currentColor;
-  transform: scaleX(0.28);
-  transform-origin: left;
+  transform: scaleX(0);
+  transform-origin: right;
   transition: transform var(--dur-line) var(--ease-out);
 }
 .site-header nav a {
   position: relative;
   padding: 6px 0;
-}
-.site-header nav a::after {
-  transform: scaleX(0);
 }
 .site-header nav a[aria-current]::after {
   transform: scaleX(1);
@@ -172,10 +172,14 @@ h3 {
     background: #f0f0ee;
     border-color: #171717;
   }
-  .text-link:hover::after,
-  .card:hover .text-link::after,
+  .text-link:hover,
+  .card:hover .text-link {
+    background-position: left bottom;
+    background-size: 100% 1px;
+  }
   .site-header nav a:hover::after {
     transform: scaleX(1);
+    transform-origin: left;
   }
 }
 .grid3 {
@@ -974,6 +978,7 @@ dl + .text-link {
     transition-delay: 0ms;
   }
   .card picture img,
+  .text-link,
   .button,
   .option,
   .mobile-menu summary svg,

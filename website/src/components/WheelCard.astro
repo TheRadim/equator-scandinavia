@@ -24,6 +24,6 @@ const href = url(`wheels/${wheel.slug}/`);
   <p class="card-price">
     {wheel.brakes.length > 1 ? <Price amount={wheelFromPrice(wheel)} prefix="From" /> : <Price amount={wheel.price} />}
   </p>
-  <StatusBadge status={wheel.inventoryStatus} />
+  <StatusBadge status={wheel.inventoryStatus} source={wheel.source} />
   <div><a class="text-link" href={href}>View wheelset</a></div>
 </article>
