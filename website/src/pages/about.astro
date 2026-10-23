@@ -2,6 +2,20 @@
 import Layout from "../layouts/Layout.astro";
 import { url } from "../lib/urls";
 import Photo from "../components/Photo.astro";
+const facts = [
+  {
+    title: "Wheels first",
+    text: "Equator started with carbon wheels, built and tested by hand in its Zlín workshop. Titanium frames followed.",
+  },
+  {
+    title: "Made in Czechia",
+    text: "Every frame goes through several prototypes. Every bike is designed, tested and assembled in Czechia.",
+  },
+  {
+    title: "Titanium that lasts",
+    text: "It doesn't rust, so it needs no paint. Just a brushed finish that wears its miles quietly.",
+  },
+];
 ---
 
 <Layout
@@ -9,12 +23,8 @@ import Photo from "../components/Photo.astro";
   description="Equator is a small Czech family company making titanium bicycles and carbon wheels. Equator Scandinavia brings them to riders in the Nordics."
   image="images/sensei-2.jpg"
 >
-  <section class="wrap about-hero">
-    <h1>A small company from Zlín.</h1>
-    <p class="lead">
-      Titanium bicycles and carbon wheels, made by people who plan for you to
-      keep them a long time.
-    </p>
+  <section class="wrap about-hero" data-reveal>
+    <h1>About Equator</h1>
   </section>
 
   <figure class="wrap about-photo">
@@ -26,51 +36,53 @@ import Photo from "../components/Photo.astro";
     />
   </figure>
 
-  <article class="wrap story">
+  <section class="wrap statement" data-reveal>
     <p>
-      Equator Cycling is a small family company in Zlín, in the east of the
-      Czech Republic. It believes cycling, like business, is about
-      relationships, and it keeps both personal.
+      A small family company from Zlín, Czech Republic, making titanium
+      bicycles and carbon wheels to keep for a long time.
     </p>
-    <p>
-      It started with carbon wheels. Titanium frames followed as the logical
-      next step. Every frame goes through several prototypes before it is
-      released, and every bike is designed, tested and assembled in Czechia
-      with parts from specialist suppliers around the world. The wheels are
-      built and tested by hand in Equator's own workshop.
-    </p>
-    <p id="titanium">
-      Titanium was chosen because it lasts. It doesn't rust, so the frames
-      need no paint: just a brushed finish that wears its miles quietly. How a
-      bike rides still comes down to its geometry and build, which is why each
-      model has one clear purpose. Sensei for road and gravel, Raiden for the
-      road, Yasei for the long way round.
-    </p>
-    <p>
-      The range is small on purpose, and the conversation is direct. You talk
-      to people who know the bikes.
-    </p>
-    <p>
-      Equator Scandinavia brings these bikes and wheels to riders and shops in
-      Denmark, Sweden and Norway, starting in Copenhagen. Tell us what you
-      want to ride and we'll help you choose the right build. Every request is
-      answered personally, and we confirm price, availability and delivery
-      with Equator before anything is paid.
-    </p>
-    <div class="about-actions">
-      <a class="button" href={url("bikes/")}>Explore the bikes</a>
-      <a class="text-link" href={url("contact/")}>Get in touch</a>
+  </section>
+
+  <section class="wrap facts" id="titanium" data-reveal-group>
+    {facts.map((f) => (
+      <div>
+        <h2>{f.title}</h2>
+        <p>{f.text}</p>
+      </div>
+    ))}
+  </section>
+
+  <section class="wrap north">
+    <figure data-reveal>
+      <Photo
+        src="images/sensei-4.jpg"
+        alt="Titanium stem and handlebar of an Equator Sensei Gen 4"
+        sizes="(max-width: 767px) 100vw, 50vw"
+      />
+    </figure>
+    <div data-reveal>
+      <h2>Now in Scandinavia.</h2>
+      <p>
+        Equator Scandinavia brings the bikes and wheels to riders and shops in
+        Denmark, Sweden and Norway, starting in Copenhagen.
+      </p>
+      <p>
+        Every request is answered personally. Price, availability and delivery
+        are confirmed with Equator before anything is paid.
+      </p>
+      <div class="about-actions">
+        <a class="button" href={url("bikes/")}>Explore the bikes</a>
+        <a class="text-link" href={url("contact/")}>Get in touch</a>
+      </div>
     </div>
-  </article>
+  </section>
 </Layout>
 
 <style>
   .about-hero {
-    padding: 72px 0 40px;
+    padding: 64px 0 32px;
   }
-  .about-hero .lead {
-    max-width: 560px;
-    font-size: var(--fs-lead);
+  .about-hero h1 {
     margin: 0;
   }
   .about-photo {
@@ -80,40 +92,89 @@ import Photo from "../components/Photo.astro";
     display: block;
     width: 100%;
     height: auto;
-    max-height: 760px;
+    aspect-ratio: 2;
+    object-fit: cover;
+    object-position: 50% 35%;
+  }
+  .statement {
+    padding: 112px 0 72px;
+  }
+  .statement p {
+    max-width: 26ch;
+    margin: 0;
+    color: #171717;
+    font-size: clamp(1.75rem, 3.4vw, 3.25rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 56px;
+    padding-bottom: 140px;
+  }
+  .facts h2 {
+    font-size: var(--fs-lead);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    margin: 0 0 10px;
+  }
+  .facts p {
+    max-width: 34ch;
+    margin: 0;
+  }
+  .north {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 96px;
+    align-items: center;
+    padding-bottom: 140px;
+  }
+  .north figure {
+    margin: 0;
+  }
+  .north :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
     object-fit: cover;
   }
-  .story {
-    padding: 72px 0 112px;
+  .north h2 {
+    margin-bottom: 20px;
   }
-  .story > p {
-    max-width: 680px;
-  }
-  .story p {
-    font-size: var(--fs-lead);
-    line-height: 1.7;
-    margin-bottom: 1.3em;
-    color: #444;
-  }
-  .story p:first-child {
-    color: #171717;
+  .north p {
+    max-width: 44ch;
+    margin: 0 0 14px;
   }
   .about-actions {
     display: flex;
     gap: 28px;
     align-items: center;
     flex-wrap: wrap;
-    margin-top: 40px;
+    margin-top: 32px;
   }
   @media (max-width: 767px) {
     .about-hero {
-      padding: 44px 0 28px;
+      padding: 40px 0 24px;
     }
-    .story {
-      padding: 44px 0 72px;
+    .about-photo :global(img) {
+      aspect-ratio: 4 / 3;
     }
-    .story p {
-      font-size: var(--fs-body);
+    .statement {
+      padding: 64px 0 48px;
+    }
+    .facts {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding-bottom: 80px;
+    }
+    .north {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding-bottom: 80px;
     }
   }
 </style>
