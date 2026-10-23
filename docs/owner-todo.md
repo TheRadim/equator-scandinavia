@@ -10,7 +10,7 @@ Updated 2026-10-23. Tick items off as you answer them; tell Claude/Codex the ans
 5. [ ] **Neutral email address** (e.g. hello@yourdomain) instead of the personal one that receives forms.
 6. [ ] **Domain.** The site lives at theradim.github.io/equator-scandinavia (shows your GitHub name). A custom domain is needed for robots.txt, search indexing and a professional link.
 7. [ ] **Search indexing** is off (noindex). After 1–6: set PUBLIC_ALLOW_INDEXING=true, add the domain to Google Search Console and submit /sitemap.xml.
-8. [ ] **Visitor statistics (Umami, free):** create an account at umami.is (Hobby plan), add the website theradim.github.io, copy its Website ID and send it to Claude (or set it as the repository variable PUBLIC_UMAMI_WEBSITE_ID). The script, cookie page and privacy wording are ready and switch on with the ID.
+8. [x] **Visitor statistics (Umami, free):** done 23 Oct 2026, ID set in site.ts. create an account at umami.is (Hobby plan), add the website theradim.github.io, copy its Website ID and send it to Claude (or set it as the repository variable PUBLIC_UMAMI_WEBSITE_ID). The script, cookie page and privacy wording are ready and switch on with the ID.
 9. [ ] **Optional:** cookieless visitor statistics (e.g. Plausible or Cloudflare Web Analytics; the cookie page would need one sentence), a Danish/Swedish/Norwegian language version.
 
 Done on 2026-10-23: favicons (tab, iPhone, Android), web app manifest, link previews (1200×630 image for every page with the Equator wordmark, title, description), unique page descriptions, cart/inquiry/404 pages excluded from search, organisation data for search engines, personal email no longer readable in the page source, lighter gallery thumbnails, accessibility check clean.

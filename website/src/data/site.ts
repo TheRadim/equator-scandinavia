@@ -18,7 +18,7 @@ export const site = {
    * Umami Cloud website ID (free Hobby plan, cookieless visitor statistics).
    * Empty = no statistics script at all. Public by design.
    */
-  umamiWebsiteId: "",
+  umamiWebsiteId: "50f2ce70-8120-4514-815f-1961ee4fbd28",
   /**
    * Display currencies. Catalogue prices are EUR (Equator's list prices);
    * other currencies are converted at the rates below and rounded to 10.
