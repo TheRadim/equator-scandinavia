@@ -8,7 +8,11 @@ import type { InventoryStatus } from "./publication.ts";
 import { availabilityText, type StockEntry } from "./status.ts";
 export type { StockEntry };
 
-export type StockData = { checkedAt: string | null; items: Record<string, StockEntry> };
+export type StockData = {
+  checkedAt: string | null;
+  lastRun?: { at: string; read: number; of: number; failures: { url: string; reason: string }[] };
+  items: Record<string, StockEntry>;
+};
 export const stock = data as StockData;
 
 /** Apply the latest stock reading to anything with a status and availability text. */

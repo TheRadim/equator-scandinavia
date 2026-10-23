@@ -37,6 +37,7 @@ const previous = readJson(prevPath) ?? readJson(OUT) ?? { checkedAt: null, items
 
 const items = { ...(previous.items ?? {}) };
 const debugLog = [];
+const failures = [];
 let ok = 0;
 for (const u of urls) {
   try {
@@ -54,14 +55,23 @@ for (const u of urls) {
     if (r.status) {
       items[u] = r.note ? { status: r.status, note: r.note } : { status: r.status };
       ok++;
-    } else console.warn(`Unreadable availability, kept previous: ${u}`);
+    } else {
+      failures.push({ url: u, reason: "no availability found" });
+      console.warn(`Unreadable availability, kept previous: ${u}`);
+    }
   } catch (e) {
     if (debug && !String(e.message).startsWith("HTTP")) debugLog.push({ url: u, error: String(e.message) });
+    failures.push({ url: u, reason: `${e.message}${e.cause?.code ? ` (${e.cause.code})` : ""}` });
     console.warn(`Failed (${e.message}), kept previous: ${u}`);
   }
   await new Promise((r) => setTimeout(r, 1500));
 }
-const out = { checkedAt: ok ? new Date().toISOString() : previous.checkedAt, items };
+// lastRun records every attempt (also failed ones), so problems are visible in /stock.json.
+const out = {
+  checkedAt: ok ? new Date().toISOString() : previous.checkedAt,
+  lastRun: { at: new Date().toISOString(), read: ok, of: urls.size, failures },
+  items,
+};
 writeFileSync(OUT, JSON.stringify(out, null, 2) + "\n");
 // Temporary calibration output, published with the site only in --debug runs.
 if (debug) writeFileSync("public/stock-debug.json", JSON.stringify(debugLog, null, 1));
