@@ -6,7 +6,7 @@ Research date: 2026-10-16. Findings below are official website observations, not
 
 | Family | Observed variants and EUR list prices | Selectable sizes observed | Source |
 | --- | --- | --- | --- |
-| Sensei Gen 4 | Frameset 2,415; GRX mechanical 4,431; GRX Di2 6,044 | M, L, XL | [Frameset](https://www.equator-cycling.com/en/equator-sensei-titanium-gen-4-ramova-sada/), [GRX](https://www.equator-cycling.com/en/equator-sensei-titanium-gen-4-shimano-grx/), [Di2](https://www.equator-cycling.com/en/equator-sensei-titanium-gen-4-shimano-grx-di2/) |
+| Sensei Gen 4 | Frameset 2,415; GRX mechanical 4,431; GRX Di2 6,044 | M, L, XL | [Frameset](https://www.equator-cycling.com/en/equator-sensei-titanium-gen-4-frameset/), [GRX](https://www.equator-cycling.com/en/equator-sensei-titanium-gen-4-shimano-grx/), [Di2](https://www.equator-cycling.com/en/equator-sensei-titanium-gen-4-shimano-grx-di2/) |
 | Raiden | Frameset 3,222; SRAM Red AXS 8,060 | M, L | [Frameset](https://www.equator-cycling.com/en/equator-raiden-titanium/), [complete bike](https://www.equator-cycling.com/en/equator-raiden-titanium-ramova-sada/) |
 | Yasei | Frameset 2,415; Apex 4,431; Force XPLR AXS 6,044 | M, L | [Frameset](https://www.equator-cycling.com/en/equator-yasei-titanium-ramova-sada/), [Apex](https://www.equator-cycling.com/en/equator-yasei-titanium-sram-apex/), [Force](https://www.equator-cycling.com/en/equator-yasei-titanium/) |
 

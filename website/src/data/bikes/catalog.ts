@@ -63,7 +63,7 @@ export const allBikes: Product[] = families.map((f) => ({
           frame(
             "sensei-frame",
             241500,
-            "equator-sensei-titanium-gen-4-ramova-sada",
+            "equator-sensei-titanium-gen-4-frameset",
           ),
           {
             id: "sensei-grx",

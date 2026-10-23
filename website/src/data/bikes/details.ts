@@ -117,7 +117,7 @@ export const bikeDetails: Record<string, BikeDetails> = {
       "Mortop headset",
       "Thru-axles",
     ],
-    source: "https://www.equator-cycling.com/en/equator-sensei-titanium-gen-4-ramova-sada/",
+    source: "https://www.equator-cycling.com/en/equator-sensei-titanium-gen-4-frameset/",
   },
   raiden: {
     tagline: "Pure road. Pure titanium.",

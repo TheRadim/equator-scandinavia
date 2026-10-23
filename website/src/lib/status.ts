@@ -24,13 +24,15 @@ export function availabilityText(entry: StockEntry, checkedAt: string) {
     case "In stock":
       return `In stock at Equator (${when}). Delivery time is confirmed with your order.`;
     case "Out of stock":
-      return `New stock expected soon at Equator (${when}). Order now and we'll confirm the delivery date.`;
+      return entry.note
+        ? `Restocking at Equator, expected ${entry.note} (${when}). Order now and we'll confirm the delivery date.`
+        : `New stock expected soon at Equator (${when}). Order now and we'll confirm the delivery date.`;
     case "Available to order":
       return entry.note
-        ? `Made to order at Equator: ${entry.note} (${when}).`
-        : `Made to order at Equator (${when}). We'll confirm the delivery date.`;
+        ? `Made to order at Equator, delivery from ${entry.note} (${when}).`
+        : `Made to order at Equator (${when}). We'll confirm the delivery time with you.`;
     default:
-      return `Ask us for current availability (${when}).`;
+      return `Currently unavailable at Equator (${when}). Ask us and we'll check when it's back.`;
   }
 }
 

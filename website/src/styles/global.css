@@ -547,19 +547,19 @@ hr {
   font-size: 12px;
   color: #444;
 }
-.status-badge > span {
+.status-badge > span[aria-hidden] {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: #bbb;
 }
-.status-badge.ok > span {
+.status-badge.ok > span[aria-hidden] {
   background: #2f7d4a;
 }
-.status-badge.order > span {
+.status-badge.order > span[aria-hidden] {
   background: #171717;
 }
-.status-badge.out > span {
+.status-badge.out > span[aria-hidden] {
   background: #fff;
   border: 1px solid #888;
 }
