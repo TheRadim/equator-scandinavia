@@ -1,6 +1,18 @@
 # Owner to-do and approvals
 
-Updated 2026-10-16. Tick items off as you answer them; tell Claude/Codex the answer and it updates the site.
+Updated 2026-10-23. Tick items off as you answer them; tell Claude/Codex the answer and it updates the site.
+
+## Before launch (blockers first)
+1. [ ] **Form delivery (blocker).** Without a Formspree ID the contact and order forms only open the visitor's email app; people using webmail or a phone without a mail account can't send anything. Create the Formspree form and send the ID.
+2. [ ] **Business identity (blocker for selling to consumers).** Danish e-commerce rules expect the seller's name, address, CVR number and email on the site; the privacy policy must name the data controller. Decide what entity sells (sole trader/company), then the footer, privacy and terms get those details. (Not legal advice; a short check with an accountant or lawyer is worth it.)
+3. [ ] **Right of withdrawal and VAT.** If customers conclude the order at a distance, EU consumer law gives a 14-day right of withdrawal and prices to consumers must include VAT. Terms currently say only "inquiry, then written confirmation". Confirm with Equator who is the seller of record and add the withdrawal and VAT wording.
+4. [ ] **Permission from Equator** to use their photos, logo, product texts and the line "Representing Equator Cycling" (ideally in writing).
+5. [ ] **Neutral email address** (e.g. hello@yourdomain) instead of the personal one that receives forms.
+6. [ ] **Domain.** The site lives at theradim.github.io/equator-scandinavia (shows your GitHub name). A custom domain is needed for robots.txt, search indexing and a professional link.
+7. [ ] **Search indexing** is off (noindex). After 1–6: set PUBLIC_ALLOW_INDEXING=true, add the domain to Google Search Console and submit /sitemap.xml.
+8. [ ] **Optional:** cookieless visitor statistics (e.g. Plausible or Cloudflare Web Analytics; the cookie page would need one sentence), a Danish/Swedish/Norwegian language version.
+
+Done on 2026-10-23: favicons (tab, iPhone, Android), web app manifest, link previews (1200×630 image for every page with the Equator wordmark, title, description), unique page descriptions, cart/inquiry/404 pages excluded from search, organisation data for search engines, personal email no longer readable in the page source, lighter gallery thumbnails, accessibility check clean.
 
 ## Approve the wording (already live — edit or approve)
 These texts replaced the old "prototype / approval pending" notes. They make no promises beyond what Equator publishes, but they speak for your business, so please read and approve or correct each one.

@@ -31,7 +31,10 @@ const { images, alt, label, sublabel, caption } = Astro.props;
             aria-label={`Show photograph ${i + 1} of ${images.length}`}
             aria-pressed={i === 0}
           >
-            <img src={url(src)} alt="" width="160" height="120" loading="lazy" />
+            <picture>
+              <source type="image/webp" srcset={url(src.replace(/\.(jpe?g|png)$/i, "-640.webp"))} />
+              <img src={url(src)} alt="" width="160" height="120" loading="lazy" decoding="async" />
+            </picture>
           </button>
         ))}
       </div>

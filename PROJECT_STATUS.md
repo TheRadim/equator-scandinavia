@@ -41,6 +41,10 @@ Resend API key + verified sending domain; representative inbox (`INQUIRY_RECIPIE
 - Added subtle motion and hover states site-wide (see DECISIONS.md 2026-10-21), all respecting reduced motion.
 - Type scale tidied (no text below 12 px), card text and links aligned across rows, "All wheels" moved next to the wheels heading, duplicate footer tagline removed, mobile value strip stacked.
 
+## Session 2026-10-23 — pre-launch details
+- Favicons, app icons and manifest; generated 1200×630 link previews per page; full Open Graph/Twitter tags; unique descriptions; noindex on utility pages; Organization JSON-LD; email fallback encoded; WebP gallery thumbnails. axe clean, no broken links.
+- Pre-launch blockers for the owner are listed at the top of docs/owner-todo.md.
+
 ## Known limitations
 - Photography: one photo per bike and only Wavy 35C has a wheel photo; other wheels show a typographic tile. Gallery URLs are in website/src/data/gallery-candidates.json; this session's network could not reach cdn.myshoptet.com. Run `npm run fetch-images` on the Mac, add paths to `images`, run `npm run images`.
 - Yasei photo has white side bars from the source image.

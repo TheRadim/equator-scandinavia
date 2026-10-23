@@ -41,3 +41,8 @@
 - Homepage redesign on branch design/landing rejected by owner; branch deleted. The current layout stays.
 - Motion kept quiet and CSS-first: tokens in global.css (--ease-out cubic-bezier(0.23,1,0.32,1), 120/160/220/280 ms UI, 640 ms scroll reveal). Hovers only on hover-capable pointers; press feedback scale(0.97); card photos zoom 3.5% on hover; links draw a full underline from a short dark stub; gallery crossfades; mobile menu drops in; bag count bumps on add; sections fade up once with a 70 ms stagger (only with JS). prefers-reduced-motion keeps fades, removes movement.
 - Type scale fixed to 12 / 14 / 16 / 18 px below headings (tokens --fs-label/ui/body/lead); 8–11 px text removed except the Zlín label the owner asked to keep small.
+
+2026-10-23:
+- Favicon traced from the vector "E" of the Equator wordmark (public/logo.svg) by scripts/brand-assets.mjs. The owner's uploaded favicon.svg was a 21×12 px bitmap and would render blurry; it stays in the repo root, unused.
+- Link-preview images are generated at build time (src/pages/og/[name].jpg.ts): bikes fill 1200×630, wheels/parts are centred on their own background, wordmark top left.
+- Cart, inquiry, confirmation and 404 are always noindex. Form fallback inbox is encoded in the page source.

@@ -15,6 +15,8 @@ import {
 } from "../lib/config";
 const { kind = "order" } = Astro.props as { kind?: "order" | "contact" };
 const submitLabel = kind === "order" ? "Send order inquiry" : "Send message";
+// Fallback inbox for the email-app mode, encoded so address harvesters can't read it from the page.
+const encodedInbox = Buffer.from([...representativeEmail].reverse().join("")).toString("base64");
 const endpoint =
   deliveryMode === "worker"
     ? inquiryEndpoint
@@ -27,7 +29,7 @@ const endpoint =
   data-inquiry={kind}
   data-mode={deliveryMode}
   data-endpoint={endpoint}
-  data-email={representativeEmail}
+  data-inbox={deliveryMode === "email" ? encodedInbox : ""}
   novalidate
 >
   <div class="form-pair">
@@ -98,7 +100,7 @@ const endpoint =
     const kind = form.dataset.inquiry as "order" | "contact";
     const mode = form.dataset.mode as "worker" | "formspree" | "email";
     const endpoint = form.dataset.endpoint || "";
-    const inbox = form.dataset.email || "";
+    const inbox = form.dataset.inbox ? [...atob(form.dataset.inbox)].reverse().join("") : "";
     const button = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
     const label = button.querySelector<HTMLElement>("[data-label]")!;
     const idleLabel = label.textContent;
@@ -179,7 +181,7 @@ const endpoint =
 
       if (mode === "email") {
         const subject =
-          kind === "order" ? `Order inquiry ${reference} — ${field("name")}` : `Message from ${field("name")}`;
+          kind === "order" ? `Order inquiry ${reference}: ${field("name")}` : `Message from ${field("name")}`;
         const body = [
           `Name: ${field("name")}`,
           `Email: ${field("email")}`,
@@ -204,8 +206,8 @@ const endpoint =
             body: JSON.stringify({
               _subject:
                 kind === "order"
-                  ? `Order inquiry ${reference} — ${field("name")}`
-                  : `Contact message — ${field("name")}`,
+                  ? `Order inquiry ${reference}: ${field("name")}`
+                  : `Contact message: ${field("name")}`,
               reference,
               type: kind === "order" ? "Order inquiry" : "Contact message",
               name: field("name"),

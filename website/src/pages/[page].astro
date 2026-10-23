@@ -8,6 +8,7 @@ const writeTo = site.showEmail ? representativeEmail : "us through the contact p
 const pages = {
   privacy: {
     title: "Privacy policy",
+    description: "How Equator Scandinavia uses the details you send with a message or order inquiry, and how to see, correct or delete them.",
     eyebrow: "Privacy",
     paragraphs: [
       `This website is run by Equator Scandinavia, the Scandinavian representative of Equator Cycling. Contact: ${site.showEmail ? representativeEmail : "use the form on our contact page"}.`,
@@ -19,6 +20,7 @@ const pages = {
   },
   terms: {
     title: "How ordering works",
+    description: "How ordering an Equator bike, wheelset or part works: send an inquiry, get a written confirmation of price and delivery, then decide.",
     eyebrow: "Terms",
     paragraphs: [
       "Equator bikes, wheels and components are manufactured by Equator Cycling in the Czech Republic and sold in Denmark, Sweden and Norway through Equator Scandinavia.",
@@ -29,6 +31,7 @@ const pages = {
   },
   warranty: {
     title: "Warranty",
+    description: "Warranty on Equator titanium frames, carbon wheels and components bought through Equator Scandinavia, and how a claim is handled.",
     eyebrow: "Support",
     paragraphs: [
       "Equator products are covered by Equator Cycling's warranty conditions. The terms that apply to your product are confirmed in writing with your order.",
@@ -38,6 +41,7 @@ const pages = {
   },
   "crash-replacement": {
     title: "Crash replacement",
+    description: "Crash replacement for Equator carbon wheels: what to do after a crash and how we check the programme with Equator for you.",
     eyebrow: "Support",
     paragraphs: [
       "Equator runs a crash replacement programme for its carbon wheels. If your wheel is damaged in a crash, contact us with your order reference and photos, and we'll check with Equator what the programme offers for your wheel.",
@@ -46,6 +50,7 @@ const pages = {
   },
   shipping: {
     title: "Shipping & delivery",
+    description: "Delivery of Equator bikes, wheels and parts to Denmark, Sweden and Norway, shipped from Equator in the Czech Republic.",
     eyebrow: "Delivery",
     paragraphs: [
       "We deliver to Denmark, Sweden and Norway. Bikes and framesets ship from Equator in the Czech Republic.",
@@ -55,14 +60,16 @@ const pages = {
   },
   cookies: {
     title: "Cookies",
+    description: "Equator Scandinavia uses no tracking or advertising cookies. Your bag and currency choice are kept in your own browser.",
     eyebrow: "Privacy",
     paragraphs: [
       "This website doesn't use advertising or analytics cookies, and doesn't track you.",
-      "It stores your bag and your bike configuration in your browser's local storage so they are still there when you come back. Clear your browser's site data to remove them.",
+      "It stores your bag, your bike configuration and your chosen currency in your browser's local storage so they are still there when you come back. Clear your browser's site data to remove them.",
     ],
   },
   faq: {
     title: "Questions & answers",
+    description: "How ordering Equator bikes and wheels works: inquiries, payment, changing components, choosing a size, and selling Equator in your shop.",
     eyebrow: "FAQ",
     paragraphs: [
       "How do I order? Configure your bike or choose your parts, add them to your bag and send an inquiry. We confirm price, availability and delivery in writing, and you order once you're happy.",
@@ -87,7 +94,7 @@ export function getStaticPaths() {
 const page = pages[Astro.params.page as keyof typeof pages];
 ---
 
-<Layout title={page.title}>
+<Layout title={page.title} description={page.description}>
   <style>
     .faq-q { color: #171717; font-weight: 600; }
   </style>
