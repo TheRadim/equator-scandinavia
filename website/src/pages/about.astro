@@ -2,8 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 import { url } from "../lib/urls";
 import Photo from "../components/Photo.astro";
-// Equator's own film on its YouTube channel ("Equator Titanium Manufacturing", 0:30).
-const videoId = "CEZV7_N_ev4";
+// Equator's own film "Equator Titanium Manufacturing" (owner-supplied file),
+// re-encoded to 960×540 without sound for a quiet looping background.
 ---
 
 <Layout
@@ -38,21 +38,25 @@ const videoId = "CEZV7_N_ev4";
     </section>
 
     <section class="film" aria-labelledby="film-title" data-reveal>
-      <div class="video" data-video={videoId}>
-        <button type="button" class="video-play" aria-label="Play the film: how an Equator titanium frame is made, 30 seconds, from YouTube">
-          <Photo
-            src="images/raiden-5.jpg"
-            alt=""
-            sizes="(max-width: 767px) 100vw, 70vw"
-          />
-          <span class="play" aria-hidden="true"></span>
-        </button>
+      <video
+        class="film-video"
+        data-film
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster={url("video/titanium-manufacturing-poster.jpg")}
+        aria-hidden="true"
+      >
+        <source src={url("video/titanium-manufacturing-540.mp4")} type="video/mp4" />
+      </video>
+      <div class="film-copy">
+        <h2 id="film-title">Made in the Czech Republic.</h2>
+        <p>Equator develops, tests and assembles its titanium bikes at home.</p>
       </div>
-      <h2 id="film-title">Made in the Czech Republic.</h2>
-      <p>
-        Equator develops, tests and assembles its titanium bikes at home. Thirty
-        seconds from the workshop.
-      </p>
+      <button type="button" class="film-toggle" data-film-toggle aria-pressed="false" hidden>
+        <span data-film-label>Pause film</span>
+      </button>
     </section>
 
     <section class="split flip" data-reveal-group>
@@ -116,18 +120,34 @@ const videoId = "CEZV7_N_ev4";
 </Layout>
 
 <script>
-  // Click-to-play: nothing loads from YouTube until the visitor asks for the film.
-  document.querySelectorAll<HTMLElement>("[data-video]").forEach((box) => {
-    box.querySelector("button")?.addEventListener("click", () => {
-      const frame = document.createElement("iframe");
-      frame.src = `https://www.youtube-nocookie.com/embed/${box.dataset.video}?autoplay=1&rel=0&playsinline=1`;
-      frame.title = "Equator Titanium Manufacturing (YouTube)";
-      frame.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
-      frame.allowFullscreen = true;
-      box.replaceChildren(frame);
-      frame.focus();
+  // Background film: plays muted on repeat while on screen. It doesn't start for
+  // visitors who prefer reduced motion or save data; the button pauses or plays it.
+  const video = document.querySelector<HTMLVideoElement>("[data-film]");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-film-toggle]");
+  if (video && toggle) {
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+    let wanted = !reduce && !saveData;
+    const label = toggle.querySelector<HTMLElement>("[data-film-label]")!;
+    const sync = () => {
+      const playing = !video.paused;
+      toggle.setAttribute("aria-pressed", String(!playing));
+      label.textContent = playing ? "Pause film" : "Play film";
+    };
+    video.addEventListener("play", sync);
+    video.addEventListener("pause", sync);
+    toggle.hidden = false;
+    sync();
+    toggle.addEventListener("click", () => {
+      wanted = video.paused;
+      if (wanted) video.play().catch(() => {});
+      else video.pause();
     });
-  });
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && wanted) video.play().catch(() => {});
+      else if (!e.isIntersecting) video.pause();
+    }, { threshold: 0.25 }).observe(video);
+  }
 </script>
 
 <style>
@@ -172,76 +192,66 @@ const videoId = "CEZV7_N_ev4";
     object-fit: cover;
   }
   .film {
-    max-width: 960px;
-    margin: 0 auto;
-    padding-bottom: clamp(96px, 12vw, 180px);
-    text-align: center;
-  }
-  .film h2 {
-    margin-top: 40px;
-  }
-  .film p {
-    max-width: 34rem;
-    margin-inline: auto;
-  }
-  .video {
     position: relative;
-    aspect-ratio: 16 / 9;
-    background: #111;
     overflow: hidden;
+    aspect-ratio: 16 / 9;
+    max-height: 82vh;
+    width: 100%;
+    margin: 0 0 clamp(96px, 12vw, 180px);
+    background: #111;
+    color: #fff;
   }
-  .video :global(iframe),
-  .video-play {
+  .film-video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    border: 0;
-    padding: 0;
-    background: none;
-  }
-  .video-play :global(picture),
-  .video-play :global(img) {
-    display: block;
-    width: 100%;
-    height: 100%;
     object-fit: cover;
   }
-  .video-play :global(img) {
-    filter: brightness(0.82);
-    transition: transform var(--dur-photo) var(--ease-out), filter var(--dur-ui) ease;
-  }
-  .play {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 76px;
-    height: 76px;
-    margin: -38px 0 0 -38px;
-    border-radius: 50%;
-    background: #fff;
-    transition: transform var(--dur-ui) var(--ease-out);
-  }
-  .play::after {
+  /* Darkens the lower part so the text stays readable on every frame. */
+  .film::after {
     content: "";
     position: absolute;
-    left: 31px;
-    top: 26px;
-    border-style: solid;
-    border-width: 12px 0 12px 19px;
-    border-color: transparent transparent transparent #171717;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.1) 55%, rgba(0, 0, 0, 0));
+    pointer-events: none;
   }
-  .video-play:active .play {
-    transform: scale(0.96);
+  .film-copy {
+    position: absolute;
+    z-index: 1;
+    left: clamp(20px, 4vw, 56px);
+    bottom: clamp(20px, 4vw, 56px);
+    max-width: 40rem;
+  }
+  .film-copy h2 {
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .about .film-copy p {
+    color: rgba(255, 255, 255, 0.86);
+    margin: 0;
+  }
+  .film-toggle {
+    position: absolute;
+    z-index: 1;
+    right: clamp(12px, 3vw, 40px);
+    bottom: clamp(16px, 4vw, 56px);
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(0, 0, 0, 0.25);
+    color: #fff;
+    font-size: var(--fs-label);
+    transition: background-color var(--dur-ui) ease, border-color var(--dur-ui) ease;
   }
   @media (hover: hover) and (pointer: fine) {
-    .video-play:hover :global(img) {
-      transform: scale(1.03);
-      filter: brightness(0.72);
+    .film-toggle:hover {
+      background: rgba(0, 0, 0, 0.5);
+      border-color: #fff;
     }
-    .video-play:hover .play {
-      transform: scale(1.06);
-    }
+  }
+  .film-toggle:focus-visible {
+    outline-color: #fff;
   }
   .closing {
     max-width: 40rem;
@@ -255,17 +265,6 @@ const videoId = "CEZV7_N_ev4";
     justify-content: center;
     flex-wrap: wrap;
     margin-top: 32px;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .video-play :global(img),
-    .play {
-      transition: filter var(--dur-ui) ease;
-    }
-    .video-play:hover :global(img),
-    .video-play:hover .play,
-    .video-play:active .play {
-      transform: none;
-    }
   }
   @media (max-width: 767px) {
     .about {
@@ -286,23 +285,21 @@ const videoId = "CEZV7_N_ev4";
       order: -1;
     }
     .film {
-      padding-bottom: 72px;
+      aspect-ratio: 4 / 5;
+      max-height: none;
+      margin-bottom: 72px;
     }
-    .film h2 {
-      margin-top: 28px;
+    .film-copy {
+      right: 20px;
+      bottom: 84px;
+    }
+    .film-toggle {
+      left: 20px;
+      right: auto;
+      bottom: 20px;
     }
     .about p {
       font-size: var(--fs-body);
-    }
-    .play {
-      width: 60px;
-      height: 60px;
-      margin: -30px 0 0 -30px;
-    }
-    .play::after {
-      left: 24px;
-      top: 20px;
-      border-width: 10px 0 10px 16px;
     }
   }
 </style>

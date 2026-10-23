@@ -53,3 +53,5 @@
 - About page follows the owner's sketch: text and photo splits, Equator's own manufacturing film (YouTube, click-to-play, privacy-enhanced; nothing loads before play; cookie page says so), closing Scandinavia block. Story uses only facts from Equator's site (20 years of carbon wheels; frames developed, tested and assembled in CZ; prototypes on an Ore Mountains test track; titanium does not corrode).
 - Wheels catalogue ordered by use, then rim depth.
 - Danish translation deferred (owner); DKK prices already available.
+
+- 2026-10-23: The YouTube embed on About is replaced by the owner-supplied film file, re-encoded to 960×540 H.264 without sound (2.5 MB, website/public/video/), playing muted on repeat as the background of the "Made in the Czech Republic" block. It loads only when scrolled to, pauses off screen, has a Pause/Play button, and doesn't autoplay for reduced motion or Save-Data. No third-party requests.
