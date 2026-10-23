@@ -866,14 +866,38 @@ dl + .text-link {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.currency-switch select {
-  width: auto;
-  min-height: 36px;
+/* Currency: plain text with a small chevron, sitting on the header's text line. */
+.currency-switch {
+  display: inline-flex;
+  align-items: center;
   margin: 0;
-  padding: 4px 26px 4px 8px;
-  border: 1px solid #e5e5e5;
-  font-size: 12px;
-  background-color: #fff;
+  font-size: var(--fs-ui);
+}
+.currency-switch select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: auto;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 16px 0 0;
+  border: 0;
+  border-radius: 0;
+  font-size: var(--fs-ui);
+  line-height: 1;
+  color: #171717;
+  cursor: pointer;
+  background: transparent
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none' stroke='%23171717' stroke-width='1.4'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E")
+    right center / 10px 6px no-repeat;
+  transition: opacity var(--dur-fast) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .currency-switch select:hover {
+    opacity: 0.6;
+  }
+}
+.currency-switch select:focus {
+  border: 0;
 }
 .drawer-currency {
   display: flex;
@@ -884,10 +908,7 @@ dl + .text-link {
   margin-top: 8px;
   font-size: 14px;
 }
-.drawer-currency .currency-switch select {
-  min-height: 44px;
-  font-size: 14px;
-}
+
 @media (max-width: 767px) {
   .header-actions > .currency-switch {
     display: none;
