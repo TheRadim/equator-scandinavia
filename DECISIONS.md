@@ -50,6 +50,6 @@
 2026-10-24 (owner direction):
 - Stock: a visitor's browser can't read equator-cycling.com (no CORS), so availability is read server-side. Every deploy, and every 6 hours via stock-refresh.yml on main, the deploy workflow reads Equator's product pages (Shoptet availability label and schema.org offers; product pages are allowed by Equator's robots.txt; one request at a time, identified user agent), builds with the result and publishes /stock.json. Each page view re-reads /stock.json and updates badges and availability lines. A page that can't be read keeps its last published status.
 - Link underlines: none at rest; draw in from the left on hover, leave to the right.
-- About page: photo, one statement, three short facts, Scandinavia block with detail photo (owner asked for minimal; replaced the long story column).
+- About page follows the owner's sketch: text and photo splits, Equator's own manufacturing film (YouTube, click-to-play, privacy-enhanced; nothing loads before play; cookie page says so), closing Scandinavia block. Story uses only facts from Equator's site (20 years of carbon wheels; frames developed, tested and assembled in CZ; prototypes on an Ore Mountains test track; titanium does not corrode).
 - Wheels catalogue ordered by use, then rim depth.
 - Danish translation deferred (owner); DKK prices already available.
