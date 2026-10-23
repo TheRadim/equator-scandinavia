@@ -10,8 +10,8 @@ Updated 2026-10-23. Tick items off as you answer them; tell Claude/Codex the ans
 5. [ ] **Neutral email address** (e.g. hello@yourdomain) instead of the personal one that receives forms.
 6. [ ] **Domain.** The site lives at theradim.github.io/equator-scandinavia (shows your GitHub name). A custom domain is needed for robots.txt, search indexing and a professional link.
 7. [ ] **Search indexing** is off (noindex). After 1–6: set PUBLIC_ALLOW_INDEXING=true, add the domain to Google Search Console and submit /sitemap.xml.
-8. [x] **Visitor statistics (Umami, free):** done 23 Oct 2026, ID set in site.ts. create an account at umami.is (Hobby plan), add the website theradim.github.io, copy its Website ID and send it to Claude (or set it as the repository variable PUBLIC_UMAMI_WEBSITE_ID). The script, cookie page and privacy wording are ready and switch on with the ID.
-9. [ ] **Optional:** cookieless visitor statistics (e.g. Plausible or Cloudflare Web Analytics; the cookie page would need one sentence), a Danish/Swedish/Norwegian language version.
+8. [x] **Visitor statistics (Umami):** switched on 23 Oct 2026.
+9. [ ] **Optional:** Danish (later Swedish/Norwegian) language version.
 
 Done on 2026-10-23: favicons (tab, iPhone, Android), web app manifest, link previews (1200×630 image for every page with the Equator wordmark, title, description), unique page descriptions, cart/inquiry/404 pages excluded from search, organisation data for search engines, personal email no longer readable in the page source, lighter gallery thumbnails, accessibility check clean.
 
@@ -26,6 +26,14 @@ These texts replaced the old "prototype / approval pending" notes. They make no 
 - [ ] **FAQ** (`/faq/`) and **Cookies** (`/cookies/`).
 - [ ] **About** (`/about/`), Scandinavia section: removed "Representation arrangements are being finalised". → Do you want your name/photo here ("Your contact: Radim Theiner")? It helps dealers.
 - [ ] **Footer**: "© 2026 Equator Scandinavia · Representing Equator Cycling, Czech Republic". → OK to say "representing"? Is there a written agreement with Equator?
+
+## Ask Equator (from the 23 Oct email draft)
+- [ ] OK to read stock from their product pages automatically (every 6 hours)?
+- [ ] OK to use the manufacturing film, photos, logo, texts and "Representing Equator Cycling"?
+- [ ] Larger originals of the bike photos (current ones are 1024 px wide).
+- [ ] OK to name Milan and Ludmila Šimek on the About page?
+- [ ] Homepage says bikes are "designed, tested and assembled in Czechia" (Equator's wording). Confirm "assembled", or change to "designed and tested".
+- [ ] Years of wheel experience: Equator's site says 20, press says founded 2010. The site currently says "since 2010" only.
 
 ## Answer / set up
 - [ ] **Public email address**: hi@radim-theiner.com is hidden everywhere on the site (`showEmail: false` in `website/src/data/site.ts`); policies point to the contact form. It is still where forms are delivered, and the email-app fallback (until Formspree is set up) addresses it. Get a neutral address (e.g. hello@equator-scandinavia.com), change `email` and set `showEmail: true`.
