@@ -2,29 +2,24 @@
 import Layout from "../layouts/Layout.astro";
 import { url } from "../lib/urls";
 import Photo from "../components/Photo.astro";
-// Background film: Equator's own "Equator Titanium Manufacturing" (owner-supplied
-// file), re-encoded to 960×540 without sound. Wording follows Equator's site:
-// frames designed and tested in the Czech Republic; 20 years of carbon wheels
-// ("20 let výroby karbonových zapletených kol", equator-cycling.com/o-nas, checked 23 Oct 2026).
-const points = [
-  {
-    title: "Designed in Zlín",
-    text: "Every angle, tube length, diameter and profile is decided in-house.",
-  },
-  {
-    title: "Tested, then tested again",
-    text: "Each frame is refined over several prototypes, ridden on a test track in the Ore Mountains.",
-  },
-  {
-    title: "Built to keep",
-    text: "Titanium doesn't corrode and needs no paint. Wet roads and salted winters won't make it rust.",
-  },
-];
+/*
+ * Sources (checked 23 Oct 2026):
+ * - equator-cycling.com/o-nas and /en/equator-titanium: frames designed and tested on
+ *   several prototypes, test track in the Ore Mountains, "supple … where appropriate,
+ *   stiff and dynamic where expected", titanium does not corrode.
+ * - Forbes CZ and CzechCrunch (July 2026): family firm founded in 2010, about ten people,
+ *   own frame designer rather than catalogue frames, customers across Europe.
+ * - Bikerumor, Cory Benson, 20 Oct 2026: Sensei Gen 4 review (quote below).
+ * Frames are designed and tested in the Czech Republic; the page never says "made in".
+ * Background film: Equator's own "Equator Titanium Manufacturing" (owner-supplied file).
+ */
+const review =
+  "https://bikerumor.com/equator-sensei-gen-4-review-affordable-all-rounder-ti-gravel-bike-is-better-than-ever/";
 ---
 
 <Layout
   title="About Equator"
-  description="A small family company from Zlín, Czech Republic, designing and testing titanium bikes, with 20 years of experience in carbon wheels."
+  description="A family company from Zlín, Czech Republic, since 2010: carbon wheels first, then titanium bikes designed and tested by its own team."
   image="images/sensei-2.jpg"
 >
   <section class="hero" aria-labelledby="about-title">
@@ -44,34 +39,77 @@ const points = [
       <h1 id="about-title">About Equator</h1>
       <p>A small family company in Zlín, Czech Republic, designing titanium bikes and carbon wheels.</p>
     </div>
-    <button type="button" class="film-toggle" data-film-toggle aria-pressed="false" hidden>
-      <span data-film-label>Pause film</span>
-    </button>
   </section>
 
-  <section class="wrap statement" data-reveal>
-    <p>
-      Twenty years of building carbon wheels taught Equator a feel for detail.
-      Titanium frames were the logical next step.
+  <section class="wrap intro" aria-label="The company" data-reveal-group>
+    <p class="statement">
+      Equator started with carbon wheels. Titanium frames were the logical next
+      step: bikes you keep for years, not just a few seasons.
     </p>
+    <dl class="facts">
+      <div><dt>Family-run</dt><dd>since 2010</dd></div>
+      <div><dt>Designed in-house</dt><dd>every frame</dd></div>
+      <div><dt>About ten people</dt><dd>in Zlín</dd></div>
+      <div><dt>Riders</dt><dd>across Europe</dd></div>
+    </dl>
   </section>
 
-  <section class="wrap points" id="titanium" data-reveal-group>
-    {points.map((p) => (
-      <div>
-        <h2>{p.title}</h2>
-        <p>{p.text}</p>
-      </div>
-    ))}
+  <section class="wrap split" data-reveal-group>
+    <div class="copy">
+      <h2>Tested, then tested again.</h2>
+      <p>
+        These aren't off-the-shelf frames with a new sticker. Every Equator frame
+        is designed in-house: its own designer works out every angle, tube
+        length, diameter and profile.
+      </p>
+      <p>
+        Each geometry is then refined over several prototypes, ridden on a test
+        track in the Ore Mountains. Supple and comfortable where it should be.
+        Stiff and direct where it counts.
+      </p>
+    </div>
+    <figure>
+      <Photo
+        src="images/raiden-6.jpg"
+        alt="Titanium bottom bracket shell and chainstays of an Equator Raiden"
+        sizes="(max-width: 767px) 100vw, 45vw"
+      />
+    </figure>
   </section>
 
-  <figure class="wrap wide" data-reveal>
-    <Photo
-      src="images/sensei-2.jpg"
-      alt="Equator Sensei Gen 4 titanium bicycle on a gravel track between fields"
-      sizes="100vw"
-    />
+  <figure class="wrap quote" data-reveal>
+    <blockquote>
+      <p>
+        …that unmistakable give and forgiveness that you get from the natural
+        damping character of a round-tube titanium bike.
+      </p>
+    </blockquote>
+    <figcaption>
+      Cory Benson, <a href={review}>Bikerumor review of the Sensei Gen 4</a>, October 2026
+    </figcaption>
   </figure>
+
+  <section class="wrap split flip" id="titanium" data-reveal-group>
+    <figure>
+      <Photo
+        src="images/raiden-2.jpg"
+        alt="Equator Raiden titanium road bike under a cloudy sky"
+        sizes="(max-width: 767px) 100vw, 45vw"
+      />
+    </figure>
+    <div class="copy">
+      <h2>Built to keep, winter after winter.</h2>
+      <p>
+        Titanium doesn't corrode and doesn't change its properties, so the
+        frames need no paint. Rain, grit and salted winter roads won't make it
+        rust. Scratches become part of the bike's story.
+      </p>
+      <p>
+        The wheels follow the same thinking: laced and tested by hand, with
+        Sapim CX-Ray spokes and Enduro sealed bearings.
+      </p>
+    </div>
+  </section>
 
   <section class="wrap closing" data-reveal>
     <h2>Now in Scandinavia.</h2>
@@ -88,37 +126,22 @@ const points = [
 </Layout>
 
 <script>
-  // Background film: muted, on repeat, only while on screen. No autoplay for
-  // reduced motion or Save-Data; the button pauses or plays it.
+  // Background film: muted, on repeat, only while on screen. It doesn't start for
+  // visitors who prefer reduced motion or save data (they see the still frame).
   const video = document.querySelector<HTMLVideoElement>("[data-film]");
-  const toggle = document.querySelector<HTMLButtonElement>("[data-film-toggle]");
-  if (video && toggle) {
+  if (video) {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-    let wanted = !reduce && !saveData;
-    const label = toggle.querySelector<HTMLElement>("[data-film-label]")!;
-    const sync = () => {
-      toggle.setAttribute("aria-pressed", String(video.paused));
-      label.textContent = video.paused ? "Play film" : "Pause film";
-    };
-    video.addEventListener("play", sync);
-    video.addEventListener("pause", sync);
-    toggle.hidden = false;
-    sync();
-    toggle.addEventListener("click", () => {
-      wanted = video.paused;
-      if (wanted) video.play().catch(() => {});
-      else video.pause();
-    });
-    new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && wanted) video.play().catch(() => {});
-      else if (!e.isIntersecting) video.pause();
-    }, { threshold: 0.2 }).observe(video);
+    if (!reduce && !saveData)
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      }, { threshold: 0.2 }).observe(video);
   }
 </script>
 
 <style>
-  /* Hero: the film fills the first screen, text sits bottom left on a soft fade. */
+  /* Hero: the film fills the first screen, text sits bottom left on a soft scrim. */
   .hero {
     position: relative;
     height: min(86vh, 860px);
@@ -155,80 +178,131 @@ const points = [
   .hero-copy p {
     max-width: 30rem;
     margin: 0;
-    color: rgba(255, 255, 255, 0.88);
+    color: rgba(255, 255, 255, 0.9);
     font-size: var(--fs-lead);
   }
-  .film-toggle {
-    position: absolute;
-    z-index: 1;
-    right: clamp(18px, 3vw, 40px);
-    bottom: clamp(32px, 6vw, 80px);
-    min-height: 44px;
-    padding: 0 16px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    background: rgba(0, 0, 0, 0.25);
-    color: #fff;
-    font-size: var(--fs-label);
-    transition: background-color var(--dur-ui) ease, border-color var(--dur-ui) ease;
+  /* One rhythm for the whole page: the same gap between every section. */
+  .intro,
+  .split,
+  .quote,
+  .closing {
+    margin-block: 0;
+    padding-block: clamp(80px, 10vw, 160px) 0;
   }
-  @media (hover: hover) and (pointer: fine) {
-    .film-toggle:hover {
-      background: rgba(0, 0, 0, 0.5);
-      border-color: #fff;
-    }
-  }
-  .film-toggle:focus-visible {
-    outline-color: #fff;
-  }
-
-  .statement {
-    padding: clamp(96px, 12vw, 176px) 0 clamp(64px, 8vw, 112px);
-  }
-  .statement p {
-    max-width: 24ch;
-    margin: 0;
-    color: #171717;
-    font-size: clamp(1.75rem, 3.6vw, 3.4rem);
-    font-weight: 500;
-    letter-spacing: -0.03em;
-    line-height: 1.12;
-    text-wrap: balance;
-  }
-  .points {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(32px, 5vw, 72px);
+  .closing {
     padding-bottom: clamp(96px, 12vw, 176px);
   }
-  .points h2 {
-    font-size: var(--fs-lead);
-    letter-spacing: -0.01em;
-    line-height: 1.3;
-    margin: 0 0 10px;
+
+  /* Centred opening statement with three plain facts under it. */
+  .intro {
+    text-align: center;
   }
-  .points p {
-    max-width: 32ch;
+  .statement {
+    max-width: 26ch;
+    margin: 0 auto;
+    color: #171717;
+    font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  .facts {
+    display: flex;
+    justify-content: center;
+    gap: clamp(32px, 7vw, 112px);
+    margin: clamp(40px, 5vw, 64px) 0 0;
+  }
+  .facts dt {
+    font-size: var(--fs-lead);
+    color: #171717;
+    font-weight: 500;
+  }
+  .facts dd {
+    margin: 4px 0 0;
+    color: #666;
+  }
+
+  /* Text and photo side by side; the second split mirrors the first. */
+  /* Photos are Equator's 1024 px originals: kept at about 560 px wide so they stay sharp. */
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
+    gap: clamp(40px, 7vw, 120px);
+    align-items: center;
+    justify-content: space-between;
+  }
+  .split.flip {
+    grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
+  }
+  .split figure {
     margin: 0;
   }
-  .wide {
-    margin: 0 auto clamp(96px, 12vw, 176px);
-  }
-  .wide :global(img) {
+  .split :global(img) {
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 2;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
-    object-position: 50% 35%;
   }
+  .split .copy {
+    max-width: 30rem;
+  }
+  .split h2,
+  .closing h2 {
+    font-size: clamp(1.75rem, 2.8vw, 2.6rem);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .split p,
+  .closing p {
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+    color: #444;
+    margin: 0 0 14px;
+  }
+
+  /* Press quote, centred like the opening statement. */
+  .quote {
+    text-align: center;
+  }
+  .quote blockquote {
+    margin: 0 auto;
+    max-width: 44rem;
+  }
+  .quote blockquote p {
+    margin: 0;
+    color: #171717;
+    font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  .quote blockquote p::before {
+    content: "“";
+  }
+  .quote blockquote p::after {
+    content: "”";
+  }
+  .quote figcaption {
+    margin-top: 24px;
+    color: #666;
+    font-size: var(--fs-ui);
+  }
+  .quote figcaption a {
+    color: #171717;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
   .closing {
     max-width: 40rem;
-    padding-bottom: clamp(96px, 12vw, 176px);
     text-align: center;
   }
   .closing p {
     margin: 0 auto;
-    font-size: var(--fs-lead);
   }
   .actions {
     display: flex;
@@ -238,25 +312,29 @@ const points = [
     flex-wrap: wrap;
     margin-top: 32px;
   }
+
   @media (max-width: 767px) {
     .hero {
       height: 78vh;
       min-height: 440px;
     }
     .hero-copy {
-      bottom: 92px;
+      bottom: 32px;
     }
-    .film-toggle {
-      left: 18px;
-      right: auto;
-      bottom: 28px;
+    .facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px 16px;
     }
-    .points {
+    .split,
+    .split.flip {
       grid-template-columns: 1fr;
+      gap: 28px;
     }
-    .wide :global(img) {
-      aspect-ratio: 4 / 3;
+    .split figure {
+      order: -1;
     }
+    .split p,
     .closing p {
       font-size: var(--fs-body);
     }
