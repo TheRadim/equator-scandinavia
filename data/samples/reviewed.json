@@ -1,0 +1,53 @@
+[
+  {
+    "name": "Example Custom Cycles (synthetic)",
+    "country": "DK",
+    "city": "Copenhagen",
+    "source_id": "synthetic:example-001",
+    "discovery_source": "https://example.com/",
+    "verified_on": "2026-10-13",
+    "fields": {
+      "Website": "https://example.com/",
+      "Description": "This synthetic example demonstrates the reviewed evidence format without representing a real business. A reviewer would describe the actual product range, build services, brands and potential supplier route here. Unknown titanium experience, wheel capabilities and commercial interest must remain explicitly unverified until supported by appropriate official sources.",
+      "Website Evidence": "https://example.com/",
+      "Product Evidence": "https://example.com/frames",
+      "Qualification Evidence": "https://example.com/frames",
+      "Research Confidence": "LOW",
+      "Manual Review Required": "Yes",
+      "Recommended Partnership": "Referral partner",
+      "Why It Fits": "Synthetic example only; no commercial recommendation.",
+      "Road Bikes": "Unknown",
+      "Gravel Bikes": "Unknown",
+      "MTB": "Unknown",
+      "Framesets": "Unknown",
+      "Carbon Wheels": "Unknown"
+    },
+    "components": {
+      "product": {
+        "points": 25,
+        "reason": "Synthetic example of an evidenced premium frame range",
+        "evidence": "https://example.com/frames"
+      },
+      "custom": {
+        "points": 0,
+        "reason": "No verified evidence",
+        "evidence": ""
+      },
+      "brand": {
+        "points": 0,
+        "reason": "No verified evidence",
+        "evidence": ""
+      },
+      "commercial": {
+        "points": 0,
+        "reason": "No verified evidence",
+        "evidence": ""
+      },
+      "frame": {
+        "points": 0,
+        "reason": "No verified evidence",
+        "evidence": ""
+      }
+    }
+  }
+]
